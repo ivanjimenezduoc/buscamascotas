@@ -22,11 +22,7 @@ jobs:
         node-version: '14'
 
     - name: Install dependencies
-      run: |
-        cd buscamascotas
-        npm install
+      run: npm install
 
     - name: Run tests
-      run: |
-        cd buscamascotas
-        npm test
+      run: npm test
