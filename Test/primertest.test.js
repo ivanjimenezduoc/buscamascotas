@@ -30,5 +30,5 @@ describe('Pruebas del HTML de BuscaMascotas', () => {
     expect(homeLink).toBeInTheDocument(); // Verifica que el enlace esté en el documento
   });
 
-  // Agrega más pruebas según sea necesario
+
 });
