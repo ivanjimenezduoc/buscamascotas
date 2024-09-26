@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect'; // Habilitar los matchers de Jest DOM
+import '@testing-library/jest-dom'; // Habilitar los matchers de Jest DOM
 import Index from './index'; // Componente que vamos a probar
 
 test('verifica si el componente tiene la clase correcta y está en el DOM', () => {
