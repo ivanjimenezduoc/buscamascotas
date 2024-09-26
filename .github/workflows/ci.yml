@@ -3,10 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - main  # Cambia 'main' por la rama que estés utilizando
+      - main
   pull_request:
     branches:
-      - main  # Cambia 'main' por la rama que estés utilizando
+      - main
 
 jobs:
   test:
@@ -19,10 +19,14 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # Cambia la versión de Node.js según tu necesidad
+        node-version: '14'
 
     - name: Install dependencies
-      run: npm install
+      run: |
+        cd buscamascotas  # Cambia esto si tu `package.json` está en una subcarpeta
+        npm install
 
     - name: Run tests
-      run: npm test
+      run: |
+        cd buscamascotas  # Cambia esto si tu `package.json` está en una subcarpeta
+        npm test
