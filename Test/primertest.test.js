@@ -8,7 +8,7 @@ describe('Pruebas del HTML de BuscaMascotas', () => {
 
   beforeEach(() => {
     // Lee el archivo HTML y almacénalo en una variable
-    const filePath = path.resolve(__dirname, './index.html'); // Ajusta la ruta según la ubicación de tu archivo HTML
+    const filePath = path.resolve(__dirname, 'buscamascotas/index.html'); // Ajusta la ruta según la ubicación de tu archivo HTML
     html = fs.readFileSync(filePath, 'utf-8');
   });
 
