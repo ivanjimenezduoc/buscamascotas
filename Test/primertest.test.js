@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'; // Habilitar los matchers de Jest DOM
-import Index from './index'; // Componente que vamos a probar
+import Index from './index.html'; // Componente que vamos a probar
 
 test('verifica si el componente tiene la clase correcta y está en el DOM', () => {
   render(<Index />); // Renderiza el componente en un entorno de prueba DOM
