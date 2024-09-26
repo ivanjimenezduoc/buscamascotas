@@ -1,11 +1,34 @@
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom'; // Habilitar los matchers de Jest DOM
-import Index from './index.html'; // Componente que vamos a probar
+// primertest.test.js
+import { screen, render } from '@testing-library/dom';
+import fs from 'fs';
+import path from 'path';
 
-test('verifica si el componente tiene la clase correcta y está en el DOM', () => {
-  render(<Index />); // Renderiza el componente en un entorno de prueba DOM
+describe('Pruebas del HTML de BuscaMascotas', () => {
+  let html;
 
-  const myElement = screen.getByText('BuscaMascotas'); // Busca un elemento por texto
-  expect(myElement).toBeInTheDocument(); // Verifica si está en el DOM
-  //expect(myElement).toHaveClass('mi-clase-css'); // Verifica si tiene una clase CSS
+  beforeEach(() => {
+    // Lee el archivo HTML y almacénalo en una variable
+    const filePath = path.resolve(__dirname, './index.html'); // Ajusta la ruta según la ubicación de tu archivo HTML
+    html = fs.readFileSync(filePath, 'utf-8');
+  });
+
+  test('verifica que el título sea BuscaMascotas', () => {
+    document.body.innerHTML = html; // Inyecta el HTML en el DOM
+    const title = document.querySelector('title').innerHTML; // Obtiene el título
+    expect(title).toBe('BuscaMascotas'); // Verifica el título
+  });
+
+  test('verifica que el encabezado contenga el texto correcto', () => {
+    document.body.innerHTML = html; // Inyecta el HTML en el DOM
+    const headerText = screen.getByRole('heading', { name: /BuscaMascotas/i });
+    expect(headerText).toBeInTheDocument(); // Verifica que el encabezado esté en el documento
+  });
+
+  test('verifica que haya un enlace a "Inicio"', () => {
+    document.body.innerHTML = html; // Inyecta el HTML en el DOM
+    const homeLink = screen.getByText(/Inicio/i); // Busca el enlace
+    expect(homeLink).toBeInTheDocument(); // Verifica que el enlace esté en el documento
+  });
+
+  // Agrega más pruebas según sea necesario
 });
