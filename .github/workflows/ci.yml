@@ -23,10 +23,10 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd buscamascotas  # Cambia esto si tu `package.json` está en una subcarpeta
+        cd buscamascotas
         npm install
 
     - name: Run tests
       run: |
-        cd buscamascotas  # Cambia esto si tu `package.json` está en una subcarpeta
+        cd buscamascotas
         npm test
