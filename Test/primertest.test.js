@@ -29,4 +29,10 @@ describe('Pruebas del HTML de BuscaMascotas', () => {
     const homeLink = screen.getByText(/Inicio/i); // Busca el enlace
     expect(homeLink).toBeInTheDocument(); // Verifica que el enlace esté en el documento
   });
+  test('verifica que haya un enlace a "Agregar Mascota"', () => {
+    document.body.innerHTML = html; // Inyecta el HTML en el DOM
+    const homeLink = screen.getByText(/Agregar Mascota/i); // Busca el enlace
+    expect(homeLink).toBeInTheDocument(); // Verifica que el enlace esté en el documento
+  });
+
 });
