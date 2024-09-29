@@ -12,6 +12,7 @@
     "jest-environment-jsdom": "^29.7.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test2": "jest Test/test2.test.js"
   }
 }
