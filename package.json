@@ -13,6 +13,7 @@
   },
   "scripts": {
     "test": "jest",
+    "test1": "jest Test/primertest.test.js",
     "test2": "jest Test/test2.test.js"
   }
 }
