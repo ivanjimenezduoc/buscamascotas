@@ -10,17 +10,13 @@ const supabases = supabase.createClient(supabaseUrl, supabaseAnonKey);
 console.log(supabases)
 // Función para obtener las razas de perro desde Supabase y listarlas en el <select>
 async function obtenerRazasPerro() {
-    console.log("ejecutando busqueda")
-    /*const { data: razas, error } = await supabases
+    const { data: razas, error } = await supabases
         .from('raza_perro')  // Nombre de tu tabla en Supabase
         .select('*');         // Seleccionar todas las columnas
 
-     */
 
 
-    let { data: mascota, error } = await supabases
-        .from('mascota')
-        .select('*')
+
 
 
     if (error) {
@@ -28,7 +24,7 @@ async function obtenerRazasPerro() {
         return;
     }
 
-    console.log(mascota);
+    console.log(razas);
     // Selecciona el <select> donde se mostrarán las razas
     const selectRazaPerro = document.getElementById('select-raza-perro');
 
