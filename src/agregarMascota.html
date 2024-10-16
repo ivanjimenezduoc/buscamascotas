@@ -7,6 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>BuscaMascotas</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/supabase.min.js"></script>
+    <script>
+        // Inicializa el cliente de Supabase
+        const supabaseUrl = 'https://TUSUPABASEURL.supabase.co';
+        const supabaseAnonKey = 'TUCLAVEPUBLICA';
+        const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
+      </script>
+      
 </head>
 
 <header>
