@@ -1,8 +1,14 @@
 // Cargar el SDK de Supabase (asegúrate de que este script también esté incluido)
-import { createClient } from '@supabase/supabase-js'
-const supabaseUrl = 'https://duwjaewngocuzsfpgpiz.supabase.co'
-const supabaseKey ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1d2phZXduZ29jdXpzZnBncGl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjkwMzYyMDMsImV4cCI6MjA0NDYxMjIwM30.o0_3AiKv5IzhaoD3-aLMefClqLrChrwaI3RAbGqGEBQ'
-const supabase = createClient(supabaseUrl, supabaseKey)
+
+
+
+  const supabaseUrl = 'https://duwjaewngocuzsfpgpiz.supabase.co'
+  const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1d2phZXduZ29jdXpzZnBncGl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjkwMzYyMDMsImV4cCI6MjA0NDYxMjIwM30.o0_3AiKv5IzhaoD3-aLMefClqLrChrwaI3RAbGqGEBQ'
+   const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
+
+
+
+
 
 // Función para obtener las razas de perro desde Supabase y listarlas en el <select>
 async function obtenerRazasPerro() {
