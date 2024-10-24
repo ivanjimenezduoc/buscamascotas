@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -12,33 +11,58 @@ body {
     color: #333;
 }
 
-header {
+header.banner {
     background-color: #333;
     color: white;
-    padding: 1rem 0;
+    padding: 1.5rem 0;
     text-align: center;
+    font-size: 2rem;
 }
 
-header h1 {
-    margin-bottom: 0.5rem;
+/* Menú de navegación con botones */
+.menu-botones {
+    text-align: center;
+    margin: 1.5rem 0;
 }
 
-nav ul {
-    list-style: none;
-    padding: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 15px;
-}
-
-nav ul li a {
+.menu-botones button {
+    background-color: #333;
     color: white;
-    text-decoration: none;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
 }
 
-main {
+.menu-botones button:hover {
+    background-color: #555;
+}
+
+/* Fila con tres columnas de cards */
+.fila-cards {
+    display: flex;
+    justify-content: space-around;
+    margin: 2rem 0;
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    width: 30%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+    color: #333;
+}
+
+/* Sección de texto adicional */
+.texto-adicional {
     padding: 2rem;
 }
 
@@ -47,38 +71,13 @@ h2 {
     margin-bottom: 1rem;
 }
 
-section {
-    margin-bottom: 2rem;
+p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
 }
 
-label {
-    display: block;
-    margin-top: 10px;
-  }
-  input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  input[type="file"] {
-    padding: 3px;
-  }
-  input[type="submit"] {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-top: 15px;
-    width: 100%;
-    border-radius: 4px;
-  }
-  input[type="submit"]:hover {
-    background-color: #218838;
-  }
-
+/* Estilo del pie de página */
 footer {
     background-color: #333;
     color: white;
@@ -91,16 +90,19 @@ footer {
 
 /* Estilos responsivos */
 @media (max-width: 768px) {
-    nav ul li {
+    .fila-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 80%;
+        margin-bottom: 1.5rem;
+    }
+
+    .menu-botones button {
         display: block;
-        margin: 10px 0;
-    }
-
-    header, footer {
-        text-align: center;
-    }
-
-    section {
-        padding: 1rem;
+        margin: 10px auto;
+        width: 80%;
     }
 }

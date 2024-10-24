@@ -14,52 +14,41 @@
 
 <body>
 
-    <header>
+    <header class="banner">
         <h1>BuscaMascotas</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Servicios</a></li>
-                <li><a href="#">Acerca de</a></li>
-                <li><a href="#">Contacto</a></li>
-            </ul>
-        </nav>
     </header>
 
+    <nav class="menu-botones">
+        <button onclick="window.location.href='#';">Inicio</button>
+        <button onclick="window.location.href='#';">Servicios</button>
+        <button onclick="window.location.href='#';">Acerca de</button>
+        <button onclick="window.location.href='#';">Contacto</button>
+        <button onclick="window.location.href='#';">Mis Mascotas</button>
+    </nav>
+
     <main>
-        <section>
-            <button onclick="window.location.href='agregarMascota.html';">Agregar Mascota</button>
+        <section class="fila-cards">
+            <div class="card">
+                <h2>Mascotas Perdidas</h2>
+            </div>
+            <div class="card">
+                <h2>Mascotas Encontradas</h2>
+            </div>
+            <div class="card">
+                <h2>Ayuda</h2>
+            </div>
         </section>
-        <section>
+
+        <section class="texto-adicional">
             <h2>Sobre Nosotros</h2>
             <p>Somos un portal dedicado a reencontrar a las mascotas con sus humanos.</p>
         </section>
 
-        <section>
-            <h2>Nuestros Servicios</h2>
-            <ul>
-                <li>Perfil Mascota</li>
-                <li>Perdi mi Mascota</li>
-                <li>Encontre una Mascota</li>
-                <li>Links de interes</li>
-            </ul>
-        </section>
-        <section>
-            <h2>Selecciona la Raza de tu Perro</h2>
-            <select id="select-raza-perro">
-              <option value="">Selecciona una raza</option>
-              <!-- Aquí se cargarán las opciones de razas desde Supabase -->
-            </select>
-          </section>
-          
-        
+        <footer>
+            <p>© 2024 BuscaMascotas. Todos los derechos reservados.</p>
+        </footer>
     </main>
 
-    <footer>
-        <p>© 2024 BuscaMascotas. Todos los derechos reservados.</p>
-    </footer>
-   
-    
 </body>
 
 </html>
