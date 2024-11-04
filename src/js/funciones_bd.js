@@ -111,6 +111,8 @@ async function guardarNuevaMascota() {
             alert("Hubo un problema al subir la imagen.");
             return;
         }
+        const usuario = JSON.parse(sessionStorage.getItem("usuario"));
+        mascota.id_dueno = usuario.id ;
 
         console.log("Imagen subida correctamente:", imagenData);
         mascota.foto_perfil = nombreImagen; // Guardar nombre en lugar de URL
@@ -206,6 +208,11 @@ async function cargarMisMascotas(dueno_index) {
 
         const card = document.createElement("div");
         card.className = "col-md-4";
+        let estado_m = "No perdido"
+        if (mascota.estado == 1){
+            estado_m = "Perdido";
+
+        }
 
         card.innerHTML = `
             <div class="card mb-4">
@@ -221,7 +228,7 @@ async function cargarMisMascotas(dueno_index) {
                     <p class="card-text"><strong>Color 2:</strong> ${mascota.color2}</p>
                     <p class="card-text"><strong>Color 3:</strong> ${mascota.color3}</p>
                     <p class="card-text"><strong>Descripción:</strong> ${mascota.descripcion}</p>
-                    <p class="card-text"><strong>Estado:</strong> ${mascota.estado}</p>
+                    <p class="card-text"><strong>Estado:</strong> ${estado_m}</p>
                     <button class="btn btn-primary" onclick="mostrarModalEditar(${mascota.id})">Editar</button>
                 </div>
             </div>
@@ -527,7 +534,7 @@ async function buscarMascotasPerdidas(datos) {
 
 async function buscarMascotasEncontradas(mascota) {
     // Recuperar las mascotas encontradas de la base de datos
-    const { data: mascotasEncontradas, error } = await supabases.from("mascota")
+    const { data: mascotasEncontradas, error } = await supabases.from("mascota_encontrada")
         .select("*")
         .eq("estado", 0); // 0 podría representar "encontrada"
 
