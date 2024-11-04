@@ -12,7 +12,17 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="funciones_bd.js"></script>
 
-   
+    <script>
+        $(document).ready(function () {
+            // Agregar el evento de cambio al select de especie cuando el modal se muestra
+            $('#modalMascota').on('shown.bs.modal', function () {
+                $('#especie').change(function () {
+                    console.log('Especie seleccionada:', $(this).val());
+                });
+            });
+        });
+    </script>
+    
 
 </head>
 
@@ -152,17 +162,7 @@
             </div>
         </div>
     </div>
-    <script src="contenido_dinamico.js"></script>
-    <script src="funciones_bd.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            // Usar delegación de eventos para el cambio en el select de especie
-            $('#modalMascota').on('change', '#especie', function () {
-                console.log('Especie seleccionada:', $(this).val());
-            });
-        });
-    </script>
+ 
 
 
 

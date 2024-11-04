@@ -17,22 +17,11 @@ function mostrarModalAgregar() {
     estadoToggle.textContent = "No perdido";
     estadoToggle.setAttribute("data-estado", "0"); // 0 representa "No perdido"
 
-    // Asignar el evento de cambio a la especie
-    const especie = document.getElementById("especie");
-    especie.on('change', function () {
-        const especieSeleccionada = $(this).val(); // Obtener la especie seleccionada
-        console.log("Especie seleccionada: " + especieSeleccionada); // Log de la especie seleccionada
-        manejarEspecie(especieSeleccionada); 
-    });
+
 
     mostrarModal();
 }
 
-// Función que maneja el cambio de especie
-function manejarEspecie(especie) {
-    console.log("La especie ha sido cambiada a: " + especie);
-    // Aquí puedes agregar cualquier lógica adicional que necesites al cambiar la especie
-}
 
 
 
