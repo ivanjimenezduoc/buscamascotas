@@ -74,13 +74,6 @@ function cerrarModalEncontrada() {
     modal.removeAttribute('aria-modal');
 }
 
-function cerrarModalEncontrada() {
-    const modal = document.getElementById('modalMascotaEncontrada');
-    modal.classList.remove('show');
-    modal.style.display = 'none';
-    modal.setAttribute('aria-hidden', 'true');
-    modal.removeAttribute('aria-modal');
-}
 
 function mostrarModalVerMascota() {
     const modal = document.getElementById('modalVerMascota');

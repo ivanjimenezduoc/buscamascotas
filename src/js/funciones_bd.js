@@ -139,7 +139,7 @@ async function guardarNuevaMascota() {
         return;
     }
 
-    alert("Mascota guardada exitosamente.");
+    //alert("Mascota guardada exitosamente.");
     cerrarModal();
     cargarMisMascotas(1);
 }
@@ -297,7 +297,9 @@ async function guardarMascotaEncontrada() {
         return;
     }
 
-    alert("Mascota guardada exitosamente.");
+    cerrarModalEncontrada();
+    cargarMascotasEncontradas();
+        
 }
 
 
@@ -504,7 +506,7 @@ async function obtenerUrlImagen(nombreImagen) {
     return publicUrl;
 }
 
-
+/*
 async function buscarMascotasPerdidas(datos) {
     console.log("Buscando mascotas perdidas con datos:", datos);
 
@@ -530,6 +532,30 @@ async function buscarMascotasPerdidas(datos) {
     });
 
     return mascotasCoincidentes; // Retornar las mascotas encontradas que coinciden con los criterios
+}*/
+
+async function buscarMascotasPerdidas(mascota) {
+    // Recuperar las mascotas encontradas de la base de datos
+    const { data: mascotasPerdidas, error } = await supabases.from("mascota")
+        .select("*")
+        .eq("estado", 1); // 0 podría representar "encontrada"
+
+    if (error) {
+        console.error("Error al buscar mascotas encontradas:", error);
+        return [];
+    }
+
+    // Filtrar las mascotas encontradas por coincidencias
+    const coincidencias = mascotasPerdidas.filter(encontrada => {
+        return (
+            encontrada.nombre === mascota.nombre ||
+            (encontrada.color && mascotasColoresCoinciden(mascota.color, encontrada.color)) ||
+            (encontrada.raza && encontrada.raza === mascota.raza) ||
+            (encontrada.tamano && encontrada.tamano === mascota.tamano)
+        );
+    });
+
+    return coincidencias;
 }
 
 async function buscarMascotasEncontradas(mascota) {
