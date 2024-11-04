@@ -4,11 +4,36 @@
     box-sizing: border-box;
 }
 
+
+
+        
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 15px; 
+        }
+
+
+
+html,
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f4;
+
+    /*display: flex;*/
+    flex-direction: column;
+    margin: 0;
+    background-image: url('../imagenes/fondo_web.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
     color: #333;
+    font-family: Arial, sans-serif;
+}
+
+#contenido {
+    flex-grow: 1;
+    padding-bottom: 1rem;
 }
 
 header.banner {
@@ -23,21 +48,23 @@ header.banner {
 .menu-botones {
     text-align: center;
     margin: 1.5rem 0;
+    height: 50px;
 }
 
 .menu-botones button {
-    background-color: #333;
+    background-color: #0c2edc;
     color: white;
     border: none;
     padding: 10px 20px;
     margin: 0 10px;
     cursor: pointer;
     border-radius: 5px;
+    height: 40px;
     font-size: 1rem;
 }
 
 .menu-botones button:hover {
-    background-color: #555;
+    background-color: #5a6dcc;
 }
 
 /* Fila con tres columnas de cards */
@@ -79,13 +106,14 @@ p {
 
 /* Estilo del pie de página */
 footer {
-    background-color: #333;
+    background-color: #41b0e7;
     color: white;
     text-align: center;
     padding: 1rem 0;
-    position: relative;
-    bottom: 0;
     width: 100%;
+    position: relative;
+    /* Cambiado a relative */
+    height: auto;
 }
 
 /* Estilos responsivos */
@@ -105,4 +133,251 @@ footer {
         margin: 10px auto;
         width: 80%;
     }
+}
+
+.modal-dialog {
+    width: 90% !important;
+    /* Aumenta el ancho del modal al 90% */
+    max-width: 1000px !important;
+    /* Ancho máximo del modal */
+    margin: auto !important;
+    /* Centra el modal */
+}
+
+
+.modal-content {
+    width: 100%;
+    /* Asegura que el contenido ocupe todo el ancho del modal */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+
+/* Reduce la distancia vertical entre los controles */
+.modal-body .form-group {
+    margin-bottom: 10px;
+    /* Disminuye el margen inferior entre los controles */
+}
+
+/* Ajusta la distancia entre el label y el control */
+.modal-body .form-group label {
+    margin-bottom: 2px;
+    /* Reduce el espacio entre label y campo de entrada */
+    font-size: 0.95rem;
+    /* Opcional: reduce ligeramente el tamaño del label */
+}
+
+/* Reduce el padding dentro de los campos de entrada */
+.modal-body .form-control {
+    padding: 6px 10px;
+    /* Ajusta el padding interno de los campos de entrada */
+}
+
+
+.modal-header .btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 1.5rem;
+    height: 1.5rem;
+    opacity: 0.8;
+}
+
+.modal-header .btn-close:hover {
+    opacity: 1;
+    filter: brightness(80%);
+}
+
+
+
+/* Estilo para el banner */
+
+
+.banner {
+    background-image: url('imagenes/fondo_banner.png');
+    /* Ruta directa al fondo */
+    background-size: cover;
+    background-position: center;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    /* Alinea el contenido al inicio del banner */
+    position: relative;
+    height: 200px;
+    box-sizing: border-box;
+}
+
+/* Contenedor del contenido del banner */
+.banner-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-left: 2rem;
+    /* Espacio al inicio */
+}
+
+
+/* Título del sitio en el banner */
+.banner-content h1 {
+    font-size: 2rem;
+    color: white;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Estilo para el banner */
+.banner {
+    background-image: url('../imagenes/fondo_banner.png');
+    /* Ruta al fondo del banner */
+    background-size: cover;
+    background-position: center;
+    padding: 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    /* Alinea el contenido al inicio */
+    position: relative;
+    height: 200px;
+}
+
+/* Contenedor del contenido del banner */
+.banner-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-left: 2rem;
+    /* Deja espacio al inicio sin afectar alineación */
+}
+
+/* Estilo del logotipo */
+.logo {
+    height: 180px;
+    width: auto;
+}
+
+/* Título del sitio en el banner */
+.banner-content h1 {
+    font-size: 4rem;
+    color: white;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Contenedor de las tarjetas para asegurar un diseño en cuadrícula */
+#mascotas-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Estilo para las tarjetas individuales */
+#mascotas-container .card {
+    width: 100%;          /* Ancho de tarjeta en pantallas pequeñas */
+    max-width: 300px;     /* Máximo ancho para evitar que se expandan demasiado */
+    flex: 1 1 auto;       /* Permitir flexibilidad para adaptarse en diferentes tamaños de pantalla */
+}
+
+/* Ajuste de tamaño y márgenes */
+.card-body {
+    text-align: left;     /* Alinear el texto a la izquierda */
+    padding: 15px;
+}
+
+/* Opcional: Estilos adicionales para un diseño más visual */
+.card-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+/* Espaciado entre el botón y el resto del contenido */
+.card .btn {
+    margin-top: 10px;
+}
+
+
+
+/* Estilos responsivos */
+@media (min-width: 768px) {
+    #mascotas-container .card {
+        flex: 0 0 45%;    /* En pantallas medianas, mostrar dos tarjetas por fila */
+    }
+}
+
+@media (min-width: 992px) {
+    #mascotas-container .card {
+        flex: 0 0 30%;    /* En pantallas grandes, mostrar tres tarjetas por fila */
+    }
+}
+
+
+#loginModal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro con transparencia */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegura que el modal esté por encima de otros elementos */
+}
+
+/* Centrado del contenido del modal */
+#loginModal .modal-dialog {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px; /* Ajusta el ancho del modal */
+    width: 90%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+/* Estilo del botón de cerrar */
+#loginModal .btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/* Formulario de inicio de sesión */
+#loginModal .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#loginModal .modal-body input {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#loginModal .modal-body button {
+    padding: 10px;
+    background-color: #0c2edc;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#loginModal .modal-body button:hover {
+    background-color: #5a6dcc;
 }
