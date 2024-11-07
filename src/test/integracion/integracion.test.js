@@ -15,7 +15,7 @@ describe('Pruebas del HTML de BuscaMascotas', () => {
   test('verifica que el título sea BuscaMascotas', () => {
     document.body.innerHTML = html; // Inyecta el HTML en el DOM
     const title = document.querySelector('title').innerHTML; // Obtiene el título
-    expect(title).toBe('BuscaMascotas'); // Verifica el título
+    expect(title).toBe('BuscaMascotas'); // Verifica el títulosss
   });
 
   test('verifica que el encabezado contenga el texto correcto', () => {
