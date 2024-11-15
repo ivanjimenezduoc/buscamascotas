@@ -1,4 +1,5 @@
 function createNavbar(valor = 0) {
+    //agregar a las rutas la raiz buscamascota al subirlo
      ruta="templates"
      ruta_logo = "src/"
     if (valor == 1) {
