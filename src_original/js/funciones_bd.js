@@ -302,7 +302,6 @@ async function guardarMascotaEncontrada() {
         
 }
 
-
 async function cargarMascotasEncontradas() {
     console.log("Cargando mascotas encontradas");
 

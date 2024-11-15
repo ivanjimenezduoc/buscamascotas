@@ -52,8 +52,9 @@ async function manejarCambioEspecie() {
 }
 
 // Función para cargar los colores en los tres campos de colores
-function cargarColores() {
-    const colores = ["Blanco", "Negro", "Marrón", "Gris", "Dorado", "Beige", "Rosa", "Azul", "Verde", "Amarillo"];
+async function cargarColores() {
+    // Obtener los colores desde la base de datos
+    const colores = await obtenerColoresMascota(); // Aquí tomamos los colores de la base de datos
     const colorSelects = ["color1", "color2", "color3"];
 
     // Iteramos sobre los tres selectores de colores
@@ -63,8 +64,8 @@ function cargarColores() {
 
         colores.forEach(color => {
             const option = document.createElement("option");
-            option.value = color;
-            option.textContent = color;
+            option.value = color.id; // Almacenar el ID como value
+            option.textContent = color.color; // Mostrar el nombre del color
             select.appendChild(option);
         });
     });
