@@ -1,9 +1,16 @@
-function createNavbar() {
+function createNavbar(valor = 0) {
+     ruta="templates"
+     ruta_logo = "src/"
+    if (valor == 1) {
+        ruta = "../templates"
+        ruta_logo = ""
+    }
+    console.log("href="+ruta+"/mascota_perdidas.html")
     const navbarHTML = `
         <div class="container-fluid">
             <nav class="navbar navbar-expand-lg custom_nav-container">
-                <a class="navbar-brand d-flex align-items-center" href="index.html">
-                    <img src="../images/logo.png" alt="Logo" class="logo-img">
+                <a class="navbar-brand d-flex align-items-center" href="/index.html">
+                    <img src="../`+ruta_logo+`images/logo.png" alt="Logo" class="logo-img">
                     <span class="brand-name ml-2">BuscaMascotas</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -14,16 +21,16 @@ function createNavbar() {
                     <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
                         <ul class="navbar-nav">
                             <li class="nav-item active">
-                                <a class="nav-link" href="/index.html">Inicio</a>
+                                <a class="nav-link" href="/src/index.html">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/templates/mascota_perdidas.html">Buscan sus mascotas</a>
+                                <a class="nav-link" href="`+ruta+`/mascota_perdidas.html">Buscan sus mascotas</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/templates/mascota_encontrada.html">Buscan sus Dueños</a>
+                                <a class="nav-link" href="`+ruta+`/mascota_encontrada.html">Buscan sus Dueños</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/templates/mis_mascotas.html">Mis mascotas</a>
+                                <a class="nav-link" href="`+ruta+`/mis_mascotas.html">Mis mascotas</a>
                             </li>
                         </ul>
                     </div>
@@ -33,4 +40,5 @@ function createNavbar() {
     `;
 
     document.getElementById('navbar-container').innerHTML = navbarHTML;
+    
 }
