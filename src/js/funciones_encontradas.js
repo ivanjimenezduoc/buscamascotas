@@ -1,84 +1,143 @@
-// Cargar las especies, razas y colores en el formulario
+
 document.addEventListener("DOMContentLoaded", function () {
     cargarSelectEspecies();
-    cargarColores(); // Cargar los colores cuando se carga el documento
+    cargarColores();
+    cargarTamano();
 });
 
-// Cargar las especies en el formulario
+
 async function cargarSelectEspecies() {
     const especieSelect = document.getElementById("especie");
-    const especies = ["Perro", "Gato", "Otro"];
+    const especies = [
+        { id: 1, nombre: "Perro" },
+        { id: 2, nombre: "Gato" },
+        { id: 3, nombre: "Otro" }
+    ];
     especieSelect.innerHTML = '<option value="" disabled selected>Seleccione Especie</option>';
 
     especies.forEach(especie => {
         const option = document.createElement("option");
-        option.value = especie;
-        option.textContent = especie;
+        option.value = especie.id;  // Asignamos el id de la especie como el value
+        option.textContent = especie.nombre;  // El texto visible será el nombre de la especie
         especieSelect.appendChild(option);
     });
 
-    // Manejar el cambio de especie
-    especieSelect.addEventListener("change", manejarCambioEspecie);
+    // Manejar el cambio de especie (si es necesario)
 }
 
-// Cargar razas dependiendo de la especie seleccionada
+
+
+async function cargarColores() {
+    try {
+
+        const colores = await obtenerColoresMascota();
+
+        if (!colores || colores.length === 0) {
+            console.error("No se encontraron colores en la base de datos.");
+            return;
+        }
+
+        const colorSelects = ["color1", "color2", "color3"];
+        colorSelects.forEach(id => {
+            const select = document.getElementById(id);
+
+
+            select.innerHTML = '<option value="" disabled selected>Seleccione Color</option>';
+            colores.forEach(color => {
+                const option = document.createElement("option");
+                option.value = color.id;
+                option.textContent = color.color;
+                select.appendChild(option);
+            });
+        });
+    } catch (error) {
+        console.error("Error al cargar los colores:", error);
+    }
+}
+
+async function cargarTamano() {
+    try {
+
+        const tamanos = await obtenerTamano();
+
+        if (!tamanos || tamanos.length === 0) {
+            console.error("No se encontraron tamaños.");
+            return;
+        }
+        const select = document.getElementById("tamano");
+        select.innerHTML = '<option value="" disabled selected>Seleccione Tamaño</option>';
+        tamanos.forEach(tamano => {
+            const option = document.createElement("option");
+            option.value = tamano.id;
+            option.textContent = tamano.tamano;
+            select.appendChild(option);
+        });
+
+    } catch (error) {
+        console.error("Error al cargar los tamaños:", error);
+    }
+}
+
+
 async function manejarCambioEspecie() {
-    const especie = document.getElementById("especie").value;
+
+    const especieString = document.getElementById("especie").value;
+    const especie = parseInt(especieString, 10); 
+   
     const razaSelect = document.getElementById("raza");
-    razaSelect.innerHTML = '<option value="" disabled selected>Seleccione Raza</option>'; // Limpiar el select
+    razaSelect.innerHTML = '<option value="" disabled selected>Seleccione Raza</option>';
+
 
     let razas = [];
+    razas = await obtenerRazas(especie)
+    console.log(razas)
+    /*
+    let razas = [];
     switch (especie) {
-        case "Perro":
+        case "1":
             razas = await obtenerRazasPerro();
             break;
-        case "Gato":
+        case "2":
             razas = await obtenerRazasGato();
             break;
-        case "Otro":
+        case "3":
             razas = await obtenerTiposOtrasMascotas();
             break;
-    }
+    }*/
 
     razas.forEach(raza => {
         const option = document.createElement("option");
-        option.value = raza.nombre || raza.id;
-        option.textContent = raza.nombre || raza.nombre;
+        option.value = raza.id;
+        option.textContent = raza.raza;
         razaSelect.appendChild(option);
     });
 
-    // Llamamos a cargar los colores cada vez que se cambia la especie
-    cargarColores();
+
+    //cargarColores();
 }
 
-// Función para cargar los colores en los tres campos de colores
-async function cargarColores() {
-    // Obtener los colores desde la base de datos
-    const colores = await obtenerColoresMascota(); // Aquí tomamos los colores de la base de datos
-    const colorSelects = ["color1", "color2", "color3"];
 
-    // Iteramos sobre los tres selectores de colores
-    colorSelects.forEach(id => {
-        const select = document.getElementById(id);
-        select.innerHTML = '<option value="" disabled selected>Seleccione Color</option>'; // Limpiar el select
 
-        colores.forEach(color => {
-            const option = document.createElement("option");
-            option.value = color.id; // Almacenar el ID como value
-            option.textContent = color.color; // Mostrar el nombre del color
-            select.appendChild(option);
-        });
-    });
-}
-
-// Mostrar el formulario de agregar mascota
 function mostrarFormulario() {
     const formulario = document.getElementById("formularioMascota");
-    formulario.style.display = "block"; // Muestra el formulario
+    const botonAgregar = document.querySelector("button[onclick='mostrarFormulario()']");
+
+    formulario.style.display = "block";
+    if (botonAgregar) {
+        botonAgregar.style.display = "none";
+    }
 }
 
-// Ocultar el formulario
+
 function ocultarFormulario() {
     const formulario = document.getElementById("formularioMascota");
-    formulario.style.display = "none"; // Oculta el formulario
+    const botonAgregar = document.querySelector("button[onclick='mostrarFormulario()']");
+
+    formulario.style.display = "none";
+    if (botonAgregar) {
+        botonAgregar.style.marginLeft = "auto";
+            botonAgregar.style.marginRight = "auto";
+        botonAgregar.style.display = "block";
+    }
 }
+

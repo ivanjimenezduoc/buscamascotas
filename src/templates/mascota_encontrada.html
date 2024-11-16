@@ -38,7 +38,7 @@
           <div class="container my-4">
             <h2 class="text-center">Mascotas reportadas como encontradas</h2>
 
-            <!-- Botón de Agregar Mascota sobre la tabla -->
+
             <div class="text-center mt-4">
               <button class="btn btn-primary" onclick="mostrarFormulario()">Agregar Mascota</button>
             </div>
@@ -50,17 +50,10 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="especie">Especie</label>
-                      <select class="form-control" id="especie" required>
-                        <option value="" disabled selected>Seleccione Especie</option>
-                        <option value="Perro">Perro</option>
-                        <option value="Gato">Gato</option>
-                        <option value="Otro">Otro</option>
+                      <select class="form-control" id="especie" required onchange="manejarCambioEspecie()">
                       </select>
                     </div>
                   </div>
-                </div>
-
-                <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="raza">Raza</label>
@@ -71,7 +64,18 @@
                   </div>
                 </div>
 
+
                 <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="sexo">Sexo</label>
+                      <select class="form-control" id="sexo" required>
+                        <option value="" disabled selected>Seleccione Sexo</option>
+                        <option value="0">Macho</option>
+                        <option value="1">Hembra</option>
+                      </select>
+                    </div>
+                  </div>
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="tamano">Tamaño</label>
@@ -84,6 +88,9 @@
                     </div>
                   </div>
                 </div>
+
+
+
 
                 <div class="row">
                   <div class="col-md-4">
@@ -116,6 +123,7 @@
                   <label for="descripcion">Descripción</label>
                   <textarea class="form-control" id="descripcion" rows="3"></textarea>
                 </div>
+
                 <div class="form-group">
                   <label for="ubicacion">Ubicacion</label>
                   <textarea class="form-control" id="ubicacion" rows="3"></textarea>
@@ -159,9 +167,7 @@
   </div>
   <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="../js/bootstrap.js"></script>
-
-  <!-- Aquí debes incluir el nuevo archivo funciones_encontradas.js -->
-  <script type="text/javascript" src="../js/funciones_encontradas.js"></script>
+ <script type="text/javascript" src="../js/funciones_encontradas.js"></script>
 
 </body>
 

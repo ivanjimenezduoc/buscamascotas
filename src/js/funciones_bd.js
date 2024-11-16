@@ -7,50 +7,96 @@ const supabases = supabase.createClient(supabaseUrl, supabaseAnonKey);
 //FUNCIONES MASCOTAS ENCONTRADAS
 
 async function guardarMascotaEncontrada() {
-    console.log("Guardar mascota encontrada");
+    const errorFields = document.querySelectorAll(".error-message");
+    errorFields.forEach(error => error.remove());
 
-    // Obtener los datos del formulario
+  
     const especie = document.getElementById("especie").value;
     const raza = document.getElementById("raza").value;
     const tamano = document.getElementById("tamano").value;
     const color1 = document.getElementById("color1").value;
-    const color2 = document.getElementById("color2").value;
-    const color3 = document.getElementById("color3").value;
-    const descripcion = document.getElementById("descripcion").value;
-    const ubicacion = document.getElementById("ubicacion").value;
-    const estado = 0; // Estado "no perdido"
+    const color2 = document.getElementById("color2").value || null; 
+    const color3 = document.getElementById("color3").value || null;
+    const sexo = document.getElementById("sexo").value;
+    const ubicacion = document.getElementById("ubicacion").value.trim();
+    const descripcion = document.getElementById("descripcion").value.trim();
 
-    // Buscar mascotas perdidas que coincidan
-    const mascotasCoincidentes = await buscarMascotasPerdidas({ especie, raza, tamano, color1, color2, color3 });
+    const errores = [];
+    if (!especie) errores.push({ campo: "especie", mensaje: "Debes seleccionar una especie." });
+    if (!raza) errores.push({ campo: "raza", mensaje: "Debes seleccionar una raza." });
+    if (!tamano) errores.push({ campo: "tamano", mensaje: "Debes seleccionar un tamaño." });
+    if (!color1) errores.push({ campo: "color1", mensaje: "Debes seleccionar al menos un color." });
+    if (!sexo) errores.push({ campo: "sexo", mensaje: "Debes seleccionar el sexo." });
+    if (!ubicacion) errores.push({ campo: "ubicacion", mensaje: "Debes ingresar la ubicación." });
+    if (!descripcion) errores.push({ campo: "descripcion", mensaje: "Debes ingresar una descripción." });
 
-    if (mascotasCoincidentes.length > 0) {
-        // Si hay mascotas perdidas que coinciden, mostrar alerta
-        alert("Existen mascotas perdidas que coinciden con estas características, puede revisar el listado de mascotas perdidas.");
+    if (errores.length > 0) {
+        errores.forEach(error => {
+            const campo = document.getElementById(error.campo);
+            const mensajeError = document.createElement("div");
+            mensajeError.className = "error-message";
+            mensajeError.style.color = "red";
+            mensajeError.style.fontSize = "0.9em";
+            mensajeError.textContent = error.mensaje;
+            campo.parentElement.appendChild(mensajeError);
+        });
+        return;
     }
 
-    // Guardar la mascota encontrada en la base de datos
+    console.log("Valores que se van a guardar:");
+    console.log("Especie (ID):", especie);
+    console.log("Raza (ID):", raza);
+    console.log("Tamaño:", tamano);
+    console.log("Color 1 (ID):", color1);
+    console.log("Color 2 (ID):", color2);
+    console.log("Color 3 (ID):", color3);
+    console.log("Sexo (ID):", sexo);
+    console.log("Ubicación:", ubicacion);
+    console.log("Descripción:", descripcion);
+    estado = 0
+
+
     const { data, error } = await supabases
         .from("mascota_encontrada")
-        .insert([{ raza, color1, color2, color3, especie, tamano, estado, ubicacion, descripcion }]);
+        .insert([{ raza, color1, color2, color3, especie, tamano, estado, ubicacion, descripcion, sexo }]);
 
     if (error) {
         console.error("Error al guardar la mascota encontrada:", error);
         alert("Hubo un problema al guardar la mascota.");
         return;
+    } else {
+
+        const formulario = document.getElementById("formularioMascota");
+        const botonAgregar = document.querySelector("button[onclick='mostrarFormulario()']");
+    
+        formulario.style.display = "none";
+        if (botonAgregar) {
+            botonAgregar.style.marginLeft = "auto";
+            botonAgregar.style.marginRight = "auto";
+            botonAgregar.style.display = "block";
+            
+        }
+    
+        }
+
     }
 
-    cerrarModalEncontrada();
-    cargarMascotasEncontradas();
-        
-}
+
+
 
 async function cargarMascotasEncontradas() {
     console.log("Cargando mascotas encontradas");
 
-    const { data: mascotas, error } = await supabases
-        .from("mascota_encontrada")
-        .select("*")
-        .eq("estado", 0);
+    const { data: mascotas, error } = await supabases.from('mascota_encontrada').select(`
+        especie (id, nombre), 
+        raza (id, raza), 
+        tamano (id, tamano), 
+        color1 (id, color), 
+        color2 (id, color), 
+        color3 (id, color), 
+        descripcion,
+        ubicacion
+    `).eq("estado", 0);
 
     if (error) {
         console.error("Error al cargar las mascotas encontradas:", error);
@@ -66,12 +112,12 @@ async function cargarMascotasEncontradas() {
         const fila = document.createElement("tr");
 
         fila.innerHTML = `
-            <td>${mascota.especie}</td>
-            <td>${mascota.raza}</td>
-            <td>${mascota.tamano}</td>
-            <td>${mascota.color1}</td>
-            <td>${mascota.color2}</td>
-            <td>${mascota.color3}</td>
+            <td>${mascota.especie ? mascota.especie.nombre : "Sin definir"}</td>
+            <td>${mascota.raza ? mascota.raza.raza : "Sin definir"}</td>
+            <td>${mascota.tamano ? mascota.tamano.tamano : "Sin definir"}</td>
+            <td>${mascota.color1 ? mascota.color1.color : "Sin definir"}</td>
+            <td>${mascota.color2 ? mascota.color2.color : "Sin definir"}</td>
+            <td>${mascota.color3 ? mascota.color3.color : "Sin definir"}</td>
             <td>${mascota.descripcion}</td>
             <td>${mascota.ubicacion}</td>
         `;
@@ -79,6 +125,7 @@ async function cargarMascotasEncontradas() {
         tablaCuerpo.appendChild(fila);
     });
 }
+
 
 
 // BUSQUEDA DE COINCIDENCIAS
@@ -134,33 +181,24 @@ async function buscarMascotasEncontradas(mascota) {
 
 // DATOS DE FORMULARIOS
 
-async function obtenerRazasPerro() {
+async function obtenerRazas(id_especie) {
+
+
 
     const { data: razasPerro, error } = await supabases
-        .from("raza_perro")
-        .select("id, nombre");
+        .from("razas")
+        .select("id, raza")
+        .eq("id_especie", id_especie);;
 
     if (error) {
-        console.error("Error al obtener las razas de perro:", error);
+        console.error("Error al obtener las razas", error);
         return [];
     }
 
     return razasPerro;
 }
 
-async function obtenerRazasGato() {
 
-    const { data: razasGato, error } = await supabases
-        .from("raza_gato")
-        .select("id, nombre");
-
-    if (error) {
-        console.error("Error al obtener las razas de gato:", error);
-        return [];
-    }
-
-    return razasGato;
-}
 
 async function obtenerColoresMascota() {
 
@@ -188,4 +226,18 @@ async function obtenerTiposOtrasMascotas() {
     }
 
     return tiposOtrasMascotas;
+}
+
+async function obtenerTamano() {
+
+    const { data: tamanos, error } = await supabases
+        .from("tamano")
+        .select("id, tamano");
+
+    if (error) {
+        console.error("Error al obtener los tamaños:", error);
+        return [];
+    }
+
+    return tamanos;
 }
