@@ -25,10 +25,10 @@ function createNavbar(valor = 0) {
                                 <a class="nav-link" href="/src/index.html">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="`+ruta+`/mascota_perdidas.html">Buscan sus mascotas</a>
+                                <a class="nav-link" href="`+ruta+`/mascota_perdidas.html">Mascotas perdidas</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="`+ruta+`/mascota_encontrada.html">Buscan sus Dueños</a>
+                                <a class="nav-link" href="`+ruta+`/mascota_encontrada.html">Mascotas encontradas</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="`+ruta+`/mis_mascotas.html">Mis mascotas</a>

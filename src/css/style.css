@@ -655,3 +655,145 @@ a:focus {
 .header_section {
   z-index: 1030; /* Deja el menú con un z-index menor que el modal */
 }
+
+
+/* Estilo exclusivo para la tabla de mascotas */
+.mascota-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+}
+
+.mascota-table td {
+  padding: 10px;
+  vertical-align: top;
+}
+
+/* Celda de la imagen (ahora dentro de una card) */
+.mascota-image-cell {
+  text-align: center;
+  width: 300px; /* Aumentamos el ancho de la celda */
+}
+
+.mascota-p-image-cell {
+  text-align: center;
+  width: 150px; /* Aumentamos el ancho de la celda */
+}
+
+/* Estilo exclusivo para la tabla de mascotas */
+.mascota-table {
+  width: 100%;
+  border-collapse: collapse; /* Mantiene las celdas sin bordes duplicados */
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  border: none; /* Elimina el borde de la tabla */
+}
+
+.mascota-table td {
+  padding: 10px;
+  vertical-align: top;
+  border: none; /* Elimina el borde de las celdas */
+}
+
+/* Celda de la imagen (ahora dentro de una card) */
+.mascota-image-cell {
+  text-align: center;
+  width: 300px; /* Ancho de la columna de imagen */
+}
+
+/* Card de mascota */
+.mascota-card {
+  display: flex; /* Usamos flex para las dos columnas */
+  border-radius: 10px; /* Esquinas redondeadas de la card */
+  overflow: hidden; /* Aseguramos que las esquinas redondeadas sean efectivas */
+  
+  background-size: cover; /* Asegura que la imagen cubra el contenedor */
+  background-position: center; /* Centra la imagen */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  padding: 10px;
+}
+
+.fondo-card-perdida{
+  background-image: url('../images/fondo_perdida.png'); 
+}
+
+.fondo-card-encontrada{
+  background-image: url('../images/fondo_encontrada.png'); 
+}
+
+.fondo-card-mis{
+  background-image: url('../images/fondo_mis.png'); 
+}
+
+/* Columna de imagen */
+.mascota-image-column {
+  width: 300px; /* La columna de la imagen ocupa el 30% del ancho */
+  text-align: center;
+}
+
+.mascota-p-image-column {
+  width: 150px; /* La columna de la imagen ocupa el 30% del ancho */
+  text-align: center;
+}
+
+/* Imagen redonda */
+.mascota-image {
+  width: 300px; /* Ancho de la columna */
+  height: 300px; /* Alto proporcional */
+  border-radius: 50%; /* Redondear la imagen */
+  object-fit: cover; /* Ajusta la imagen al contenedor */
+  margin-bottom: 15px;
+}
+
+/* Imagen redonda */
+.mascota-p-image {
+  width: 150px; /* Ancho de la columna */
+  height: 150px; /* Alto proporcional */
+  border-radius: 50%; /* Redondear la imagen */
+  object-fit: cover; /* Ajusta la imagen al contenedor */
+  margin-bottom: 15px;
+}
+
+/* Nombre en letras grandes debajo de la imagen */
+.mascota-name {
+  font-size: 3em;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #333;
+}
+
+/* Columna de datos */
+.mascota-data-column {
+  flex: 1; /* Ocupa el resto del espacio */
+  padding-left: 20px;
+}
+.mascota-card .form-group {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.mascota-card label {
+  font-weight: bold;
+  margin-right: 10px;
+  width: 150px;
+}
+
+.mascota-card input.form-control {
+  background-color: #e9ecef;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  width: 100%;
+}
+
+.mascota-card select.form-control {
+  background-color: #e9ecef;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  width: 100%;
+}
+
