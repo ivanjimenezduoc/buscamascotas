@@ -43,22 +43,34 @@ async function guardarMascotaEncontrada() {
         return;
     }
 
-    console.log("Valores que se van a guardar:");
-    console.log("Especie (ID):", especie);
-    console.log("Raza (ID):", raza);
-    console.log("Tamaño:", tamano);
-    console.log("Color 1 (ID):", color1);
-    console.log("Color 2 (ID):", color2);
-    console.log("Color 3 (ID):", color3);
-    console.log("Sexo (ID):", sexo);
-    console.log("Ubicación:", ubicacion);
-    console.log("Descripción:", descripcion);
+    const imagenInput = document.getElementById("imagenMascota");
+    if (imagenInput.files.length > 0) {
+        const imagenArchivo = imagenInput.files[0];
+        const nombreImagen = `imagenes_mascotas/${Date.now()}_${imagenArchivo.name}`;
+        console.log("Intentando subir imagen:", nombreImagen);
+
+
+        const { data: imagenData, error: imagenError } = await supabases.storage
+            .from("imagenes_mascotas")
+            .upload(nombreImagen, imagenArchivo);
+
+        if (imagenError) {
+            console.error("Error al subir la imagen:", imagenError);
+            alert("Hubo un problema al subir la imagen.");
+            return;
+        }
+
+
+        console.log("Imagen subida correctamente:", imagenData);
+        imagen = nombreImagen;
+    } else {
+        imagen = null;
+    }
+
     estado = 0
-
-
     const { data, error } = await supabases
         .from("mascota_encontrada")
-        .insert([{ raza, color1, color2, color3, especie, tamano, estado, ubicacion, descripcion, sexo }]);
+        .insert([{ raza, color1, color2, color3, especie, tamano, estado, ubicacion, descripcion, imagen }]);
 
     if (error) {
         console.error("Error al guardar la mascota encontrada:", error);
@@ -76,33 +88,37 @@ async function guardarMascotaEncontrada() {
             botonAgregar.style.display = "block";
 
         }
+        cargarMascotasEncontradas();
 
     }
 
 }
 async function cargarMascotasEncontradas() {
-
-
     const { data: mascotas, error } = await supabases.from('mascota_encontrada').select(`
         especie (id, nombre), 
         raza (id, raza), 
+        sexo (id, sexo), 
         tamano (id, tamano), 
-        color1 (id, color), 
-        color2 (id, color), 
-        color3 (id, color), 
-        descripcion,
-        ubicacion
+        color1 (id, codigo, color), 
+        color2 (id, codigo, color), 
+        color3 (id, codigo, color),  
+        descripcion,        
+        ubicacion,
+        imagen
     `).eq("estado", 0);
 
     if (error) {
         console.error("Error al cargar las mascotas encontradas:", error);
-        alert("Hubo un problema al cargar las mascotas.");
         return;
     }
 
-    
     const container = document.getElementById("mascotas-container");
     container.innerHTML = "";
+
+    if (mascotas.length === 0) {
+        console.log("No se encontraron mascotas.");
+        return;
+    }
 
     mascotas.sort((a, b) => a.id - b.id);
 
@@ -110,7 +126,7 @@ async function cargarMascotasEncontradas() {
     table.className = "table table-striped mascota-table";
 
     for (const mascota of mascotas) {
-        const imagenUrl = await obtenerUrlImagen(mascota.foto_perfil);
+        const imagenUrl = await obtenerUrlImagen(mascota.imagen);
 
         const row = document.createElement("tr");
 
@@ -124,18 +140,19 @@ async function cargarMascotasEncontradas() {
         imageColumn.className = "mascota-p-image-column";
 
         const imageContainer = document.createElement("div");
-        imageContainer.innerHTML = imagenUrl
-            ? `<img src="${imagenUrl}" class="mascota-p-image" alt="Imagen de ${mascota.nombre}">`
-            : "";
+        if (imagenUrl) {
+            imageContainer.innerHTML = `<img src="${imagenUrl}" class="mascota-p-image" alt="Imagen de ${mascota.nombre}">`;
+        } else {
+            imageContainer.innerHTML = `<img src="../images/logo_gris.png" class="mascota-p-image" alt="Logo Gris" style="opacity: 0.5;">`;
+        }
 
         imageColumn.appendChild(imageContainer);
-
 
         const dataColumn = document.createElement("div");
         dataColumn.className = "mascota-data-column";
 
         dataColumn.innerHTML = `
-              <div class="form-group">
+            <div class="form-group">
                 <label for="especie-${mascota.id}">Especie:</label>
                 <input type="text" id="especie-${mascota.id}" class="form-control" value="${mascota.especie ? mascota.especie.nombre : ""}" readonly>
             </div>
@@ -143,26 +160,61 @@ async function cargarMascotasEncontradas() {
                 <label for="raza-${mascota.id}">Raza:</label>
                 <input type="text" id="raza-${mascota.id}" class="form-control" value="${mascota.raza ? mascota.raza.raza : ""}" readonly>
             </div>
+                   <div class="form-group">
+                <label for="sexo-${mascota.id}">Sexo:</label>
+                <input type="text" id="sexo-${mascota.id}" class="form-control" value="${mascota.sexo ? mascota.sexo.sexo : ""}" readonly>
+            </div>
             <div class="form-group">
                 <label for="tamano-${mascota.id}">Tamaño:</label>
                 <input type="text" id="tamano-${mascota.id}" class="form-control" value="${mascota.tamano ? mascota.tamano.tamano : ""}" readonly>
+            </div>
         `;
 
+        const colorsColumn = document.createElement("div");
+        colorsColumn.className = "mascota-colors-column";
 
+        const button = document.createElement("button");
+        button.className = "btn info-button";        
+        button.textContent = "Más Info";
+        colorsColumn.appendChild(button);
+
+        const colorsTitle = document.createElement("h5");
+        colorsTitle.textContent = "Colores";
+        colorsColumn.appendChild(colorsTitle);
+
+        const circlesContainer = document.createElement("div");
+        circlesContainer.className = "circles-container";
+
+        [mascota.color1, mascota.color2, mascota.color3].forEach(colorObj => {
+            if (colorObj) {
+                const circle = document.createElement("div");
+                circle.className = "color-circle";
+                circle.style.backgroundColor = colorObj.codigo;
+
+                // Mostrar el nombre del color al pasar el mouse
+                circle.title = colorObj.color;
+
+                circlesContainer.appendChild(circle);
+            }
+        });
+
+        colorsColumn.appendChild(circlesContainer);
+
+        // Ensamblar columnas en la tarjeta
         card.appendChild(imageColumn);
         card.appendChild(dataColumn);
+        card.appendChild(colorsColumn);
 
         cardCell.appendChild(card);
-
+        row.appendChild(cardCell);
+        cardCell.appendChild(card);
         row.appendChild(cardCell);
 
         table.appendChild(row);
     }
 
     container.appendChild(table);
-   
 }
-
 
 //FUNCIONES MIS MASCOTAS
 
@@ -237,26 +289,9 @@ async function guardarMiMascota() {
     }
 
 
-
-    console.log("Valores que se van a guardar:");
-    console.log("Dueño:", id_dueno);
-    console.log("Nombre:", nombre);
-    console.log("Edad:", edad);
-    console.log("Especie (ID):", especie);
-    console.log("Raza (ID):", raza);
-    console.log("Tamaño:", tamano);
-    console.log("Color 1 (ID):", color1);
-    console.log("Color 2 (ID):", color2);
-    console.log("Color 3 (ID):", color3);
-    console.log("Sexo (ID):", sexo);
-    console.log("Descripción:", descripcion);
-    console.log("foto_perfil:", foto_perfil);
-    estado = 0
-
-
     const { data, error } = await supabases
         .from("mascota")
-        .insert([{ nombre, raza, edad, color1, color2, color3, especie, tamano, estado, descripcion, id_dueno, foto_perfil, sexo }]);
+        .insert([{ nombre, raza, edad, color1, color2, color3, especie, tamano, estado, descripcion, id_dueno, foto_perfil, sexo, foto_perfil }]);
 
     if (error) {
         console.error("Error al guardar la mascota encontrada:", error);
@@ -274,6 +309,7 @@ async function guardarMiMascota() {
             botonAgregar.style.display = "block";
 
         }
+    cargarMisMascotas();
 
     }
 
@@ -283,27 +319,25 @@ async function cargarMisMascotas(dueno_index) {
     console.log("Cargando mascotas para el dueño con id " + dueno_index + "...");
 
     const { data: mascotas, error } = await supabases.from('mascota').select(`
-                id,
-                nombre,
-                raza (id, raza), 
-                edad,
-                color1 (id, color), 
-                color2 (id, color), 
-                color3 (id, color), 
-                especie (id, nombre),                 
-                tamano (id, tamano), 
-                estado,
-                descripcion,
-                foto_perfil,
-                sexo
-            `).eq("id_dueno", dueno_index);
+        id,
+        nombre,
+        raza (id, raza), 
+        edad,
+        color1 (id, codigo, color), 
+        color2 (id, codigo, color), 
+        color3 (id, codigo, color),  
+        especie (id, nombre),                 
+        tamano (id, tamano), 
+        estado,
+        descripcion,
+        foto_perfil,
+        sexo
+    `).eq("id_dueno", dueno_index);
 
     if (error) {
         console.error("Error al cargar las mascotas:", error);
         return;
     }
-
-    //sessionStorage.setItem('mascotas', JSON.stringify(mascotas));
 
     const container = document.getElementById("mascotas-container");
     container.innerHTML = "";
@@ -322,7 +356,7 @@ async function cargarMisMascotas(dueno_index) {
         cardCell.className = "mascota-image-cell";
 
         const card = document.createElement("div");
-        card.className = "mascota-card fondo-card-mis ";
+        card.className = "mascota-card fondo-card-mis";
 
         const imageColumn = document.createElement("div");
         imageColumn.className = "mascota-image-column";
@@ -340,35 +374,83 @@ async function cargarMisMascotas(dueno_index) {
         imageColumn.appendChild(nameElement);
 
         const dataColumn = document.createElement("div");
-        dataColumn.className = "mascota-data-column";
+        dataColumn.className = "mascota-data-column aligned-data-column";
 
         dataColumn.innerHTML = `
             <div class="form-group">
-                <label for="especie-${mascota.id}">Especie:</label>
-                <input type="text" id="especie-${mascota.id}" class="form-control" value="${mascota.especie ? mascota.especie.nombre : ""}" readonly>
+                <label for="especie-${mascota.id}" class="aligned-label">Especie:</label>
+                <input type="text" id="especie-${mascota.id}" class="form-control aligned-input" value="${mascota.especie ? mascota.especie.nombre : ""}" readonly>
             </div>
             <div class="form-group">
-                <label for="edad-${mascota.id}">Edad:</label>
-                <input type="text" id="edad-${mascota.id}" class="form-control" value="${mascota.edad} años" readonly>
+                <label for="edad-${mascota.id}" class="aligned-label">Edad:</label>
+                <input type="text" id="edad-${mascota.id}" class="form-control aligned-input" value="${mascota.edad} años" readonly>
             </div>
             <div class="form-group">
-                <label for="raza-${mascota.id}">Raza:</label>
-                <input type="text" id="raza-${mascota.id}" class="form-control" value="${mascota.raza ? mascota.raza.raza : ""}" readonly>
+                <label for="raza-${mascota.id}" class="aligned-label">Raza:</label>
+                <input type="text" id="raza-${mascota.id}" class="form-control aligned-input" value="${mascota.raza ? mascota.raza.raza : ""}" readonly>
             </div>
             <div class="form-group">
-                <label for="tamano-${mascota.id}">Tamaño:</label>
-                <input type="text" id="tamano-${mascota.id}" class="form-control" value="${mascota.tamano ? mascota.tamano.tamano : ""}" readonly>
-            </div>
-            <div class="form-group">
-                <label for="descripcion-${mascota.id}">Descripción:</label>
-                <textarea id="descripcion-${mascota.id}" class="form-control" rows="3" readonly>${mascota.descripcion}</textarea>
+                <label for="tamano-${mascota.id}" class="aligned-label">Tamaño:</label>
+                <input type="text" id="tamano-${mascota.id}" class="form-control aligned-input" value="${mascota.tamano ? mascota.tamano.tamano : ""}" readonly>
             </div>
         `;
 
+        // Agregar los colores
+        const colorsContainer = document.createElement("div");
+        colorsContainer.className = "form-group";
+
+        const colorsLabel = document.createElement("label");
+        colorsLabel.textContent = "Colores:";
+        colorsLabel.className = "aligned-label";
+        colorsContainer.appendChild(colorsLabel);
+
+        const colorsCircles = document.createElement("div");
+        colorsCircles.style.display = "inline-flex";
+        colorsCircles.style.gap = "10px";
+        colorsCircles.style.marginLeft = "10px";
+
+        [mascota.color1, mascota.color2, mascota.color3].forEach((colorObj) => {
+            if (colorObj) {
+                const circle = document.createElement("div");
+                circle.className = "color-circle";
+                circle.style.backgroundColor = colorObj.codigo;
+                circle.style.width = "20px";
+                circle.style.height = "20px";
+                circle.style.borderRadius = "50%";
+                circle.style.border = "1px solid #000";
+                circle.title = colorObj.color; // Mostrar nombre al pasar el mouse
+                colorsCircles.appendChild(circle);
+            }
+        });
+
+        colorsContainer.appendChild(colorsCircles);
+        dataColumn.appendChild(colorsContainer);
+
+        // Descripción
+        const descriptionContainer = document.createElement("div");
+        descriptionContainer.className = "form-group";
+
+        const descriptionLabel = document.createElement("label");
+        descriptionLabel.setAttribute("for", `descripcion-${mascota.id}`);
+        descriptionLabel.className = "aligned-label";
+        descriptionLabel.textContent = "Descripción:";
+        descriptionContainer.appendChild(descriptionLabel);
+
+        const descriptionTextarea = document.createElement("textarea");
+        descriptionTextarea.id = `descripcion-${mascota.id}`;
+        descriptionTextarea.className = "form-control aligned-input aligned-textarea";
+        descriptionTextarea.rows = 3; // Mantiene el tamaño fijo de 3 líneas
+        descriptionTextarea.readOnly = true;
+        descriptionTextarea.textContent = mascota.descripcion;
+        descriptionContainer.appendChild(descriptionTextarea);
+        
+        dataColumn.appendChild(descriptionContainer);
+
+        // Estado de la mascota
         const estadoSelectHTML = `
             <div class="form-group">
-                <label for="estado-${mascota.id}">Estado:</label>
-                <select id="estado-${mascota.id}" class="form-control">
+                <label for="estado-${mascota.id}" class="aligned-label">Estado:</label>
+                <select id="estado-${mascota.id}" class="form-control aligned-select">
                     <option value="0" ${mascota.estado === 0 ? 'selected' : ''}>No Perdido</option>
                     <option value="1" ${mascota.estado === 1 ? 'selected' : ''}>Perdido</option>
                     <option value="2" ${mascota.estado === 2 ? 'selected' : ''}>Fallecido</option>
@@ -402,11 +484,12 @@ async function cargarMisMascotas(dueno_index) {
     container.appendChild(table);
 }
 
+
 async function actualizarMascota(id, estado) {
-  
+
     const { data, error } = await supabases.from("mascota")
-        .update({ estado }) 
-        .eq("id", id); 
+        .update({ estado })
+        .eq("id", id);
 
     if (error) {
         console.error("Error al actualizar la mascota:", error);
@@ -414,32 +497,30 @@ async function actualizarMascota(id, estado) {
         return;
     }
 
-   
+
 }
 
 
 //FUNCIONES MASCOTAS PERDIDAS
 
 async function cargarMascotasPerdidas() {
-    console.log("Cargando mascotas perdidas");
-
     const { data: mascotas, error } = await supabases.from('mascota').select(`
         nombre,
         edad,
         especie (id, nombre), 
         raza (id, raza), 
+        sexo (id, sexo), 
         tamano (id, tamano), 
-        color1 (id, color), 
-        color2 (id, color), 
-        color3 (id, color),
+  color1 (id, codigo, color), 
+        color2 (id, codigo, color), 
+        color3 (id, codigo, color), 
         foto_perfil,
         descripcion
     `).eq("estado", 1);
 
-        
+
     if (error) {
         console.error("Error al cargar las mascotas perdidas:", error);
-        alert("Hubo un problema al cargar las mascotas.");
         return;
     }
 
@@ -466,9 +547,12 @@ async function cargarMascotasPerdidas() {
         imageColumn.className = "mascota-p-image-column";
 
         const imageContainer = document.createElement("div");
-        imageContainer.innerHTML = imagenUrl
-            ? `<img src="${imagenUrl}" class="mascota-p-image" alt="Imagen de ${mascota.nombre}">`
-            : "";
+        if (imagenUrl) {
+            imageContainer.innerHTML = `<img src="${imagenUrl}" class="mascota-p-image" alt="Imagen de ${mascota.nombre}">`;
+        } else {
+            imageContainer.innerHTML = `<img src="../images/logo_gris.png" class="mascota-p-image" alt="Logo Gris" style="opacity: 0.5;">`;
+        }
+
 
         imageColumn.appendChild(imageContainer);
 
@@ -489,26 +573,61 @@ async function cargarMascotasPerdidas() {
                 <label for="raza-${mascota.id}">Raza:</label>
                 <input type="text" id="raza-${mascota.id}" class="form-control" value="${mascota.raza ? mascota.raza.raza : ""}" readonly>
             </div>
+                        </div>
+                   <div class="form-group">
+                <label for="sexo-${mascota.id}">Sexo:</label>
+                <input type="text" id="sexo-${mascota.id}" class="form-control" value="${mascota.sexo ? mascota.sexo.sexo : ""}" readonly>
+            </div>
             <div class="form-group">
                 <label for="tamano-${mascota.id}">Tamaño:</label>
                 <input type="text" id="tamano-${mascota.id}" class="form-control" value="${mascota.tamano ? mascota.tamano.tamano : ""}" readonly>
         `;
 
+        const colorsColumn = document.createElement("div");
+        colorsColumn.className = "mascota-colors-column";
 
+        const button = document.createElement("button");
+        button.className = "btn info-button";        
+        button.textContent = "Más Info";
+        colorsColumn.appendChild(button);
+
+        const colorsTitle = document.createElement("h5");
+        colorsTitle.textContent = "Colores";
+        colorsColumn.appendChild(colorsTitle);
+
+        const circlesContainer = document.createElement("div");
+        circlesContainer.className = "circles-container";
+
+        [mascota.color1, mascota.color2, mascota.color3].forEach(colorObj => {
+            if (colorObj) {
+                const circle = document.createElement("div");
+                circle.className = "color-circle";
+                circle.style.backgroundColor = colorObj.codigo;
+
+                // Mostrar el nombre del color al pasar el mouse
+                circle.title = colorObj.color;
+
+                circlesContainer.appendChild(circle);
+            }
+        });
+
+        colorsColumn.appendChild(circlesContainer);
+
+        // Ensamblar columnas en la tarjeta
         card.appendChild(imageColumn);
         card.appendChild(dataColumn);
+        card.appendChild(colorsColumn);
 
         cardCell.appendChild(card);
-
+        row.appendChild(cardCell);
+        cardCell.appendChild(card);
         row.appendChild(cardCell);
 
         table.appendChild(row);
     }
 
     container.appendChild(table);
-
 }
-
 // BUSQUEDA DE COINCIDENCIAS
 
 async function buscarMascotasPerdidas(mascota) {
@@ -620,15 +739,10 @@ async function obtenerTamano() {
 }
 
 async function obtenerUrlImagen(nombreImagen) {
-
     if (!nombreImagen) {
-        console.error("Debe proporcionar el nombre de la imagen.");
-        return;
+        return null;
     }
 
-
     const publicUrl = `https://duwjaewngocuzsfpgpiz.supabase.co/storage/v1/object/public/imagenes_mascotas/${nombreImagen}`;
-
-
     return publicUrl;
 }

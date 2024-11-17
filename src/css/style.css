@@ -702,7 +702,7 @@ a:focus {
   text-align: center;
   width: 300px; /* Ancho de la columna de imagen */
 }
-
+/* Card de mascota */
 /* Card de mascota */
 .mascota-card {
   display: flex; /* Usamos flex para las dos columnas */
@@ -797,3 +797,89 @@ a:focus {
   width: 100%;
 }
 
+/* Columna de colores */
+.mascota-colors-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 150px; /* Tamaño fijo de la columna */
+  text-align: center;
+  gap: 10px; /* Espacio entre los elementos */
+}
+
+
+.color-circle:hover {
+  transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el ratón */
+}
+
+/* Estilo de los círculos de colores */
+.circles-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px; /* Espacio entre el botón y los colores */
+}
+
+.color-circle {
+  width: 30px; /* Tamaño de los círculos */
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  margin-top: 5px; /* Espacio entre los círculos */
+ 
+  cursor: pointer; /* Cursor de interactividad */
+}
+
+/* Estilo específico para el botón de información */
+.info-button {
+  width: 100px;
+  height: auto; /* Permite que la altura sea automática en relación con el contenido */
+  padding: 10px; /* Espaciado interno */
+  font-size: 15px; /* Tamaño de la fuente */
+  background-color: #007bff; /* Color de fondo (estilo Bootstrap por defecto) */
+  color: white; /* Color del texto */
+  border: none; /* Sin bordes */
+  border-radius: 60px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar el mouse */
+}
+
+.info-button:hover {
+  background-color: #0056b3; /* Color de fondo al pasar el mouse */
+  transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el mouse */
+}
+
+.info-button:active {
+  background-color: #004085; /* Color de fondo cuando se hace clic */
+}
+
+
+.aligned-label {
+  display: inline-block;
+  width: 100px; /* Ajustar según necesidad */
+  text-align: left;
+  margin-right: 10px;
+}
+
+.aligned-input {
+  display: inline-block;
+  width: calc(100% - 120px); /* Ajustar según el width del label */
+}
+.color-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  display: inline-block;
+  cursor: pointer;
+}
+.aligned-textarea {
+  display: inline-block;
+  width: calc(100% ); /* Ajustar según el width del label */
+}
+
+.aligned-select {
+  display: inline-block;
+  width: calc(100%); /* Alineación perfecta con el label */
+
+}
