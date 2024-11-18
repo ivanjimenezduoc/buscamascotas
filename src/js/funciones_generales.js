@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     cargarSelectEspecies();
     cargarColores();
     cargarTamano();
+
 });
 
 
@@ -121,6 +122,50 @@ function ocultarFormulario() {
     }
 }
 
+function initMap2() {
+    if (isMap2Initialized) return; // Salir si ya se inicializó el mapa
+
+    const defaultLocation = { lat: -33.4489, lng: -70.6693 }; // Santiago, Chile
+
+    map2 = new google.maps.Map(document.getElementById("map2"), {
+        center: defaultLocation,
+        zoom: 13,
+    });
+
+    marker2 = new google.maps.Marker({
+        position: defaultLocation,
+        map: map2,
+        draggable: true, // Permite mover el marcador manualmente
+    });
+
+    geocoder2 = new google.maps.Geocoder();
+
+    // Autocompletado del input de ubicación
+    const ubicacionInput = document.getElementById("ubicacion");
+    autocomplete = new google.maps.places.Autocomplete(ubicacionInput, {
+        types: ["geocode"],
+    });
+
+    autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+        if (place.geometry) {
+            const location = place.geometry.location;
+            map2.setCenter(location); // Centrar el mapa
+            marker2.setPosition(location); // Mover el marcador
+        } else {
+            alert("No se pudo encontrar el lugar seleccionado.");
+        }
+    });
+
+    // Actualizar el input cuando el marcador se mueva
+    marker2.addListener("dragend", () => {
+        const position = marker2.getPosition();
+        geocodeLatLng2(position.lat(), position.lng());
+    });
+
+    isMap2Initialized = true; // Marcar como inicializado
+
+}
 
 
 

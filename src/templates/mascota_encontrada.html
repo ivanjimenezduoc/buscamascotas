@@ -21,7 +21,8 @@
   <link href="../css/responsive.css" rel="stylesheet" />
   <script type="text/javascript" src="../js/menu.js"></script>
   <script type="text/javascript" src="../js/funciones_bd.js"></script>
-
+  
+  
   <!-- Estilos para el fondo y el pie de página al final -->
   <style>
     /* Estilo general de la página */
@@ -58,7 +59,117 @@
     max-height: 400px;
     overflow-y: auto;
 }
+#map2 {
+    width: 100%;
+    height: 300px;
+    margin-top: 20px;
+  }
   </style>
+
+<script>
+  let map, geocoder, marker, autocomplete;
+
+function initMap() {
+  const defaultPosition = { lat: -33.4489, lng: -70.6693 };
+
+  geocoder = new google.maps.Geocoder();
+
+  // Crear mapa centrado en defaultPosition
+  map = new google.maps.Map(document.getElementById("map2"), {
+    center: defaultPosition,
+    zoom: 14,
+  });
+
+  // Crear marcador inicial en defaultPosition
+  marker = new google.maps.Marker({
+    position: defaultPosition,
+    map: map,
+  });
+
+  // Configurar campo de ubicación para autocompletar y actualizar el mapa
+  const input = document.getElementById("ubicacion");
+
+  // Inicializar Autocomplete
+  autocomplete = new google.maps.places.Autocomplete(input);
+
+ 
+autocomplete = new google.maps.places.Autocomplete(input);
+autocomplete.setComponentRestrictions({ country: "cl" });
+autocomplete.addListener("place_changed", function () {
+  const place = autocomplete.getPlace();
+  if (!place.geometry) return;
+  map.setCenter(place.geometry.location);
+  map.setZoom(16);
+  marker.setPosition(place.geometry.location);
+});
+
+  document.getElementById("ubicacion").addEventListener("input", debounce(updateMap, 500));
+}
+function updateMap() {
+  const address = document.getElementById("ubicacion").value;
+  if (address.trim() === "") return;
+
+  geocoder.geocode({ address: address }, (results, status) => {
+    if (status === "OK") {
+      const location = results[0].geometry.location;
+
+
+      map.setCenter(location);
+      map.setZoom(16);
+      marker.setPosition(location);
+    } else {
+      console.error("Geocoding error: " + status);
+    }
+  });
+}
+
+
+function debounce(func, delay) {
+  let timeout;
+  return function () {
+    clearTimeout(timeout);
+    timeout = setTimeout(func, delay);
+  };
+}
+
+function mostrarModal(ubicacion, descripcion) {
+  console.log(ubicacion);
+
+  const defaultPosition = { lat: -33.4489, lng: -70.6693 };
+
+  const mapa = new google.maps.Map(document.getElementById("mapaMascota"), {
+    center: defaultPosition,
+    zoom: 14,
+  });
+
+  const marker = new google.maps.Marker({
+    map: mapa,
+    position: defaultPosition,
+  });
+
+  const geocoder = new google.maps.Geocoder();
+  geocoder.geocode({ address: ubicacion }, (results, status) => {
+    if (status === "OK") {
+      const location = results[0].geometry.location;
+      mapa.setCenter(location);
+      mapa.setZoom(16);
+      marker.setPosition(location);
+    } else {
+      console.error("Geocoding error: " + status);
+    }
+  });
+
+  document.getElementById("descripcionMascota").innerText = descripcion;
+
+  const modal = new bootstrap.Modal(document.getElementById('modalMascota'));
+  modal.show();
+}
+
+
+</script>
+
+
+
 </head>
 
 <body>
@@ -82,8 +193,7 @@
               <button class="btn btn-primary" onclick="mostrarFormulario()">Agregar Mascota</button>
             </div>
 
-            <!-- Formulario de agregar mascota, inicialmente oculto -->
-            <div id="formularioMascota" class="mt-4" style="display: none;">
+              <div id="formularioMascota" class="mt-4" style="display: none;">
               <form id="form-mascota">
                 <div class="row">
                   <div class="col-md-6">
@@ -160,9 +270,14 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="ubicacion">Ubicacion</label>
-                  <textarea class="form-control" id="ubicacion" rows="3"></textarea>
+                  <label for="ubicacion">Ubicación</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="ubicacion"
+                    placeholder="Ingresa la ubicación"/>
                 </div>
+                <div id="map2" class="map"></div>
                 <div class="form-group">
                   <label for="imagenMascota">Tienes una foto ?</label>
                   <input type="file" class="form-control-file" id="imagenMascota" accept="image/*">
@@ -198,7 +313,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalCoincidenciasLabel">Se encontraron cincidencias</h1>
+        <h1 class="modal-title fs-4" id="modalCoincidenciasLabel">Se encontraron cincidencias</h1>
       
       </div>
       <div class="modal-body">
@@ -212,14 +327,38 @@
   </div>
 </div>
 
+
   <section class="container-fluid footer_section">
     <p>&copy; 2024 BuscaMascotas</p>
   </section>
+<!-- Modal para mostrar la información de la mascota -->
+<div class="modal fade" id="modalMascota" tabindex="-1" aria-labelledby="modalMascotaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalMascotaLabel">Información de la Mascota</h5>
+      </div>
+      <div class="modal-body">
+        <!-- Mapa -->
+        <div id="mapaMascota" style="width: 100%; height: 300px;"></div>
+        <br />
+        <!-- Descripción -->
+        <p id="descripcionMascota"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    
+  </div>
+</div>
 
 
   <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="../js/bootstrap.js"></script>
  <script type="text/javascript" src="../js/funciones_generales.js"></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtkTIwKZNMgaA8lFFRdHUDHWNV4HcSoTM&libraries=places&callback=initMap"></script>
+
 </body>
 
 </html>

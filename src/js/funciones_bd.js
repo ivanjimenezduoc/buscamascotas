@@ -179,8 +179,7 @@ async function guardarMascotaEncontrada() {
             $('#modalCoincidencias').modal('show');
         }
     }
-
-
+/*
 async function cargarMascotasEncontradas() {
     const { data: mascotas, error } = await supabases.from('mascota_encontrada').select(`
         especie (id, nombre), 
@@ -303,6 +302,261 @@ async function cargarMascotasEncontradas() {
 
     container.appendChild(table);
 }
+*/
+/*
+async function cargarMascotasEncontradas() {
+    const { data: mascotas, error } = await supabases.from('mascota_encontrada').select(`
+        especie (id, nombre), 
+        raza (id, raza), 
+        sexo (id, sexo), 
+        tamano (id, tamano), 
+        color1 (id, codigo, color), 
+        color2 (id, codigo, color), 
+        color3 (id, codigo, color),  
+        descripcion,        
+        ubicacion,
+        imagen
+    `).eq("estado", 0);
+
+    if (error) {
+        console.error("Error al cargar las mascotas encontradas:", error);
+        return;
+    }
+
+    const container = document.getElementById("mascotas-container");
+    container.innerHTML = "";
+
+    if (mascotas.length === 0) {
+        console.log("No se encontraron mascotas.");
+        return;
+    }
+
+    mascotas.sort((a, b) => a.id - b.id);
+
+    const table = document.createElement("table");
+    table.className = "table table-striped mascota-table";
+
+    for (const mascota of mascotas) {
+        const imagenUrl = await obtenerUrlImagen(mascota.imagen);
+
+        const row = document.createElement("tr");
+
+        const cardCell = document.createElement("td");
+        cardCell.className = "mascota-p-image-cell";
+
+        const card = document.createElement("div");
+        card.className = "mascota-card fondo-card-encontrada";
+
+        const imageColumn = document.createElement("div");
+        imageColumn.className = "mascota-p-image-column";
+
+        const imageContainer = document.createElement("div");
+        if (imagenUrl) {
+            imageContainer.innerHTML = `<img src="${imagenUrl}" class="mascota-p-image" alt="Imagen de ${mascota.nombre}">`;
+        } else {
+            imageContainer.innerHTML = `<img src="../images/logo_gris.png" class="mascota-p-image" alt="Logo Gris" style="opacity: 0.5;">`;
+        }
+
+        imageColumn.appendChild(imageContainer);
+
+        const dataColumn = document.createElement("div");
+        dataColumn.className = "mascota-data-column";
+
+        dataColumn.innerHTML = `
+            <div class="form-group">
+                <label for="especie-${mascota.id}">Especie:</label>
+                <input type="text" id="especie-${mascota.id}" class="form-control" value="${mascota.especie ? mascota.especie.nombre : ""}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="raza-${mascota.id}">Raza:</label>
+                <input type="text" id="raza-${mascota.id}" class="form-control" value="${mascota.raza ? mascota.raza.raza : ""}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="sexo-${mascota.id}">Sexo:</label>
+                <input type="text" id="sexo-${mascota.id}" class="form-control" value="${mascota.sexo ? mascota.sexo.sexo : ""}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="tamano-${mascota.id}">Tamaño:</label>
+                <input type="text" id="tamano-${mascota.id}" class="form-control" value="${mascota.tamano ? mascota.tamano.tamano : ""}" readonly>
+            </div>
+        `;
+
+        const colorsColumn = document.createElement("div");
+        colorsColumn.className = "mascota-colors-column";
+
+        const button = document.createElement("button");
+        button.className = "btn info-button";        
+        button.textContent = "Más Info";
+        
+        // Aquí se pasa la ubicación y descripción al modal
+        button.addEventListener("click", function() {
+            const ubicacion = JSON.parse(mascota.ubicacion); // Convierte la ubicación a objeto
+            mostrarModal(ubicacion, mascota.descripcion);
+        });
+
+        colorsColumn.appendChild(button);
+
+        const colorsTitle = document.createElement("h5");
+        colorsTitle.textContent = "Colores";
+        colorsColumn.appendChild(colorsTitle);
+
+        const circlesContainer = document.createElement("div");
+        circlesContainer.className = "circles-container";
+
+        [mascota.color1, mascota.color2, mascota.color3].forEach(colorObj => {
+            if (colorObj) {
+                const circle = document.createElement("div");
+                circle.className = "color-circle";
+                circle.style.backgroundColor = colorObj.codigo;
+                circle.title = colorObj.color; // Mostrar nombre del color al pasar el mouse
+                circlesContainer.appendChild(circle);
+            }
+        });
+
+        colorsColumn.appendChild(circlesContainer);
+
+        // Ensamblar columnas en la tarjeta
+        card.appendChild(imageColumn);
+        card.appendChild(dataColumn);
+        card.appendChild(colorsColumn);
+
+        cardCell.appendChild(card);
+        row.appendChild(cardCell);
+        cardCell.appendChild(card);
+        row.appendChild(cardCell);
+
+        table.appendChild(row);
+    }
+
+    container.appendChild(table);
+}*/
+async function cargarMascotasEncontradas() {
+    const { data: mascotas, error } = await supabases.from('mascota_encontrada').select(`
+        especie (id, nombre), 
+        raza (id, raza), 
+        sexo (id, sexo), 
+        tamano (id, tamano), 
+        color1 (id, codigo, color), 
+        color2 (id, codigo, color), 
+        color3 (id, codigo, color),  
+        descripcion,        
+        ubicacion,
+        imagen
+    `).eq("estado", 0);
+
+    if (error) {
+        console.error("Error al cargar las mascotas encontradas:", error);
+        return;
+    }
+
+    const container = document.getElementById("mascotas-container");
+    container.innerHTML = "";
+
+    if (mascotas.length === 0) {
+        console.log("No se encontraron mascotas.");
+        return;
+    }
+
+    mascotas.sort((a, b) => a.id - b.id);
+
+    const table = document.createElement("table");
+    table.className = "table table-striped mascota-table";
+
+    for (const mascota of mascotas) {
+        const imagenUrl = await obtenerUrlImagen(mascota.imagen);
+
+        const row = document.createElement("tr");
+
+        const cardCell = document.createElement("td");
+        cardCell.className = "mascota-p-image-cell";
+
+        const card = document.createElement("div");
+        card.className = "mascota-card fondo-card-encontrada";
+
+        const imageColumn = document.createElement("div");
+        imageColumn.className = "mascota-p-image-column";
+
+        const imageContainer = document.createElement("div");
+        if (imagenUrl) {
+            imageContainer.innerHTML = `<img src="${imagenUrl}" class="mascota-p-image" alt="Imagen de ${mascota.nombre}">`;
+        } else {
+            imageContainer.innerHTML = `<img src="../images/logo_gris.png" class="mascota-p-image" alt="Logo Gris" style="opacity: 0.5;">`;
+        }
+
+        imageColumn.appendChild(imageContainer);
+
+        const dataColumn = document.createElement("div");
+        dataColumn.className = "mascota-data-column";
+
+        dataColumn.innerHTML = `
+            <div class="form-group">
+                <label for="especie-${mascota.id}">Especie:</label>
+                <input type="text" id="especie-${mascota.id}" class="form-control" value="${mascota.especie ? mascota.especie.nombre : ""}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="raza-${mascota.id}">Raza:</label>
+                <input type="text" id="raza-${mascota.id}" class="form-control" value="${mascota.raza ? mascota.raza.raza : ""}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="sexo-${mascota.id}">Sexo:</label>
+                <input type="text" id="sexo-${mascota.id}" class="form-control" value="${mascota.sexo ? mascota.sexo.sexo : ""}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="tamano-${mascota.id}">Tamaño:</label>
+                <input type="text" id="tamano-${mascota.id}" class="form-control" value="${mascota.tamano ? mascota.tamano.tamano : ""}" readonly>
+            </div>
+        `;
+
+        const colorsColumn = document.createElement("div");
+        colorsColumn.className = "mascota-colors-column";
+
+        const button = document.createElement("button");
+        button.className = "btn info-button";        
+        button.textContent = "Más Info";
+        
+        // Aquí se pasa la ubicación y descripción al modal
+        button.addEventListener("click", function() {
+            const ubicacion = JSON.parse(mascota.ubicacion); // Convierte la ubicación a objeto
+            mostrarModal(ubicacion, mascota.descripcion);
+        });
+
+        colorsColumn.appendChild(button);
+
+        const colorsTitle = document.createElement("h5");
+        colorsTitle.textContent = "Colores";
+        colorsColumn.appendChild(colorsTitle);
+
+        const circlesContainer = document.createElement("div");
+        circlesContainer.className = "circles-container";
+
+        [mascota.color1, mascota.color2, mascota.color3].forEach(colorObj => {
+            if (colorObj) {
+                const circle = document.createElement("div");
+                circle.className = "color-circle";
+                circle.style.backgroundColor = colorObj.codigo;
+                circle.title = colorObj.color; // Mostrar nombre del color al pasar el mouse
+                circlesContainer.appendChild(circle);
+            }
+        });
+
+        colorsColumn.appendChild(circlesContainer);
+
+        // Ensamblar columnas en la tarjeta
+        card.appendChild(imageColumn);
+        card.appendChild(dataColumn);
+        card.appendChild(colorsColumn);
+
+        cardCell.appendChild(card);
+        row.appendChild(cardCell);
+        cardCell.appendChild(card);
+        row.appendChild(cardCell);
+
+        table.appendChild(row);
+    }
+
+    container.appendChild(table);
+}
+
 
 //FUNCIONES MIS MASCOTAS
 /*
