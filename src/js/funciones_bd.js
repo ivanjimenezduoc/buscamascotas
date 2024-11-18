@@ -746,28 +746,7 @@ async function buscarCoincidencias(mascota, tabla, estado) {
     return coincidencias;
 }
 
-async function buscarMascotasEncontradas(mascota) {
 
-    const { data: mascotasEncontradas, error } = await supabases.from("mascota_encontrada")
-        .select("*")
-        .eq("estado", 0);
-
-    if (error) {
-        console.error("Error al buscar mascotas encontradas:", error);
-        return [];
-    }
-
-    const coincidencias = mascotasEncontradas.filter(encontrada => {
-        return (
-            encontrada.nombre === mascota.nombre ||
-            (encontrada.color && mascotasColoresCoinciden(mascota.color, encontrada.color)) ||
-            (encontrada.raza && encontrada.raza === mascota.raza) ||
-            (encontrada.tamano && encontrada.tamano === mascota.tamano)
-        );
-    });
-
-    return coincidencias;
-}
 
 
 // DATOS DE FORMULARIOS
