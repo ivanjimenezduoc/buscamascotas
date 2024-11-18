@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------------
+Test set: runners.TestRunner
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 2.919 s <<< FAILURE! -- in runners.TestRunner
+Navegación en la página de mascotas.El usuario accede a la página principal -- Time elapsed: 0.095 s <<< ERROR!
+java.lang.NullPointerException
+	at steps.mifeatureSteps.muestraSeccionBusqueda(mifeatureSteps.java:25)
+	at ✽.se muestra la seccion de busqueda(file:///C:/Users/fabia/Documents/GitHub/buscamascotas/src/test/features/mifeature.feature:6)
+
