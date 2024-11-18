@@ -516,8 +516,9 @@ async function cargarMascotasEncontradas() {
         
         // Aquí se pasa la ubicación y descripción al modal
         button.addEventListener("click", function() {
-            const ubicacion = JSON.parse(mascota.ubicacion); // Convierte la ubicación a objeto
-            mostrarModal(ubicacion, mascota.descripcion);
+            const ubicacion = mascota.ubicacion; // Dirección almacenada en la base de datos
+            const descripcion = mascota.descripcion; // Descripción de la mascota
+            mostrarModal(ubicacion, descripcion); // Pasamos la dirección y descripción al modal
         });
 
         colorsColumn.appendChild(button);
@@ -932,7 +933,6 @@ async function cargarMisMascotas(dueno_index) {
     container.appendChild(table);
 }
 
-
 async function actualizarMascota(id, estado) {
 
     const { data, error } = await supabases.from("mascota")
@@ -947,7 +947,6 @@ async function actualizarMascota(id, estado) {
 
 
 }
-
 
 //FUNCIONES MASCOTAS PERDIDAS
 
