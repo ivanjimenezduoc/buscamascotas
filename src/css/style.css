@@ -687,7 +687,7 @@ a:focus {
   width: 100%;
   border-collapse: collapse; /* Mantiene las celdas sin bordes duplicados */
   margin-top: 20px;
-  background-color: #f9f9f9;
+  background-color: transparent;
   border: none; /* Elimina el borde de la tabla */
 }
 

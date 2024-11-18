@@ -3,7 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
     cargarSelectEspecies();
     cargarColores();
     cargarTamano();
-
+    initMap1(); // Inicializar Mapa 1 al cargar la página
+    cargarMascotasEncontradas(); // Cargar las mascotas con sus ubicaciones
 });
 
 
@@ -25,6 +26,8 @@ async function cargarSelectEspecies() {
 
     // Manejar el cambio de especie (si es necesario)
 }
+
+
 
 async function cargarColores() {
     try {
@@ -77,6 +80,7 @@ async function cargarTamano() {
     }
 }
 
+
 async function manejarCambioEspecie() {
 
     const especieString = document.getElementById("especie").value;
@@ -88,7 +92,20 @@ async function manejarCambioEspecie() {
 
     let razas = [];
     razas = await obtenerRazas(especie)
-
+    console.log(razas)
+    /*
+    let razas = [];
+    switch (especie) {
+        case "1":
+            razas = await obtenerRazasPerro();
+            break;
+        case "2":
+            razas = await obtenerRazasGato();
+            break;
+        case "3":
+            razas = await obtenerTiposOtrasMascotas();
+            break;
+    }*/
 
     razas.forEach(raza => {
         const option = document.createElement("option");
@@ -97,7 +114,11 @@ async function manejarCambioEspecie() {
         razaSelect.appendChild(option);
     });
 
+
+    //cargarColores();
 }
+
+
 
 function mostrarFormulario() {
     const formulario = document.getElementById("formularioMascota");
@@ -122,6 +143,70 @@ function ocultarFormulario() {
     }
 }
 
+// --- Código para el primer mapa (tabla) ---
+let map1;
+let marker1;
+
+document.addEventListener('DOMContentLoaded', function () {
+    initMap1();
+
+    // Selecciona todas las filas de la tabla y agrega el evento de clic
+    const filas = document.querySelectorAll("table tbody tr");
+    filas.forEach(fila => {
+        fila.addEventListener("click", function () {
+            const ubicacion = fila.querySelector("td:last-child").textContent.trim();
+            if (ubicacion) {
+                actualizarMapa1(ubicacion); // Llama a la función para actualizar el Mapa 1
+            }
+        });
+    });
+});
+
+
+// Inicializa el primer mapa en una ubicación predeterminada
+function initMap1() {
+    const centroInicial = { lat: -33.4489, lng: -70.6693 }; // Santiago, Chile
+    map1 = new google.maps.Map(document.getElementById("map"), {
+        center: centroInicial,
+        zoom: 8,
+    });
+
+    marker1 = new google.maps.Marker({
+        position: centroInicial,
+        map: map1,
+    });
+}
+
+
+// Actualiza el primer mapa según la ubicación seleccionada
+function actualizarMapa1(ubicacion) {
+    const geocoder = new google.maps.Geocoder();
+
+    // Geocodifica la dirección seleccionada
+    geocoder.geocode({ address: ubicacion }, function (results, status) {
+        if (status === "OK" && results[0]) {
+            const nuevaPosicion = results[0].geometry.location;
+
+            // Mover el marcador y centrar el mapa
+            marker1.setPosition(nuevaPosicion);
+            map1.setCenter(nuevaPosicion);
+            map1.setZoom(12); // Ajustar el nivel de zoom si es necesario
+        } else {
+            console.error("No se pudo encontrar la ubicación: " + status);
+            alert("No se pudo mostrar la ubicación seleccionada.");
+        }
+    });
+}
+
+
+// --- Código para el segundo mapa (formulario) ---
+let map2;
+let marker2;
+let geocoder2;
+let isMap2Initialized = false; // Bandera para evitar inicialización múltiple
+let autocomplete; // Autocompletado para el input de ubicación
+
+// Inicializa el segundo mapa
 function initMap2() {
     if (isMap2Initialized) return; // Salir si ya se inicializó el mapa
 
@@ -164,8 +249,27 @@ function initMap2() {
     });
 
     isMap2Initialized = true; // Marcar como inicializado
-
 }
 
+// Convertir coordenadas a dirección (segundo mapa)
+function geocodeLatLng2(lat, lng) {
+    const latlng = { lat: lat, lng: lng };
+    geocoder2.geocode({ location: latlng }, (results, status) => {
+        if (status === "OK" && results[0]) {
+            const address = results[0].formatted_address;
+            document.getElementById("ubicacion").value = address; // Actualizar el input
+        } else {
+            alert("No se pudo determinar la ubicación.");
+        }
+    });
+}
 
-
+// Inicializar el segundo mapa al cargar el formulario
+document.addEventListener("DOMContentLoaded", function () {
+    const formulario = document.getElementById("formularioMascota");
+    formulario.addEventListener("transitionend", () => {
+        if (formulario.style.display !== "none") {
+            initMap2();
+        }
+    });
+});
