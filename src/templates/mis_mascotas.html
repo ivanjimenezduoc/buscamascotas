@@ -13,7 +13,7 @@
 
   <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
   <link href="https://fonts.googleapis.com/css?family=Dosis:400,500|Poppins:400,700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -21,24 +21,26 @@
   <link href="../css/responsive.css" rel="stylesheet" />
   <script type="text/javascript" src="../js/menu.js"></script>
   <script type="text/javascript" src="../js/funciones_bd.js"></script>
-  
 
   <style>
     /* Estilo general de la página */
     body {
-      background-image: url('../images/fondo.jpg'); /* Ruta de la imagen */
-      background-size: cover; /* Hace que la imagen cubra toda la pantalla */
-      background-position: center center; /* Centra la imagen */
-      background-attachment: fixed; /* Hace que el fondo no se mueva con el scroll */
+      background-image: url('../images/fondo.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+
       margin: 0;
       padding: 0;
-      min-height: 100vh; /* Asegura que el cuerpo ocupe al menos el 100% de la altura */
+      min-height: 100vh;
       display: flex;
-      flex-direction: column; /* Flexbox para el layout */
+      flex-direction: column;
+
     }
 
     .hero_area {
-      flex: 1; /* Hace que la sección principal ocupe el espacio disponible */
+      flex: 1;
+
     }
 
     .content_placeholder {
@@ -50,11 +52,75 @@
       color: white;
       text-align: center;
       padding: 15px;
-      margin-top: auto; /* Asegura que el footer se quede al final */
+      margin-top: auto;
       width: 100%;
     }
-  </style>
 
+    .usuario-card {
+  
+  background-size: cover; /* Asegura que la imagen cubra el contenedor */
+  background-position: center; /* Centra la imagen */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  padding: 10px;
+  background-image: url('../images/fondo_perfil.png'); 
+}
+
+
+
+  </style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  
+    function rellenarDatosUsuario() {
+        const usuarioData = sessionStorage.getItem("usuario");
+
+        if (!usuarioData) {
+            console.error("No se encontraron datos de usuario en el Session Storage.");
+            return;
+        }
+
+        try {
+            const usuario = JSON.parse(usuarioData);
+
+            // Obtener el primer usuario del array (ajusta según tu caso)
+            const datosUsuario = usuario[0];
+
+            // Verificar si el usuario existe
+            if (!datosUsuario) {
+                console.error("Datos de usuario no encontrados.");
+                return;
+            }
+
+            // Formatear la fecha
+            let fechaFormateada = "";
+            if (datosUsuario.fecha_nacimiento) {
+                const fecha = new Date(datosUsuario.fecha_nacimiento);
+                const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
+                fechaFormateada = new Intl.DateTimeFormat('es-ES', opciones).format(fecha);
+            }
+
+            // Rellenar los campos del formulario
+            document.getElementById("nombreUsuario").value = datosUsuario.nombre || "";
+            document.getElementById("fechaNacimiento").value = fechaFormateada || "";
+            document.getElementById("direccion").value = datosUsuario.direccion || "";
+            document.getElementById("correo").value = datosUsuario.correo || "";
+            document.getElementById("telefono1").value = datosUsuario.telefono1 || "";
+            document.getElementById("telefono2").value = datosUsuario.telefono2 || "";
+
+            // Pasar el id del usuario a cargarMisMascotas
+            cargarMisMascotas(datosUsuario.id);
+        } catch (error) {
+            console.error("Error al procesar los datos del usuario:", error);
+        }
+    }
+
+    // Llamar a la función para rellenar los datos del usuario
+    rellenarDatosUsuario();
+});
+
+
+</script>
 </head>
 
 <body>
@@ -63,21 +129,84 @@
       <div id="navbar-container"></div>
       <script>
         document.addEventListener('DOMContentLoaded', createNavbar(1));
-        cargarMisMascotas(1);
+
       </script>
     </header>
 
     <section class="content_placeholder">
       <div class="main-container">
         <div id="contenido">
+
           <div class="container my-4">
-            <h2 class="text-center">Mis Mascotas</h2>
+
+            <!-- Nueva Card para Información de Mascota -->
+            <div class="card mt-4">
+              <div class="card-body usuario-card">
+                <h5 class="card-title">Mi Perfil</h5>
+                <form>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="nombreUsuario">Nombre</label>
+                        <input type="text" class="form-control" id="nombreUsuario">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                        <input type="text" class="form-control" id="fechaNacimiento">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+
+                        <label for="direccion">Dirección</label>
+                        <input type="text" class="form-control" id="direccion">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+
+                      <div class="form-group">
+                        <label for="correo">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="correo">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="telefono1">Teléfono 1</label>
+                        <input type="tel" class="form-control" id="telefono1">
+                      </div>
+
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="telefono2">Teléfono 2</label>
+                        <input type="tel" class="form-control" id="telefono2">
+                      </div>
+                    </div>
+                  </div>
 
 
+
+
+                </form>
+              </div>
+            </div>
+
+            <h2 style="padding: 30px;" class="text-center">Mis Mascotas</h2>
+
+            <!-- Botón para desplegar el formulario -->
             <div class="text-center mt-4">
               <button class="btn btn-primary" onclick="mostrarFormulario()">Agregar Mascota</button>
             </div>
 
+            <!-- Formulario de agregar mascota -->
             <div id="formularioMascota" class="mt-4" style="display: none;">
               <form id="form-mascota">
                 <div class="row">
@@ -113,7 +242,6 @@
                     </div>
                   </div>
 
-
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
@@ -133,9 +261,6 @@
                       </div>
                     </div>
                   </div>
-
-
-
 
                   <div class="row">
                     <div class="col-md-4">
@@ -163,18 +288,19 @@
                       </div>
                     </div>
                   </div>
+
                   <div class="row">
                     <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="estado">Estado</label>
-                      <select class="form-control" id="estado" required>
-                        <option value="" disabled selected>Seleccione Estado</option>
-                        <option value="0">No perdido</option>
-                        <option value="1">Perdido</option>
-                        <option value="2">Fallecido</option>
-                      </select>
+                      <div class="form-group">
+                        <label for="estado">Estado</label>
+                        <select class="form-control" id="estado" required>
+                          <option value="" disabled selected>Seleccione Estado</option>
+                          <option value="0">No perdido</option>
+                          <option value="1">Perdido</option>
+                          <option value="2">Fallecido</option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
                   </div>
                   <div class="form-group">
                     <label for="descripcion">Descripción</label>
@@ -191,7 +317,6 @@
                   </div>
                 </form>
             </div>
-
             <div class="row" style="padding: 30px ;" id="mascotas-container"></div>
             <div></div>
 
@@ -199,38 +324,36 @@
         </div>
       </div>
     </section>
-   
-  </div>
-<!-- Modal para mostrar coincidencias -->
 
-<div class="modal fade"  id="modalCoincidencias" tabindex="-1" aria-labelledby="modalCoincidenciasLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalCoincidenciasLabel">Se encontraron cincidencias</h1>
-      
-      </div>
-      <div class="modal-body">
-        <p id="mensajeCoincidencias"></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="window.location.href='../templates/mascota_encontrada.html'">Ir</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+  </div>
+  <!-- Modal para mostrar coincidencias -->
+
+  <div class="modal fade" id="modalCoincidencias" tabindex="-1" aria-labelledby="modalCoincidenciasLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modalCoincidenciasLabel">Se encontraron coincidencias</h1>
+        </div>
+        <div class="modal-body">
+          <p id="mensajeCoincidencias"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary"
+            onclick="window.location.href='../templates/mascota_encontrada.html'">Ir</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
   <section class="container-fluid footer_section">
     <p>&copy; 2024 BuscaMascotas</p>
   </section>
 
-
   <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="../js/bootstrap.js"></script>
- <script type="text/javascript" src="../js/funciones_generales.js"></script>
+  <script type="text/javascript" src="../js/funciones_generales.js"></script>
 </body>
-
-</html>
 
 </html>
