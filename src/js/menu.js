@@ -22,7 +22,7 @@ function createNavbar(valor = 0) {
                     <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
                         <ul class="navbar-nav">
                             <li class="nav-item active">
-                                <a class="nav-link" href="/src/index.html">Inicio</a>
+                                <a class="nav-link" href="/buscamascotas/src/index.html">Inicio</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="`+ruta+`/mascota_perdidas.html">Mascotas perdidas</a>
