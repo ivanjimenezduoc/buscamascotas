@@ -9,56 +9,19 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>BuscaMascotas - Mascota Perdida</title>
+  <title>BuscaMascotas - Mascota que buscan a sus dueños</title>
 
   <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
   <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
   <link href="https://fonts.googleapis.com/css?family=Dosis:400,500|Poppins:400,700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link href="../css/style.css" rel="stylesheet" />
+  <link href="../css/login.css" rel="stylesheet" />
   <link href="../css/responsive.css" rel="stylesheet" />
   <script type="text/javascript" src="../js/menu.js"></script>
   <script type="text/javascript" src="../js/funciones_bd.js"></script>
-
-  <!-- Estilos para el fondo y el pie de página al final -->
-  <style>
-    /* Estilo general de la página */
-    body {
-      background-image: url('../images/fondo.jpg'); /* Ruta de la imagen */
-      background-size: cover; /* Hace que la imagen cubra toda la pantalla */
-      background-position: center center; /* Centra la imagen */
-      background-attachment: fixed; /* Hace que el fondo no se mueva con el scroll */
-      margin: 0;
-      padding: 0;
-      min-height: 100vh; /* Asegura que el cuerpo ocupe al menos el 100% de la altura */
-      display: flex;
-      flex-direction: column; /* Flexbox para el layout */
-    }
-
-    .hero_area {
-      flex: 1; /* Hace que la sección principal ocupe el espacio disponible */
-    }
-
-    .content_placeholder {
-      padding: 30px 0;
-    }
-
-    .footer_section {
-      background-color: rgba(0, 0, 0, 0.7);
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: auto; /* Asegura que el footer se quede al final */
-      width: 100%;
-    }
-
-    .modal-body {
-    max-height: 400px;
-    overflow-y: auto;
-}
-  </style>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtkTIwKZNMgaA8lFFRdHUDHWNV4HcSoTM&libraries=places&callback=initMap1"></script>
 </head>
 
 <body>
@@ -118,7 +81,11 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="tamano">Tamaño</label>
-                      <select class="form-control" id="tamano" required>                        
+                      <select class="form-control" id="tamano" required>
+                        <option value="" disabled selected>Seleccione Tamaño</option>
+                        <option value="Pequeño">Pequeño</option>
+                        <option value="Mediano">Mediano</option>
+                        <option value="Grande">Grande</option>
                       </select>
                     </div>
                   </div>
@@ -160,13 +127,15 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="ubicacion">Ubicacion</label>
-                  <textarea class="form-control" id="ubicacion" rows="3"></textarea>
+                  <label for="ubicacion">Ubicación</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="ubicacion"
+                    placeholder="Ingresa la ubicación"
+                  />
                 </div>
-                <div class="form-group">
-                  <label for="imagenMascota">Tienes una foto ?</label>
-                  <input type="file" class="form-control-file" id="imagenMascota" accept="image/*">
-                </div>
+                <div id="map2" class="map"></div>
 
                 <div class="text-center mt-3">
                   <button type="button" class="btn btn-success" onclick="guardarMascotaEncontrada()">Guardar</button>
@@ -175,51 +144,43 @@
               </form>
             </div>
 
-            <section class="content_placeholder">
-              <div class="main-container">
-                
-                <div class="container my-4">
-
-                    <div class="row" style="padding: 30px ;" id="mascotas-container"></div>
-        
-                </div>
-            
-            </div>
-            </section>
+            <!-- Tabla de mascotas encontradas -->
+            <table class="table table-bordered table-hover mt-4">
+              <thead class="thead">
+                <tr>
+                  <th>Especie</th>
+                  <th>Raza</th>
+                  <th>Tamaño</th>
+                  <th>Color 1</th>
+                  <th>Color 2</th>
+                  <th>Color 3</th>
+                  <th>Descripción</th>
+                  <th>Ubicacion</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Filas generadas dinámicamente con JavaScript -->
+              </tbody>
+            </table>
 
           </div>
         </div>
       </div>
     </section>
+
+
+<!-- Contenedor para el mapa -->
+<div id="map" class="map"></div>
+
+
+    <section class="container-fluid footer_section">
+      <p>&copy; 2024 BuscaMascotas</p>
+    </section>
   </div>
-<!-- Modal para mostrar coincidencias -->
-
-<div class="modal fade"  id="modalCoincidencias" tabindex="-1" aria-labelledby="modalCoincidenciasLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalCoincidenciasLabel">Se encontraron cincidencias</h1>
-      
-      </div>
-      <div class="modal-body">
-        <p id="mensajeCoincidencias"></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="window.location.href='../templates/mascota_perdidas.html'">Ir</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-  <section class="container-fluid footer_section">
-    <p>&copy; 2024 BuscaMascotas</p>
-  </section>
-
-
   <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="../js/bootstrap.js"></script>
- <script type="text/javascript" src="../js/funciones_generales.js"></script>
+ <script type="text/javascript" src="../js/funciones_encontradas.js"></script>
+
 </body>
 
 </html>
