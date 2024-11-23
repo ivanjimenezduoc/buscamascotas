@@ -161,7 +161,7 @@ async function cargarMascotasEncontradas() {
         cardCell.className = "mascota-p-image-cell";
 
         const card = document.createElement("div");
-        card.className = "mascota-card fondo-card-encontrada";
+        card.className = "mascota-card fondo-card-encontrada card mt-4";
 
         const imageColumn = document.createElement("div");
         imageColumn.className = "mascota-p-image-column";
@@ -399,7 +399,7 @@ async function cargarMisMascotas(dueno_index) {
         cardCell.className = "mascota-image-cell";
 
         const card = document.createElement("div");
-        card.className = "mascota-card fondo-card-mis";
+        card.className = "mascota-card fondo-card-mis card mt-4";
 
         const imageColumn = document.createElement("div");
         imageColumn.className = "mascota-image-column";
@@ -611,7 +611,7 @@ async function cargarMascotasPerdidas() {
         cardCell.className = "mascota-p-image-cell";
 
         const card = document.createElement("div");
-        card.className = "mascota-card fondo-card-perdida";
+        card.className = "mascota-card fondo-card-perdida card mt-4";
 
         const imageColumn = document.createElement("div");
         imageColumn.className = "mascota-p-image-column";
