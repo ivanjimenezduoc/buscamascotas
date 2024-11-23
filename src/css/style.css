@@ -168,7 +168,14 @@ body {
 
 .logo-img {
   width:auto; /* Ajusta el tamaño del logo según necesites */
-  height: 100%;
+  height: 50px;
+}
+
+.navbar-brand span {
+  font-size: 20px;
+  font-weight: 700;
+  color: #005307;
+  margin-top: 5px;
 }
 
 .brand-name {
