@@ -18,6 +18,15 @@ body {
   background-color: #005828;
 }
 
+.custom_nav-container .navbar-toggler {
+  outline: none;
+}
+
+.custom_nav-container .navbar-toggler .navbar-toggler-icon {
+  background-image: url(../images/menu.png);
+  background-size: 55px;
+}
+
 .sub_page .hero_area {
   height: auto;
 }
@@ -158,8 +167,8 @@ body {
 /*# sourceMappingURL=style.css.map */
 
 .logo-img {
-  width: 40px; /* Ajusta el tamaño del logo según necesites */
-  height: auto;
+  width:auto; /* Ajusta el tamaño del logo según necesites */
+  height: 100%;
 }
 
 .brand-name {

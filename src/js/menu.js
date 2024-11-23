@@ -10,8 +10,8 @@ function createNavbar(valor = 0) {
     const navbarHTML = `
         <div class="container-fluid">
             <nav class="navbar navbar-expand-lg custom_nav-container">
-                <a class="navbar-brand d-flex align-items-center" href="/index.html">
-                    <img src="../`+ruta_logo+`images/logo.png" alt="Logo" class="logo-img">
+                <a class="navbar-brand d-flex align-items-center" href="/buscamascotas/src/index.html">
+                    <img src="../`+ruta_logo+`images/logo_verde.png" alt="Logo" class="logo-img">
                     <span class="brand-name ml-2">BuscaMascotas</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
