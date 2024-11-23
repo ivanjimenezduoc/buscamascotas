@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>BuscaMascotas</title>
+
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link href="https://fonts.googleapis.com/css?family=Dosis:400,500|Poppins:400,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/responsive.css" rel="stylesheet" />
+  <script type="text/javascript" src="js/menu.js"></script>
+  <script type="text/javascript" src="js/funciones_bd.js"></script>
+
+</head>
+
+<body>
+  <div class="hero_area">
+    <header class="header_section">
+      <div id="navbar-container"></div>
+      <script>
+        document.addEventListener('DOMContentLoaded', createNavbar);
+        cargarUsuario();
+      </script>
+    </header>
+
+    <section class=" slider_section position-relative">
+      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-4 offset-md-2">
+
+                  <div class="slider_detail-box">
+                    <h1>
+                      BuscaMascotas
+                      <span>
+                        Puedes buscar a tu mascota o reportar que encontraste una mascota perdida.
+                      </span>
+                    </h1>
+                    <p style="color:black">
+                      Si perdiste una mascota, puedes publicar sus datos para que otros puedan ayudarte si la ven, así mismo si encontraste una mascota puedes, publicarla para que su dueño la encuentre.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="slider_img-box">
+                    <img src="images/slider-img-1.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-4 offset-md-2">
+                  <div class="slider_detail-box">
+                    <h1>
+                      BuscaMascotas
+                      <span>
+                        ¿Perdiste a tu fiel amigo ?
+                      </span>
+                    </h1>
+                    <p style="color:black">
+                      Déjanos acompañarte y ayudarte en este proceso.
+                    </p>
+                    <p style="color:black">
+
+                      Registra a tu mascota y junto con la comunidad y las herramientas que disponemos para ti, podremos ayudarte a volver a estar juntos.
+      
+                    </p>
+                                   </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="slider_img-box">
+                    <img src="images/slider-img-2.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-4 offset-md-2">
+                  <div class="slider_detail-box">
+                    <h1>
+                      BuscaMascotas
+                      <span>
+                       Tenemos las herramientas que te serviran para encontrar a tu amigo
+                      </span>
+                    </h1>
+                    <p>
+                      Puedes ver la ubicacion en el mapa de cada aviso de mascotas perdidos o encontradas
+                    </p>
+
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="slider_img-box">
+                    <img src="images/slider-img-3.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+       
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <section class="about_section layout_padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="img-box"><br>
+            <img src="images/about.png" alt="">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="detail-box">
+            <h2 class="custom_heading">
+              Sobre nosotros 
+             </h2>
+            <p>
+              Una de cada tres mascotas se pierde a lo largo de su vida, en BuscaMascotas somos conscientes de esto y 
+              entendemos el dolor que esta situación provoca, tanto a nosotros los humanos como a nuestros compañeros animales. 
+              Es por esto que queremos acompañarte en estos difíciles momentos, entregándote las herramientas necesarias 
+              y de forma gratuita para hacer mas fácil el reencuentro con tu fiel amigo.
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-fluid footer_section">
+    <p>&copy; 2024 BuscaMascotas</p>
+  </section>
+
+
+  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+
+
+</body>
+</body>
+
+</html>
