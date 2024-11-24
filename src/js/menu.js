@@ -6,7 +6,7 @@ function createNavbar(valor = 0) {
         ruta = "../templates"
         ruta_logo = ""
     }
-    console.log("href="+ruta+"/mascota_perdidas.html")
+    //console.log("href="+ruta+"/mascota_perdidas.html")
     const navbarHTML = `
         <div class="container-fluid">
             <nav class="navbar navbar-expand-lg custom_nav-container">

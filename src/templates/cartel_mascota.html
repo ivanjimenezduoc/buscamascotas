@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartel de Mascota Perdida</title>
+    <script type="text/javascript" src="../js/funciones_bd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .cartel-container {
+            background-color: white;
+            border: 5px solid #e74c3c;
+            padding: 20px;
+            width: 19.00cm;
+            height: auto;
+            box-sizing: border-box;
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            font-size: 45px;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+        #mascota-image {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .info-section {
+            margin-bottom: 15px;
+        }
+        .info-section p {
+            font-size: 22px;
+            margin: 5px 0;
+        }
+        .info-section span {
+            font-weight: bold;
+        }
+        .contact-info {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .contact-info p {
+            font-size: 22px;
+            margin: 5px 0;
+        }
+        .download-btn {
+            background-color: #e74c3c;
+            color: white;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .cartel-container {
+                border: 2px solid #e74c3c;
+                width: 21.59cm;
+                height: auto;
+                padding: 20px;
+                page-break-before: always;
+            }
+            h1 {
+                font-size: 32px;
+                margin-bottom: 15px;
+            }
+            #mascota-image {
+                max-width: 90%;
+                margin-bottom: 15px;
+            }
+            .info-section p, .contact-info p {
+                font-size: 20px;
+            }
+            .download-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body style="text-align: center;">
+    <div>
+        cartel
+    </div>
+    <div>
+        boton
+    </div>
+</body>
+</html>
