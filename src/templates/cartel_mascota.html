@@ -8,25 +8,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        .cartel-container {
-            background-color: white;
-            border: 5px solid #e74c3c;
-            padding: 20px;
-            width: 19.00cm;
-            height: auto;
-            box-sizing: border-box;
-            text-align: center;
-            position: relative;
-        }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    text-align: center;
+    margin: 0;
+}
+
+.cartel-container {
+    background-color: white;
+    border: 5px solid #e74c3c;
+    padding: 20px;
+    width: 19.00cm;
+    height: auto;
+    box-sizing: border-box;
+    text-align: center;
+    margin: 0 auto;
+}
         h1 {
             font-size: 45px;
             color: #e74c3c;
@@ -102,12 +100,103 @@
         }
     </style>
 </head>
-<body style="text-align: center;">
-    <div>
-        cartel
+<body>
+    <div class="cartel-container" id="cartel-container">
+        <h1>MASCOTA PERDIDA</h1>
+        <img id="mascota-image" alt="Imagen de la mascota perdida"/>
+
+        <div class="info-section">
+            <p><span>Nombre:</span> <span id="mascota-nombre"></span></p>
+            <p><span>Especie:</span> <span id="mascota-especie"></span></p>
+            <p><span>Edad:</span> <span id="mascota-edad"></span></p>
+            <p><span>Raza:</span> <span id="mascota-raza"></span></p>
+            <p><span>Tamaño:</span> <span id="mascota-tamano"></span></p>
+            <p><span>Descripción:</span> <span id="mascota-descripcion"></span></p>
+            <p><span>Última Ubicación:</span> <span id="mascota-direccion"></span></p>
+        </div>
+
+        <div class="contact-info">
+            <h2>Contacto del Dueño</h2>
+            <p><span>Nombre:</span> <span id="dueno-nombre"></span></p>
+            <p><span>Teléfono 1:</span> <span id="dueno-telefono1"></span></p>
+            <p><span>Teléfono 2:</span> <span id="dueno-telefono2"></span></p>
+        </div>
     </div>
-    <div>
-        boton
-    </div>
+
+    <button class="download-btn" id="download-btn">Descargar en PDF</button>
+
+    <script>
+        window.onload = async function() {
+            const params = new URLSearchParams(window.location.search);
+
+            const mascota = {
+                id: params.get('id'),
+                nombre: params.get('nombre'),
+                especie: params.get('especie'),
+                edad: params.get('edad'),
+                raza: params.get('raza'),
+                tamano: params.get('tamano'),
+                descripcion: params.get('descripcion'),
+                foto_perfil: params.get('foto_perfil'),
+                direccion_perdida: params.get('direccion_perdida'),
+            };
+
+            const dueno = {
+                nombre: params.get('dueno_nombre'),
+                telefono1: params.get('dueno_telefono1'),
+                telefono2: params.get('dueno_telefono2'),
+            };
+
+            const imagenUrl = await obtenerUrlImagen(mascota.foto_perfil);
+
+            const imagenElement = document.getElementById("mascota-image");
+            if (imagenUrl) {
+                imagenElement.src = imagenUrl;
+            } else {
+                imagenElement.alt = "No hay imagen disponible";
+            }
+
+            document.getElementById("mascota-nombre").textContent = mascota.nombre;
+            document.getElementById("mascota-especie").textContent = mascota.especie;
+            document.getElementById("mascota-edad").textContent = mascota.edad;
+            document.getElementById("mascota-raza").textContent = mascota.raza;
+            document.getElementById("mascota-tamano").textContent = mascota.tamano;
+            document.getElementById("mascota-descripcion").textContent = mascota.descripcion;
+            document.getElementById("mascota-direccion").textContent = mascota.direccion_perdida;
+            document.getElementById("dueno-nombre").textContent = dueno.nombre;
+            document.getElementById("dueno-telefono1").textContent = dueno.telefono1;
+            document.getElementById("dueno-telefono2").textContent = dueno.telefono2;
+
+            console.log("Datos de la mascota:", mascota);
+            console.log("Datos del dueño:", dueno);
+
+            document.getElementById("download-btn").onclick = function() {
+    const element = document.getElementById('cartel-container');
+    
+    // Asegurarse de que la imagen se haya cargado correctamente
+    const imagenElement = document.getElementById("mascota-image");
+
+    // Usamos el evento onload para esperar que la imagen se cargue completamente
+    imagenElement.onload = function() {
+        const opt = {
+            margin:       1,
+            filename:     `${mascota.nombre}_mascota_perdida.pdf`,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 4, useCORS: true },  // useCORS habilita la carga de imágenes externas
+            jsPDF:        { unit: 'cm', format: 'letter', orientation: 'portrait' }
+        };
+
+        // Genera el PDF
+        html2pdf().from(element).set(opt).save();
+    };
+
+    // Si la imagen ya está cargada previamente, ejecutamos el onload manualmente
+    if (imagenElement.complete) {
+        imagenElement.onload();
+    }
+};
+
+        };
+    </script>
 </body>
 </html>

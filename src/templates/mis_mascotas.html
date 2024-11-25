@@ -93,6 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function rellenarDatosUsuario() {
         const usuarioData = sessionStorage.getItem("usuario");
 
+
         if (!usuarioData) {
             console.error("No se encontraron datos de usuario en el Session Storage.");
             return;
@@ -101,10 +102,10 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const usuario = JSON.parse(usuarioData);
 
-            // Obtener el primer usuario del array (ajusta según tu caso)
-            const datosUsuario = usuario[0];
+          
+            const datosUsuario = usuario;
+            
 
-            // Verificar si el usuario existe
             if (!datosUsuario) {
                 console.error("Datos de usuario no encontrados.");
                 return;
@@ -146,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <header class="header_section">
       <div id="navbar-container"></div>
       <script>
-        document.addEventListener('DOMContentLoaded', createNavbar(1));
+        //document.addEventListener('DOMContentLoaded', createNavbar(1));
 
       </script>
     </header>

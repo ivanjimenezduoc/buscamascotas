@@ -430,42 +430,42 @@ body {
   border: 2px solid #ccc;
   margin-top: 5px; /* Espacio entre los círculos */
  
-  cursor: pointer; /* Cursor de interactividad */
+  cursor: pointer;
 }
 
 /* Estilo específico para el botón de información */
 .info-button {
   width: 100px;
-  height: auto; /* Permite que la altura sea automática en relación con el contenido */
-  padding: 10px; /* Espaciado interno */
-  font-size: 15px; /* Tamaño de la fuente */
-  background-color: #007bff; /* Color de fondo (estilo Bootstrap por defecto) */
-  color: white; /* Color del texto */
-  border: none; /* Sin bordes */
-  border-radius: 60px; /* Bordes redondeados */
-  cursor: pointer; /* Cambia el cursor al pasar el mouse */
+  height: auto; 
+  padding: 10px; 
+  font-size: 15px; 
+  background-color: #007bff; 
+  color: white;
+  border: none; 
+  border-radius: 60px;
+  cursor: pointer; 
 }
 
 .info-button:hover {
-  background-color: #0056b3; /* Color de fondo al pasar el mouse */
-  transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el mouse */
+  background-color: #0056b3;
+  transform: scale(1.05);
 }
 
 .info-button:active {
-  background-color: #004085; /* Color de fondo cuando se hace clic */
+  background-color: #004085;
 }
 
 
 .aligned-label {
   display: inline-block;
-  width: 100px; /* Ajustar según necesidad */
+  width: 100px; 
   text-align: left;
   margin-right: 10px;
 }
 
 .aligned-input {
   display: inline-block;
-  width: calc(100% - 120px); /* Ajustar según el width del label */
+  width: calc(100% - 120px);
 }
 .color-circle {
   width: 20px;
@@ -493,3 +493,256 @@ body {
 .about_section {
   position: relative;
 }
+
+
+/* Estilos para el contenedor del modal de login */
+#loginModal .login-container {
+  max-width: 350px;
+  background: #F8F9FD;
+  background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(244, 247, 251) 100%);
+  border-radius: 40px;
+  padding: 25px 35px;
+  border: 5px solid rgb(255, 255, 255);
+  box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 30px 30px -20px;
+  margin: 20px;
+}
+
+#loginModal .login-heading {
+  text-align: center;
+  font-weight: 900;
+  font-size: 30px;
+  color: green;
+}
+
+#loginModal .login-form {
+  margin-top: 20px;
+}
+
+#loginModal .login-input {
+  width: 100%;
+  background: white;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 20px;
+  margin-top: 15px;
+  box-shadow: #cff0ff 0px 10px 10px -5px;
+  border-inline: 2px solid transparent;
+}
+
+#loginModal .login-input::placeholder {
+  color: rgb(170, 170, 170);
+}
+
+#loginModal .login-input:focus {
+  outline: none;
+  border-inline: 2px solid #12B1D1;
+}
+
+#loginModal .forgot-password {
+  display: block;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+#loginModal .forgot-password a {
+  font-size: 11px;
+  color: #0099ff;
+  text-decoration: none;
+}
+
+#loginModal .login-button {
+  display: block;
+  width: 100%;
+  font-weight: bold;
+  background: linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100%);
+  color: white;
+  padding-block: 15px;
+  margin: 20px auto;
+  border-radius: 20px;
+  box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 20px 10px -15px;
+  border: none;
+  transition: all 0.2s ease-in-out;
+}
+
+#loginModal .login-button:hover {
+  transform: scale(1.03);
+  box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 23px 10px -20px;
+}
+
+#loginModal .login-button:active {
+  transform: scale(0.95);
+  box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 15px 10px -10px;
+}
+
+#loginModal .agreement {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+}
+
+#loginModal .agreement a span {
+  text-decoration: none;
+  color:rgb(0, 121, 46) 0%;
+  font-size: 10px;
+}
+
+/* Centrar el modal vertical y horizontalmente */
+#loginModal {
+  display: none; /* Asegura que no sea visible inicialmente */
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+  z-index: 1001;
+  opacity: 0; /* Inicialmente completamente invisible */
+  transition: opacity 0.3s ease-in-out;
+}
+
+#loginModal.show {
+  display: flex; /* Aparece al centro */
+  opacity: 1; /* Aparece visualmente */
+}
+
+/* Estilización del contenido del modal */
+#loginModal .modal-content {
+  position: relative;
+  width: auto; /* Permite que el ancho se adapte al contenido */
+  max-width: fit-content; /* Se ajusta al contenido pero no excede este tamaño */
+  padding: 20px;
+  background: rgb(222, 255, 168);
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+}
+#registrarModal{
+  position: relative;
+  max-width: 700px;
+  padding: 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+}
+
+/* Deshabilitar interacción con el contenido debajo del modal */
+body.modal-open {
+  overflow: hidden;
+}
+
+
+
+/* Restaurar interacción cuando el modal no está visible */
+body:not(.modal-open) {
+  pointer-events: auto; /* Restaurar la interacción */
+}
+
+body.modal-open #navbar-container {
+  pointer-events: none; /* Bloquea la interacción en el navbar. */
+}
+
+#loginModal {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#loginModal.show {
+  opacity: 1;
+}
+
+#loginModal .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px; /* Ajusta el ancho del área clickeable */
+  height: 30px; /* Ajusta la altura del área clickeable */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px; /* Tamaño de la "X" */
+  cursor: pointer;
+  color: #333;
+  background: none;
+  border: none;
+  outline: none;
+  border-radius: 50%; /* Opcional: Para que sea un círculo */
+}
+
+#loginModal .close:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Un leve sombreado al pasar el cursor */
+}
+
+
+/*css formulario registrarse*/
+#loginModal .login-container {
+  max-width: 350px;
+  background: #F8F9FD;
+  border-radius: 40px;
+  padding: 25px 35px;
+  border: 5px solid rgb(255, 255, 255);
+  box-shadow: rgba(133, 189, 215, 0.878) 0px 30px 30px -20px;
+  margin: 20px;
+}
+
+#loginModal .login-heading {
+  text-align: center;
+  font-weight: 900;
+  font-size: 30px;
+  color: rgb(0, 121, 46) 0%,;
+}
+
+#loginModal .login-form {
+  margin-top: 20px;
+}
+
+#loginModal .login-input {
+  width: 100%;
+  background: white;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 20px;
+  margin-top: 15px;
+  box-shadow: #cff0ff 0px 10px 10px -5px;
+  border-inline: 2px solid transparent;
+}
+
+#loginModal .login-input:focus {
+  outline: none;
+  border-inline: 2px solid #12d11c;
+}
+
+#loginModal .login-button {
+  display: block;
+  width: 100%;
+  font-weight: bold;
+  background: linear-gradient(45deg, rgb(0, 121, 46) 0%, rgb(124, 228, 133) 100%);
+  color: white;
+  padding-block: 15px;
+  margin: 20px auto;
+  border-radius: 20px;
+  border: none;
+  transition: all 0.2s ease-in-out;
+}
+
+#loginModal .login-button:hover {
+  transform: scale(1.03);
+}
+
+#loginModal .agreement {
+  text-align: center;
+  margin-top: 10px;
+}
+
+#loginModal .agreement a {
+  color: #00c900;
+  text-decoration: none;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.8rem; /* Más pequeño */
+  margin-top: 5px; /* Espacio pequeño entre el input y el mensaje */
+  text-align: left; /* Alineado con el input */
+}
+

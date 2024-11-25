@@ -166,7 +166,19 @@ function mostrarModal(ubicacion, descripcion) {
 
 
 </script>
+<script>
+  let mapPrincipal;
 
+  function initMapPrincipal() {
+    const defaultPosition = { lat: -33.4489, lng: -70.6693 };
+    mapPrincipal = new google.maps.Map(document.getElementById("mapPrincipal"), {
+      center: defaultPosition,
+      zoom: 12,
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initMapPrincipal);
+</script>
 
 
 </head>
@@ -176,7 +188,7 @@ function mostrarModal(ubicacion, descripcion) {
     <header class="header_section">
       <div id="navbar-container"></div>
       <script>
-        document.addEventListener('DOMContentLoaded', createNavbar(1));
+        //document.addEventListener('DOMContentLoaded', createNavbar(1));
         cargarMascotasEncontradas();
       </script>
     </header>
@@ -187,11 +199,11 @@ function mostrarModal(ubicacion, descripcion) {
           <div class="container my-4">
             <h2 class="text-center">Mascotas reportadas como encontradas</h2>
 
-
+            <div id="mapPrincipal" style="width: 100%; height: 400px; margin-top: 20px;"></div>
             <div class="text-center mt-4">
               <button class="btn btn-primary" onclick="mostrarFormulario()">Agregar Mascota</button>
             </div>
-
+     
               <div id="formularioMascota" class="mt-4" style="display: none;">
               <form id="form-mascota">
                 <div class="row">
@@ -221,6 +233,7 @@ function mostrarModal(ubicacion, descripcion) {
                         <option value="" disabled selected>Seleccione Sexo</option>
                         <option value="1">Macho</option>
                         <option value="2">Hembra</option>
+                        <option value="3">Desconocido</option>
                       </select>
                     </div>
                   </div>
@@ -349,6 +362,60 @@ function mostrarModal(ubicacion, descripcion) {
     </div>
   </div>
 </div>
+
+<!-- Modal para mostrar detalles de la mascota -->
+<div class="modal fade" id="modalMascotaDetalles" tabindex="-1" aria-labelledby="modalMascotaDetallesLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="modalMascotaDetallesLabel">Detalles de la Mascota</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="row">
+                  <div class="col-12 col-lg-4">
+                      <!-- Imagen de la mascota -->
+                      <img id="modal-imagen" src="" class="img-fluid" alt="Imagen de la mascota">
+                  </div>
+                  <div class="col-12 col-lg-8">
+                      <div class="mb-3">
+                          <strong>Especie:</strong>
+                          <p id="modal-especie"></p>
+                      </div>
+                      <div class="mb-3">
+                          <strong>Raza:</strong>
+                          <p id="modal-raza"></p>
+                      </div>
+                      <div class="mb-3">
+                          <strong>Sexo:</strong>
+                          <p id="modal-sexo"></p>
+                      </div>
+                      <div class="mb-3">
+                          <strong>Tamaño:</strong>
+                          <p id="modal-tamano"></p>
+                      </div>
+                      <div class="mb-3">
+                          <strong>Colores:</strong>
+                          <p id="modal-colores"></p>
+                      </div>
+                      <div class="mb-3">
+                          <strong>Descripción:</strong>
+                          <p id="modal-descripcion"></p>
+                      </div>
+                      <div class="mb-3">
+                          <strong>Ubicación:</strong>
+                          <p id="modal-ubicacion"></p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+      </div>
+  </div>
+</div>
+
 
 
 
