@@ -1,6 +1,6 @@
 function createNavbar() {
 
-    //console.log("href="+ruta+"/mascota_perdidas.html")
+
     const navbarHTML = `
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container">
@@ -18,7 +18,7 @@ function createNavbar() {
                         <li class="nav-item active">
                             <a class="nav-link" href="../templates/index.html">Inicio</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="../templates/mascota_perdidas.html">Mascotas perdidas</a>
                         </li>
                         <li class="nav-item">

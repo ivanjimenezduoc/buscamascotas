@@ -387,7 +387,11 @@ async function mostrarModalDetalles(mascota) {
 //FUNCIONES MIS MASCOTAS
 
 
-async function guardarMiMascota() {
+async function guardarMiMascota(x) {
+    const usuarioData = JSON.parse(sessionStorage.getItem("usuario"));
+const id_dueno = usuarioData.id;
+
+    console.log("guardando datos para el id " + id_dueno)
     const errorFields = document.querySelectorAll(".error-message");
     errorFields.forEach(error => error.remove());
 
@@ -427,7 +431,7 @@ async function guardarMiMascota() {
         return;
     }
 
-    let id_dueno = 1;
+
     const imagenInput = document.getElementById("imagenMascota");
     let foto_perfil = null;
 
@@ -466,7 +470,7 @@ async function guardarMiMascota() {
             botonAgregar.style.display = "block";
         }
 
-        cargarMisMascotas(1);
+        cargarMisMascotas(id_dueno);
         ocultarFormulario();
 
         // Si el estado es 1, buscar coincidencias
@@ -728,7 +732,7 @@ async function actualizarMascota(id, estado, direccion) {
     if (error) {
         console.error("Error al actualizar mascota:", error);
     } else {
-        console.log("Mascota actualizada:", data);
+        console.log("Mascota actualizada:");
     }
 }
 
@@ -944,7 +948,7 @@ async function buscarCoincidencias(mascota, tabla, estado) {
     const { data: mascotas, error } = await supabases.from(tabla)
         .select("*")
         .eq("estado", estado);
-
+console.log(mascotas);
     if (error) {
         console.error("Error al buscar mascotas perdidas:", error);
         return [];
