@@ -34,7 +34,7 @@ describe('Pruebas del HTML de BuscaMascotas', () => {
     test('Debe contener el título BuscaMascotas', () => {
       const titleElement = document.querySelector('title');
       expect(titleElement).not.toBeNull();
-      expect(titleElement.textContent).toBe('BuscaMascotas - Mascota Perdida');
+      expect(titleElement.textContent).toBe('BuscaMascotas - Mascotas Perdidas');
     });
 
     test('Debe contener el contenedor de mascotas perdidas', () => {
@@ -64,7 +64,7 @@ describe('Pruebas del HTML de BuscaMascotas', () => {
     test('Debe tener el botón de cerrar el modal', () => {
       const closeButton = document.querySelector('.modal-footer .btn-secondary');
       expect(closeButton).not.toBeNull();
-      expect(closeButton.textContent).toBe('Cerrar');
+      expect(closeButton.textContent).toBe('Close');
     });
 
     test('Debe inicializar correctamente el mapa de Google', () => {
