@@ -49,3 +49,4 @@ jobs:
       # Ejecutar pruebas de Cucumber
       - name: Run Cucumber tests
         run: mvn test             # Cambia a `gradle test` si usas Gradle
+ 
