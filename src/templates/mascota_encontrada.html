@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>BuscaMascotas - Mascotas Encontradas</title>
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Dosis:400,500|Poppins:400,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <link href="../css/style.css" rel="stylesheet" />
+  <link href="../css/responsive.css" rel="stylesheet" />
+  <script type="text/javascript" src="../js/menu.js"></script>
+  <script type="text/javascript" src="../js/funciones_bd.js"></script>
+  
+  
+  <!-- Estilos para el fondo y el pie de página al final -->
+  <style>
+    /* Estilo general de la página */
+    body {
+      background-image: url('../images/fondo.jpg'); /* Ruta de la imagen */
+      background-size: cover; /* Hace que la imagen cubra toda la pantalla */
+      background-position: center center; /* Centra la imagen */
+      background-attachment: fixed; /* Hace que el fondo no se mueva con el scroll */
+      margin: 0;
+      padding: 0;
+      min-height: 100vh; /* Asegura que el cuerpo ocupe al menos el 100% de la altura */
+      display: flex;
+      flex-direction: column; /* Flexbox para el layout */
+    }
+
+    .hero_area {
+      flex: 1; /* Hace que la sección principal ocupe el espacio disponible */
+    }
+
+    .content_placeholder {
+      padding: 30px 0;
+    }
+
+    .footer_section {
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: auto; /* Asegura que el footer se quede al final */
+      width: 100%;
+    }
+
+    .modal-body {
+    max-height: 400px;
+    overflow-y: auto;
+}
+#map2 {
+    width: 100%;
+    height: 300px;
+    margin-top: 20px;
+  }
+  </style>
+
+<script>
+  let map, geocoder, marker, autocomplete;
+
+function initMap() {
+  const defaultPosition = { lat: -33.4489, lng: -70.6693 };
+
+  geocoder = new google.maps.Geocoder();
+
+  // Crear mapa centrado en defaultPosition
+  map = new google.maps.Map(document.getElementById("map2"), {
+    center: defaultPosition,
+    zoom: 14,
+  });
+
+  // Crear marcador inicial en defaultPosition
+  marker = new google.maps.Marker({
+    position: defaultPosition,
+    map: map,
+  });
+
+  // Configurar campo de ubicación para autocompletar y actualizar el mapa
+  const input = document.getElementById("ubicacion");
+
+  // Inicializar Autocomplete
+  autocomplete = new google.maps.places.Autocomplete(input);
+
+ 
+autocomplete = new google.maps.places.Autocomplete(input);
+autocomplete.setComponentRestrictions({ country: "cl" });
+autocomplete.addListener("place_changed", function () {
+  const place = autocomplete.getPlace();
+  if (!place.geometry) return;
+  map.setCenter(place.geometry.location);
+  map.setZoom(16);
+  marker.setPosition(place.geometry.location);
+});
+
+  document.getElementById("ubicacion").addEventListener("input", debounce(updateMap, 500));
+}
+function updateMap() {
+  const address = document.getElementById("ubicacion").value;
+  if (address.trim() === "") return;
+
+  geocoder.geocode({ address: address }, (results, status) => {
+    if (status === "OK") {
+      const location = results[0].geometry.location;
+
+
+      map.setCenter(location);
+      map.setZoom(16);
+      marker.setPosition(location);
+    } else {
+      console.error("Geocoding error: " + status);
+    }
+  });
+}
+
+
+function debounce(func, delay) {
+  let timeout;
+  return function () {
+    clearTimeout(timeout);
+    timeout = setTimeout(func, delay);
+  };
+}
+
+function mostrarModal(ubicacion, descripcion) {
+  console.log(ubicacion);
+
+  const defaultPosition = { lat: -33.4489, lng: -70.6693 };
+
+  const mapa = new google.maps.Map(document.getElementById("mapaMascota"), {
+    center: defaultPosition,
+    zoom: 14,
+  });
+
+  const marker = new google.maps.Marker({
+    map: mapa,
+    position: defaultPosition,
+  });
+
+  const geocoder = new google.maps.Geocoder();
+  geocoder.geocode({ address: ubicacion }, (results, status) => {
+    if (status === "OK") {
+      const location = results[0].geometry.location;
+      mapa.setCenter(location);
+      mapa.setZoom(16);
+      marker.setPosition(location);
+    } else {
+      console.error("Geocoding error: " + status);
+    }
+  });
+
+  document.getElementById("descripcionMascota").innerText = descripcion;
+
+  const modal = new bootstrap.Modal(document.getElementById('modalMascota'));
+  modal.show();
+}
+
+
+</script>
+<script>
+  let mapPrincipal;
+
+  function initMapPrincipal() {
+    const defaultPosition = { lat: -33.4489, lng: -70.6693 };
+    mapPrincipal = new google.maps.Map(document.getElementById("mapPrincipal"), {
+      center: defaultPosition,
+      zoom: 12,
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initMapPrincipal);
+</script>
+
+
+</head>
+
+<body>
+  <div class="hero_area">
+    <header class="header_section">
+      <div id="navbar-container"></div>
+      <script>
+        //document.addEventListener('DOMContentLoaded', createNavbar(1));
+        cargarMascotasEncontradas();
+      </script>
+    </header>
+
+    <section class="content_placeholder">
+      <div class="main-container">
+        <div id="contenido">
+          <div class="container my-4">
+            <h2 class="text-center">Mascotas reportadas como encontradas</h2>
+
+            <div id="mapPrincipal" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            <div class="text-center mt-4">
+              <button class="btn btn-primary" onclick="mostrarFormulario()">Agregar Mascota</button>
+            </div>
+     
+              <div id="formularioMascota" class="mt-4" style="display: none;">
+              <form id="form-mascota">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="especie">Especie</label>
+                      <select class="form-control" id="especie" required onchange="manejarCambioEspecie()">
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="raza">Raza</label>
+                      <select class="form-control" id="raza" required>
+                        <option value="" disabled selected>Seleccione Raza</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="sexo">Sexo</label>
+                      <select class="form-control" id="sexo" required>
+                        <option value="" disabled selected>Seleccione Sexo</option>
+                        <option value="1">Macho</option>
+                        <option value="2">Hembra</option>
+                        <option value="3">Desconocido</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="tamano">Tamaño</label>
+                      <select class="form-control" id="tamano" required>                        
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="color1">Color 1</label>
+                      <select class="form-control" id="color1" required>
+                        <option value="" disabled selected>Seleccione Color</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="color2">Color 2</label>
+                      <select class="form-control" id="color2">
+                        <option value="" disabled selected>Seleccione Color</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="color3">Color 3</label>
+                      <select class="form-control" id="color3">
+                        <option value="" disabled selected>Seleccione Color</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="descripcion">Descripción</label>
+                  <textarea class="form-control" id="descripcion" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="ubicacion">Ubicación</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="ubicacion"
+                    placeholder="Ingresa la ubicación"/>
+                </div>
+                <div id="map2" class="map"></div>
+                <div class="form-group">
+                  <label for="imagenMascota">Tienes una foto ?</label>
+                  <input type="file" class="form-control-file" id="imagenMascota" accept="image/*">
+                </div>
+
+                <div class="text-center mt-3">
+                  <button type="button" class="btn btn-success" onclick="guardarMascotaEncontrada()">Guardar</button>
+                  <button type="button" class="btn btn-secondary" onclick="ocultarFormulario()">Cancelar</button>
+                </div>
+              </form>
+            </div>
+
+            <section class="content_placeholder">
+              <div class="main-container">
+                
+                <div class="container my-4">
+
+                    <div class="row" style="padding: 30px ;" id="mascotas-container"></div>
+        
+                </div>
+            
+            </div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+<!-- Modal para mostrar coincidencias -->
+
+<div class="modal fade"  id="modalCoincidencias" tabindex="-1" aria-labelledby="modalCoincidenciasLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-4" id="modalCoincidenciasLabel">Se encontraron cincidencias</h1>
+      
+      </div>
+      <div class="modal-body">
+        <p id="mensajeCoincidencias"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='../templates/mascota_perdidas.html'">Ir</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <section class="container-fluid footer_section">
+    <p>&copy; 2024 BuscaMascotas</p>
+  </section>
+<!-- Modal para mostrar la información de la mascota -->
+<div class="modal fade" id="modalMascota" tabindex="-1" aria-labelledby="modalMascotaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalMascotaLabel">Información de la Mascota</h5>
+      </div>
+      <div class="modal-body">
+        <div id="mapaMascota" style="width: 100%; height: 300px;"></div>
+        <br />
+        <p>Observaciones :</p> 
+        <p id="descripcionMascota"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para mostrar detalles de la mascota -->
+<div class="modal fade" id="modalMascotaDetalles" tabindex="-1" aria-labelledby="modalMascotaDetallesLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="modalMascotaDetallesLabel">Detalles de la Mascota</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="row">
+                  <div class="col-12 col-lg-4">
+                      <!-- Imagen de la mascota -->
+                      <img id="modal-imagen" src="" class="img-fluid" alt="Imagen de la mascota">
+                  </div>
+                  <div class="col-12 col-lg-8">
+                      <div class="mb-3">
+                          <strong>Especie:</strong>
+                          <p id="modal-especie"></p>
+                      </div>
+                      <div class="mb-3">
+                          <strong>Raza:</strong>
+                          <p id="modal-raza"></p>
+                      </div>
+                      <div class="mb-3">
+                          <strong>Sexo:</strong>
+                          <p id="modal-sexo"></p>
+                      </div>
+                      <div class="mb-3">
+                          <strong>Tamaño:</strong>
+                          <p id="modal-tamano"></p>
+                      </div>
+                      <div class="mb-3">
+                          <strong>Colores:</strong>
+                          <p id="modal-colores"></p>
+                      </div>
+                      <div class="mb-3">
+                          <strong>Descripción:</strong>
+                          <p id="modal-descripcion"></p>
+                      </div>
+                      <div class="mb-3">
+                          <strong>Ubicación:</strong>
+                          <p id="modal-ubicacion"></p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../js/bootstrap.js"></script>
+ <script type="text/javascript" src="../js/funciones_generales.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtkTIwKZNMgaA8lFFRdHUDHWNV4HcSoTM&libraries=places&callback=initMap"></script>
+
+</body>
+
+</html>

@@ -1,48 +1,47 @@
-// primertest.test.js
-import { screen, render } from '@testing-library/dom';
+import { screen } from '@testing-library/dom';
 import fs from 'fs';
 import path from 'path';
 
 describe('Pruebas del HTML de BuscaMascotas', () => {
   let html;
-
+  
   beforeEach(() => {
-    // Lee el archivo HTML y almacénalo en una variable
-    const filePath = path.resolve('src/index.html'); // Ajusta la ruta según la ubicación de tu archivo HTML
+    const filePath = path.resolve('src/index.html'); // Ajusta la ruta según la ubicación
     html = fs.readFileSync(filePath, 'utf-8');
   });
 
-  test('verifica que el título sea BuscaMascotas', () => {
-    document.body.innerHTML = html; // Inyecta el HTML en el DOM
-    const title = document.querySelector('title').innerHTML; // Obtiene el título
-    expect(title).toBe('BuscaMascotas'); // Verifica el títulosss
-  });
+  describe('BuscaMascotas HTML Elements', () => {
+    beforeEach(() => {
+      document.body.innerHTML = html;
+    });
 
-  test('verifica que el encabezado contenga el texto correcto', () => {
-    document.body.innerHTML = html; // Inyecta el HTML en el DOM
-    const headerText = screen.getByRole('heading', { name: /BuscaMascotas/i });
-    expect(headerText).toBeInTheDocument(); // Verifica que el encabezado esté en el documento
-  });
+    test('Debe contener el título BuscaMascotas', () => {
+      const titleElement = document.querySelector('title');
+      expect(titleElement).not.toBeNull();
+      expect(titleElement.textContent).toBe('BuscaMascotas');
+    });
 
-  test('verifica que haya un enlace a "Inicio"', () => {
-    document.body.innerHTML = html; // Inyecta el HTML en el DOM
-    const homeLink = screen.getByText(/Inicio/i); // Busca el enlace
-    expect(homeLink).toBeInTheDocument(); // Verifica que el enlace esté en el documento
-  });
-  test('verifica que haya un enlace a "Reportar mascota encontrada"', () => {
-    document.body.innerHTML = html; // Inyecta el HTML en el DOM
-    const homeLink = screen.getByText(/Reportar mascota encontrada/i); // Busca el enlace
-    expect(homeLink).toBeInTheDocument(); // Verifica que el enlace esté en el documento
-  });
-  test('verifica que haya un enlace a "Ver mascotas Perdidas"', () => {
-    document.body.innerHTML = html; // Inyecta el HTML en el DOM
-    const homeLink = screen.getByText(/Ver mascotas Perdidas/i); // Busca el enlace
-    expect(homeLink).toBeInTheDocument(); // Verifica que el enlace esté en el documento
-  });
-  test('verifica que haya un enlace a "Mis Mascotas"', () => {
-    document.body.innerHTML = html; // Inyecta el HTML en el DOM
-    const homeLink = screen.getByText(/Mis Mascotas/i); // Busca el enlace
-    expect(homeLink).toBeInTheDocument(); // Verifica que el enlace esté en el documento
-  });
+    test('Debe contener indicadores del carrusel', () => {
+      const indicators = document.querySelectorAll('.carousel-indicators li');
+      expect(indicators.length).toBeGreaterThanOrEqual(1);
+    });
 
+    test('Debe contener imágenes dentro del carrusel', () => {
+      const images = document.querySelectorAll('.carousel-inner img');
+      expect(images.length).toBeGreaterThan(0); // Al menos una imagen.
+    });
+
+    test('Debe contener la sección Sobre nosotros', () => {
+      expect(screen.getByText('Sobre nosotros')).toBeInTheDocument();
+    });
+
+    test('Debe contener un pie de página con el texto correcto', () => {
+      expect(screen.getByText(/© 2024 BuscaMascotas/i)).toBeInTheDocument();
+    });
+
+    test('Debe contener el carrusel con clase .carousel', () => {
+      const carousel = document.querySelector('.carousel');
+      expect(carousel).not.toBeNull();
+    });
+  });
 });
