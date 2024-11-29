@@ -1,26 +1,38 @@
-name: Run Selenium Tests
+name: CI
 
 on:
   push:
     branches:
-      - main
+      
+main
+pull_request:
+  branches:
+main
 
 jobs:
-  selenium-tests:
+  build:
+
     runs-on: ubuntu-latest
 
     steps:
-    # Paso 1: Descargar tu código
-    - name: Checkout code
-      uses: actions/checkout@v3
+      
+name: Checkout code
+      uses: actions/checkout@v2
 
+      
+name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'  # Cambia esto a la versión de Node.js que estés usando
 
-    # Paso 3: Verificar versiones (opcional, para depuración)
-    - name: Check Chrome and ChromeDriver version
-      run: |
-        google-chrome --version
-        chromedriver --version
+      
+name: Install dependencies
+      run: npm install
 
-    # Paso 4: Configurar y ejecutar pruebas
-    - name: Run Selenium Tests
-      run: mvn test  # Cambia este comando si usas otro para ejecutar tus pruebas
+      
+name: Fix permissions
+      run: chmod +x ./node_modules/.bin/jest  # Asegura permisos para jest
+
+      
+name: Run tests
+      run: npm test
