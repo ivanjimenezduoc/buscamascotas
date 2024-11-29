@@ -6,7 +6,7 @@ describe('Pruebas del HTML de BuscaMascotas', () => {
   let html;
   
   beforeEach(() => {
-    const filePath = path.resolve('src/index.html'); // Ajusta la ruta según la ubicación
+    const filePath = path.resolve('src/templates/index.html'); // Ajusta la ruta según la ubicación
     html = fs.readFileSync(filePath, 'utf-8');
   });
 
