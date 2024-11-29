@@ -1,52 +1,32 @@
-name: CI
+name: Run Selenium Tests
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  build:
-
+  selenium-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    # Paso 1: Descargar tu código
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      # Configurar Java
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'   # Puedes cambiar a 'zulu' u otro proveedor si es necesario
-          java-version: '17'        # Cambia según la versión que uses
+    # Paso 2: Instalar Chrome y ChromeDriver
+    - name: Install Chrome and ChromeDriver
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y chromium-browser chromium-chromedriver
+        sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
 
-      # Configurar Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
+    # Paso 3: Verificar versiones (opcional, para depuración)
+    - name: Check Chrome and ChromeDriver version
+      run: |
+        google-chrome --version
+        chromedriver --version
 
-      # Instalar dependencias de Node.js
-      - name: Install Node.js dependencies
-        run: npm install
-
-      # Ejecutar pruebas de Node.js
-      - name: Run Node.js tests
-        run: npm test
-
-      # Configurar Maven o Gradle (elige uno según tu proyecto)
-      - name: Set up Maven
-        run: mvn -version         # Verifica que Maven está disponible (opcional)
-
-      # Instalar dependencias de Maven
-      - name: Install Maven dependencies
-        run: mvn clean install    # Cambia por Gradle si lo usas
-
-      # Ejecutar pruebas de Cucumber
-      - name: Run Cucumber tests
-        run: mvn test             # Cambia a `gradle test` si usas Gradle
- 
+    # Paso 4: Configurar y ejecutar pruebas
+    - name: Run Selenium Tests
+      run: mvn test  # Cambia este comando si usas otro para ejecutar tus pruebas
