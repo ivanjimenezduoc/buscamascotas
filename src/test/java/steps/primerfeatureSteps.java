@@ -10,6 +10,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,6 +35,9 @@ public class primerfeatureSteps {
 
     @And("valido que se muestre el menu {string}")
     public void validarQueSeMuestreElTitulo(String menu){
+        // Usar espera explícita para esperar hasta que el menú sea visible
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement cargaElemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='navbarSupportedContent']")));
         WebElement elemento = driver.findElement(By.xpath("//*[contains(text(), '" + menu + "')]"));
         assertEquals(elemento.getText().toLowerCase(),menu.toLowerCase(),"El elemento no se encontró");
     }
