@@ -37,15 +37,3 @@ jobs:
       # Ejecutar pruebas de Node.js
       - name: Run Node.js tests
         run: npm test
-
-      # Configurar Maven o Gradle (elige uno según tu proyecto)
-      - name: Set up Maven
-        run: mvn -version         # Verifica que Maven está disponible (opcional)
-
-      # Instalar dependencias de Maven
-      - name: Install Maven dependencies
-        run: mvn clean install    # Cambia por Gradle si lo usas
-
-      # Ejecutar pruebas de Cucumber
-      - name: Run Cucumber tests
-        run: mvn test             # Cambia a `gradle test` si usas Gradle
