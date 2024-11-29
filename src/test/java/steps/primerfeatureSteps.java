@@ -35,4 +35,5 @@ public class primerfeatureSteps {
         WebElement elemento = driver.findElement(By.xpath("//*[contains(text(), '" + menu + "')]"));
         assertEquals(elemento.getText().toLowerCase(),menu.toLowerCase(),"El elemento no se encontró");
     }
+    
 }
