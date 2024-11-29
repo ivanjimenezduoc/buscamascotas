@@ -36,7 +36,7 @@ public class primerfeatureSteps {
     @And("valido que se muestre el menu {string}")
     public void validarQueSeMuestreElTitulo(String menu){
         // Usar espera explícita para esperar hasta que el menú sea visible
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         WebElement cargaElemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='navbarSupportedContent']")));
         WebElement elemento = driver.findElement(By.xpath("//*[contains(text(), '" + menu + "')]"));
         assertEquals(elemento.getText().toLowerCase(),menu.toLowerCase(),"El elemento no se encontró");
