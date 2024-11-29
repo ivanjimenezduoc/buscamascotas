@@ -22,12 +22,6 @@ public class TestRunner {
         driver = WebDriverConfig.getDriver();
     }
 
-    @Test
-    public void testExample() {
-        driver.get("https://www.ejemplo.com");
-        System.out.println("Título de la página: " + driver.getTitle());
-    }
-
     @After
     public void tearDown() {
         driver.quit();
