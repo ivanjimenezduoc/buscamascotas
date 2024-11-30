@@ -17,16 +17,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Configurar Java
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'   # Puedes cambiar a 'zulu' u otro proveedor si es necesario
+          java-version: '17'        # Cambia según la versión que uses
+
+      # Configurar Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Cambia esto a la versión de Node.js que estés usando
+          node-version: '16'
 
-      - name: Install dependencies
+      # Instalar dependencias de Node.js
+      - name: Install Node.js dependencies
         run: npm install
 
-      - name: Fix permissions
-        run: chmod +x ./node_modules/.bin/jest  # Asegura permisos para jest
-
-      - name: Run tests
+      # Ejecutar pruebas de Node.js
+      - name: Run Node.js tests
         run: npm test
