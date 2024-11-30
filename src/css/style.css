@@ -566,14 +566,14 @@ body {
   justify-content: center;
   align-items: center;
   position: fixed;
-  top: 10%; /* Ajuste de posición para que el título sea visible */
+  top: 10%;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 2000;
+  /*background-color: rgba(0, 0, 0, 0.6);*/
+  z-index: 4000 !important;
   opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+  /*transition: opacity 0.3s ease-in-out;*/
 }
 
 #loginModal.show {
@@ -583,7 +583,7 @@ body {
 
 @media (max-height: 600px) {
   #loginModal {
-    top: 5%; /* Ajuste para pantallas muy pequeñas */
+    top: 5%; 
   }
 }
 
@@ -595,7 +595,7 @@ body {
   background: rgb(222, 255, 168);
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
-  z-index: 2000;
+  z-index: 4000 !important;
 }
 
 /* REGISTRAR MODAL ----------------------------------------------------------------- */
@@ -604,16 +604,15 @@ body {
   justify-content: center;
   align-items: center;
   position: fixed;
-  top: 10%; /* Ajuste de posición para que el título sea visible */
+  top: 50%; /* Ajuste inicial */
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
-  z-index: 2000;
+  z-index: 4000 !important;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
-
 #registrarModal.show {
   display: flex;
   opacity: 1;
@@ -629,9 +628,9 @@ body {
   z-index: 2000;
 }
 
-@media (max-height: 600px) {
+@media (max-width: 768px) {
   #registrarModal {
-    top: 5%; /* Ajuste para pantallas muy pequeñas */
+    top: 20%; /* 100px más abajo en modo responsivo */
   }
 }
 
@@ -687,7 +686,15 @@ body.modal-open #navbar-container {
   box-shadow: #cff0ff 0px 10px 10px -5px;
   border-inline: 2px solid transparent;
 }
+#loginModal .registrarse-input {
+  width: 100%;
+  background: white; 
+  height: 30px;
+  border-radius: 10px;
+  margin-top: 15px;
+  box-shadow: #cff0ff 0px 10px 10px -5px;
 
+}
 #loginModal .login-input:focus {
   outline: none;
   border-inline: 2px solid #12d11c;
@@ -713,28 +720,7 @@ body.modal-open #navbar-container {
   margin-top: 5px; /* Espacio pequeño entre el input y el mensaje */
   text-align: left; /* Alineado con el input */
 }
-/*
-.offcanvas-body {
-  padding: 20px;
-  
-}
 
-.offcanvas-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
-.offcanvas .navbar-nav .nav-item {
-  padding: 10px 20px;
-  font-size: 16px;
-}
-
-
-.offcanvas-start {
-  width: 250px; 
-}*/
-
-/* Ajuste del ancho del offcanvas */
 
 /* Personalización del ancho del offcanvas en modo responsivo */
 @media (max-width: 991.98px) {

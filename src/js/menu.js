@@ -58,9 +58,7 @@ function createNavbar() {
 
 
 
-<!-- Bootstrap JS y dependencias -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
 
 `;
 
@@ -72,30 +70,30 @@ function createNavbar() {
     }
 
     // Manejar el clic en el botón "Ingresar"
-    document.getElementById('signInButton').addEventListener('click', () => {
-        // Contraer el menú si está abierto (para el menú normal)
-        const navbarCollapse = document.getElementById('navbarSupportedContent');
-        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse); // Obtener la instancia de Bootstrap Collapse
-        if (bsCollapse) {
-            bsCollapse.hide(); // Contraer el menú
-        }
-    
-        // Esperar a que el menú termine de contraerse antes de abrir el modal
-        setTimeout(openLoginModal, 300);
-    });
-    
-    document.getElementById('signInButtonOffcanvas').addEventListener('click', () => {
-        // Contraer el menú offcanvas si está abierto
-        const offcanvasElement = document.getElementById('offcanvasExample');
-        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement); // Obtener la instancia de Bootstrap Offcanvas
-        if (offcanvasInstance) {
-            offcanvasInstance.hide(); // Contraer el offcanvas
-        }
-    
-        // Esperar a que el offcanvas termine de cerrarse antes de abrir el modal
-        setTimeout(openLoginModal, 300);
-    });
-    
+document.getElementById('signInButton').addEventListener('click', () => {
+    // Contraer el menú si está abierto (para el menú normal)
+    const navbarCollapse = document.getElementById('navbarSupportedContent');
+    const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse); // Obtener la instancia de Bootstrap Collapse
+    if (bsCollapse) {
+        bsCollapse.hide(); // Contraer el menú
+    }
+
+    // Esperar a que el menú termine de contraerse antes de abrir el modal
+    setTimeout(openLoginModal, 300);
+});
+
+document.getElementById('signInButtonOffcanvas').addEventListener('click', () => {
+    // Contraer el menú offcanvas si está abierto
+    const offcanvasElement = document.getElementById('offcanvasExample');
+    const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement); // Obtener la instancia de Bootstrap Offcanvas
+    if (offcanvasInstance) {
+        offcanvasInstance.hide(); // Contraer el offcanvas
+    }
+
+    // Esperar a que el offcanvas termine de cerrarse antes de abrir el modal
+    setTimeout(openLoginModal, 300);
+});
+
 
 
 }
