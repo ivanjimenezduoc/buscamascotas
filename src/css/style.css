@@ -481,7 +481,7 @@ body {
 }
 
 
-/* Estilos para el contenedor del modal de login */
+/* LOGIN ----------------------------------------------------------------- */
 #loginModal .login-container {
   max-width: 350px;
   background: linear-gradient(0deg, rgb(201, 248, 179) 0%, rgb(195, 255, 126) 100%);
@@ -490,10 +490,7 @@ body {
   border: 5px solid rgb(255, 255, 255);
   box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 30px 30px -20px;
   margin: 20px;
- 
 }
-
-
 
 #loginModal .login-heading {
   text-align: center;
@@ -505,7 +502,6 @@ body {
 #loginModal .login-form {
   margin-top: 20px;
 }
-
 
 #loginModal .login-input::placeholder {
   color: rgb(170, 170, 170);
@@ -560,23 +556,23 @@ body {
 
 #loginModal .agreement a span {
   text-decoration: none;
-  color:rgb(0, 121, 46) 0%;
+  color: rgb(0, 121, 46);
   font-size: 10px;
 }
 
 /* Centrar el modal vertical y horizontalmente */
 #loginModal {
-  display: none; /* Asegura que no sea visible inicialmente */
+  display: none; 
   justify-content: center;
   align-items: center;
   position: fixed;
-  top: 0;
+  top: 10%; /* Ajuste de posición para que el título sea visible */
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 2000;
-  opacity: 0; /* Inicialmente completamente invisible */
+  opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
 
@@ -585,6 +581,11 @@ body {
   opacity: 1; 
 }
 
+@media (max-height: 600px) {
+  #loginModal {
+    top: 5%; /* Ajuste para pantallas muy pequeñas */
+  }
+}
 
 #loginModal .modal-content {
   position: relative;
@@ -595,18 +596,44 @@ body {
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
   z-index: 2000;
-  
 }
-#registrarModal{
+
+/* REGISTRAR MODAL ----------------------------------------------------------------- */
+#registrarModal {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 10%; /* Ajuste de posición para que el título sea visible */
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#registrarModal.show {
+  display: flex;
+  opacity: 1;
+}
+
+#registrarModal .modal-content {
   position: relative;
   max-width: 700px;
   padding: 20px;
   background: white;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
-  z-index: 2000
+  z-index: 2000;
 }
 
+@media (max-height: 600px) {
+  #registrarModal {
+    top: 5%; /* Ajuste para pantallas muy pequeñas */
+  }
+}
 
 body.modal-open {
   overflow: hidden;
