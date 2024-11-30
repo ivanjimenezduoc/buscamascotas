@@ -1,54 +1,105 @@
 function createNavbar() {
-
-
     const navbarHTML = `
-    <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg custom_nav-container">
-            <a class="navbar-brand d-flex align-items-center" href="../templates/index.html">
-                <img src="../images/logo_verde.png" alt="Logo" class="logo-img">
-                <span class="brand-name ml-2">BuscaMascotas</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
-                    <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="../templates/index.html">Inicio</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="../templates/mascota_perdidas.html">Mascotas perdidas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../templates/mascota_encontrada.html">Mascotas encontradas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"   href="../templates/mis_mascotas.html" id="miPerfil" >Mis mascotas</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-                <button class="btn btn-outline-success" id="signInButton">Ingresar</button>
-            </div>
-        </nav>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light custom_nav-container">
+        <a class="navbar-brand d-flex align-items-center" href="../templates/index.html">
+            <img src="../images/logo_verde.png" alt="Logo" class="logo-img me-2">
+            <span class="brand-name">BuscaMascotas</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="../templates/index.html">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../templates/mascota_perdidas.html">Mascotas perdidas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../templates/mascota_encontrada.html">Mascotas encontradas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../templates/mis_mascotas.html" id="miPerfil" style="display:none;">Mis mascotas</a>
+                </li>
+            </ul>
+            <button class="btn btn-outline-success" id="signInButton">Ingresar</button>
+        </div>
+    </nav>
+</div>
+
+<!-- Offcanvas Menu -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menú</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
+    <div class="offcanvas-body">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="../templates/index.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../templates/mascota_perdidas.html">Mascotas perdidas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../templates/mascota_encontrada.html">Mascotas encontradas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../templates/mis_mascotas.html" id="miPerfil" style="display:none;">Mis mascotas</a>
+            </li>
+        </ul>
+        <button class="btn btn-outline-success" id="signInButtonOffcanvas">Ingresar</button>
+    </div>
+</div>
+
+
+
+
+
+<!-- Bootstrap JS y dependencias -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
 `;
 
-//style="display: none;"
 
     document.getElementById('navbar-container').innerHTML = navbarHTML;
 
     if (!document.getElementById('loginModal')) {
         document.body.insertAdjacentHTML('beforeend', loginHTML);
+    }
+
+    // Manejar el clic en el botón "Ingresar"
+    document.getElementById('signInButton').addEventListener('click', () => {
+        // Contraer el menú si está abierto (para el menú normal)
+        const navbarCollapse = document.getElementById('navbarSupportedContent');
+        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse); // Obtener la instancia de Bootstrap Collapse
+        if (bsCollapse) {
+            bsCollapse.hide(); // Contraer el menú
         }
     
-        // Evento para abrir el modal de login
-        document.getElementById('signInButton').addEventListener('click', openLoginModal);
+        // Esperar a que el menú termine de contraerse antes de abrir el modal
+        setTimeout(openLoginModal, 300);
+    });
     
-    }
-   
+    document.getElementById('signInButtonOffcanvas').addEventListener('click', () => {
+        // Contraer el menú offcanvas si está abierto
+        const offcanvasElement = document.getElementById('offcanvasExample');
+        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement); // Obtener la instancia de Bootstrap Offcanvas
+        if (offcanvasInstance) {
+            offcanvasInstance.hide(); // Contraer el offcanvas
+        }
+    
+        // Esperar a que el offcanvas termine de cerrarse antes de abrir el modal
+        setTimeout(openLoginModal, 300);
+    });
+    
+
+
+}
+
  const loginHTML =  `
 <div id="loginModal" class="modal">
     <div class="modal-content">
