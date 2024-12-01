@@ -121,37 +121,37 @@ document.getElementById('signInButtonOffcanvas').addEventListener('click', () =>
         
         <div class="row">
         <div class="col-md-6">
-                   <input required class="login-input" type="text" id="signupNombre" placeholder="Nombre">
+                   <input required class="registrarse-input" type="text" id="signupNombre" placeholder="Nombre">
                    </div>
                    <div class="col-md-6">
-            <input required class="login-input" type="date" id="signupFechaNacimiento" placeholder="Fecha de Nacimiento">
+            <input required class="registrarse-input" type="date" id="signupFechaNacimiento" placeholder="Fecha de Nacimiento">
         </div>
         </div>
 
         <div class="row">
         <div class="col-md-6">
-                  <input required class="login-input" type="text" id="signupDireccion" placeholder="Dirección">
+                  <input required class="registrarse-input" type="text" id="signupDireccion" placeholder="Dirección">
                    </div>
                    <div class="col-md-6">
-            <input required class="login-input" type="email" id="signupEmailModal" placeholder="E-mail">
+            <input required class="registrarse-input" type="email" id="signupEmailModal" placeholder="E-mail">
         </div>
         </div>
 
        <div class="row">
         <div class="col-md-6">
-                <input required class="login-input" type="tel" id="signupTelefono" placeholder="Teléfono 1">
+                <input required class="registrarse-input" type="tel" id="signupTelefono" placeholder="Teléfono 1">
                    </div>
                    <div class="col-md-6">
-             <input required class="login-input" type="tel" id="signupTelefono" placeholder="Teléfono 2">
+             <input required class="registrarse-input" type="tel" id="signupTelefono" placeholder="Teléfono 2">
         </div>
         </div>
 
         <div class="row">
         <div class="col-md-6">
-              <input required class="login-input" type="password" id="signupPasswordModal" placeholder="Contraseña">
+              <input required class="registrarse-input" type="password" id="signupPasswordModal" placeholder="Contraseña">
                    </div>
                    <div class="col-md-6">
-              <input required class="login-input" type="password" id="signupPassword2" placeholder="Repite tu Contraseña">
+              <input required class="registrarse-input" type="password" id="signupPassword2" placeholder="Repite tu Contraseña">
         </div>
         </div>
           
@@ -202,15 +202,14 @@ function actualizarNavbarConUsuario(usuario) {
         return;
     }
 
-    // Verificar si ya existe un botón "Sign Out" para evitar duplicados
     let signOutButton = document.getElementById("signOutButton");
     if (!signOutButton) {
         // Crear el botón "Sign Out"
         signOutButton = document.createElement("button");
-        signOutButton.className = "btn btn-outline-danger"; // Clase de estilo
+        signOutButton.className = "btn btn-outline-danger"; 
         signOutButton.id = "signOutButton";
-        signOutButton.textContent = `Salir`; // Mostrar el nombre del usuario
-        signOutButton.addEventListener("click", cerrarSesion); // Evento para cerrar sesión
+        signOutButton.textContent = `Salir`; 
+        signOutButton.addEventListener("click", cerrarSesion); 
 
         navbarContainer.appendChild(signOutButton);
     }
@@ -218,16 +217,16 @@ function actualizarNavbarConUsuario(usuario) {
 
 
 function verificarSesion() {
-    const usuario = JSON.parse(sessionStorage.getItem("usuario")); // Busca el usuario en sessionStorage
+    const usuario = JSON.parse(sessionStorage.getItem("usuario"));
     if (usuario) {
         console.log("Usuario logueado:", usuario);
-        actualizarNavbarConUsuario(usuario); // Actualiza el navbar si el usuario está logueado
+        actualizarNavbarConUsuario(usuario); 
     } else {
        //console.log("No hay usuario logueado.");
-        // Si no hay usuario, asegúrate de que solo el botón "Sign In" está presente
+       
         const signOutButton = document.getElementById("signOutButton");
         if (signOutButton) {
-            signOutButton.remove(); // Elimina el botón Sign Out si no hay usuario
+            signOutButton.remove(); 
         }
         const signInButton = document.getElementById("signInButton");
         if (!signInButton) {
