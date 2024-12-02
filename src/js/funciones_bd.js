@@ -22,7 +22,7 @@ async function cargarUsuario() {
         return;
     }
 
-    // Guardar en Session Storage con la clave "usuario"
+
     if (usuario) {
         sessionStorage.setItem("usuario", JSON.stringify(usuario));
         console.log("Datos guardados en Session Storage:", usuario);
@@ -126,12 +126,12 @@ function limpiarFormulario() {
     // Limpiar todos los selectores
     document.getElementById("especie").value = "";
     document.getElementById("raza").value = "";
-    document.getElementById("sexo").value = "";as
+    document.getElementById("sexo").value = ""; as
     document.getElementById("tamano").value = "";
     document.getElementById("color1").value = "";
     document.getElementById("color2").value = "";
     document.getElementById("color3").value = "";
-    
+
     // Limpiar los campos de texto
     document.getElementById("descripcion").value = "";
     document.getElementById("ubicacion").value = "";
@@ -235,11 +235,11 @@ async function cargarMascotasEncontradas() {
         button.className = "btn info-button";
         button.textContent = "Más Info";
 
-        
+
         button.addEventListener("click", function () {
-            const ubicacion = mascota.ubicacion; 
-            const descripcion = mascota.descripcion; 
-            mostrarModal(ubicacion, descripcion); 
+            const ubicacion = mascota.ubicacion;
+            const descripcion = mascota.descripcion;
+            mostrarModal(ubicacion, descripcion);
         });
         colorsColumn.appendChild(button);
 
@@ -275,37 +275,37 @@ async function cargarMascotasEncontradas() {
 
     container.appendChild(table);
 
-   
+
     const geocoder = new google.maps.Geocoder();
-    const bounds = new google.maps.LatLngBounds(); 
+    const bounds = new google.maps.LatLngBounds();
 
     for (const mascota of mascotas) {
         if (mascota.ubicacion) {
-            console.log(`Procesando ubicación: ${mascota.ubicacion}`);
+            //console.log(`Procesando ubicación: ${mascota.ubicacion}`);
 
             geocoder.geocode({ address: mascota.ubicacion }, (results, status) => {
                 if (status === "OK") {
                     const location = results[0].geometry.location;
 
-                  
-                    console.log(`Ubicación colocada: ${mascota.ubicacion}`);
 
-                   
+                    //console.log(`Ubicación colocada: ${mascota.ubicacion}`);
+
+
                     const marker = new google.maps.Marker({
                         position: location,
-                        map: mapPrincipal, 
+                        map: mapPrincipal,
                         title: `Mascota encontrada: ${mascota.especie.nombre}`,
                     });
 
-                  
-                    marker.addListener("click", function() {
-                        mostrarModalDetalles(mascota);  
+
+                    marker.addListener("click", function () {
+                        mostrarModalDetalles(mascota);
                     });
 
-                   
+
                     bounds.extend(location);
 
-                    
+
                     mapPrincipal.fitBounds(bounds);
                 } else {
                     console.error(`No se pudo geocodificar la ubicación: ${mascota.ubicacion}, Error: ${status}`);
@@ -337,7 +337,7 @@ function mostrarModal(ubicacion, descripcion, mascota) {
 }
 
 async function mostrarModalDetalles(mascota) {
-    // Obtener los elementos del modal
+
     const modalImagen = document.getElementById("modal-imagen");
     const modalEspecie = document.getElementById("modal-especie");
     const modalRaza = document.getElementById("modal-raza");
@@ -347,39 +347,38 @@ async function mostrarModalDetalles(mascota) {
     const modalDescripcion = document.getElementById("modal-descripcion");
     const modalUbicacion = document.getElementById("modal-ubicacion");
 
-    // Asignar los datos de la mascota al modal
+
     modalEspecie.textContent = mascota.especie ? mascota.especie.nombre : "Desconocido";
     modalRaza.textContent = mascota.raza ? mascota.raza.raza : "Desconocida";
     modalSexo.textContent = mascota.sexo ? mascota.sexo.sexo : "Desconocido";
     modalTamano.textContent = mascota.tamano ? mascota.tamano.tamano : "Desconocido";
-    
-    // Colores (mostramos los colores disponibles)
+
+
     const colores = [mascota.color1, mascota.color2, mascota.color3].filter(c => c); // Filtramos los colores disponibles
     modalColores.textContent = colores.length > 0 ? colores.map(c => c.color).join(", ") : "Sin colores definidos";
 
     modalDescripcion.textContent = mascota.descripcion ? mascota.descripcion : "Sin descripción disponible.";
     modalUbicacion.textContent = mascota.ubicacion ? mascota.ubicacion : "Ubicación no especificada.";
 
-    // Obtener la URL de la imagen
-    const imagenUrl = await obtenerUrlImagen(mascota.imagen);  // Usamos la función para obtener la URL
 
-    // Verificar si la URL de la imagen es válida
+    const imagenUrl = await obtenerUrlImagen(mascota.imagen);
+
+
     if (imagenUrl) {
         modalImagen.src = imagenUrl;
     } else {
-        modalImagen.src = '../images/logo_gris.png';  // Imagen predeterminada si no se encuentra la imagen de la mascota
+        modalImagen.src = '../images/logo_gris.png';
     }
 
-    // Crear una nueva instancia del modal de Bootstrap y abrirlo
-    const modal = new bootstrap.Modal(document.getElementById('modalMascotaDetalles'), {
+
+    /*const modal = new bootstrap.Modal(document.getElementById('modalMascotaDetalles'), {
         backdrop: 'static', // Para evitar que se cierre haciendo clic fuera del modal
         keyboard: false     // Para evitar que se cierre con la tecla ESC
-    });
+    });*/
 
     // Abrir el modal
     modal.show();
 }
-
 
 
 
@@ -389,7 +388,7 @@ async function mostrarModalDetalles(mascota) {
 
 async function guardarMiMascota(x) {
     const usuarioData = JSON.parse(sessionStorage.getItem("usuario"));
-const id_dueno = usuarioData.id;
+    const id_dueno = usuarioData.id;
 
     console.log("guardando datos para el id " + id_dueno)
     const errorFields = document.querySelectorAll(".error-message");
@@ -495,9 +494,7 @@ const id_dueno = usuarioData.id;
         }
     }
 }
-
-
-
+/* //FUNCIONA
 async function cargarMisMascotas(dueno_index) {
     console.log("Cargando mascotas para el dueño con id " + dueno_index + "...");
 
@@ -554,6 +551,11 @@ async function cargarMisMascotas(dueno_index) {
             : `<img src="../images/logo_gris.png" class="mascota-image" alt="Logo Gris" style="opacity: 0.5;">`;
 
         imageColumn.appendChild(imageContainer);
+
+        const nombreMascota = document.createElement("div");
+        nombreMascota.className = "mascota-nombre";
+        nombreMascota.textContent = mascota.nombre;
+        imageColumn.appendChild(nombreMascota);
 
         const dataColumn = document.createElement("div");
         dataColumn.className = "mascota-data-column col-12 col-lg-8";
@@ -689,6 +691,15 @@ async function cargarMisMascotas(dueno_index) {
         // Agregar el botón debajo de la ubicación
         ubicacionContainer.appendChild(btnGenerarCartel);
 
+        // Mostrar u ocultar los campos según el estado inicial
+        if (mascota.estado === 1) {
+            ubicacionContainer.style.display = "flex";  // Mostrar ubicación
+            btnGenerarCartel.style.display = "flex";   // Mostrar botón
+        } else {
+            ubicacionContainer.style.display = "none";  // Ocultar ubicación
+            btnGenerarCartel.style.display = "none";    // Ocultar botón
+        }
+
         estadoSelect.addEventListener("change", () => {
             if (estadoSelect.value === "1") {
                 ubicacionContainer.style.display = "flex";  // Mostrar ubicación
@@ -714,7 +725,257 @@ async function cargarMisMascotas(dueno_index) {
     }
 
     container.appendChild(table);
+}*/
+
+async function cargarMisMascotas(dueno_index) {
+    console.log("Cargando mascotas para el dueño con id " + dueno_index + "...");
+
+    const { data: mascotas, error } = await supabases.from('mascota').select(`
+        id,
+        nombre,
+        raza (id, raza), 
+        edad,
+        color1 (id, codigo, color), 
+        color2 (id, codigo, color), 
+        color3 (id, codigo, color),  
+        especie (id, nombre),                 
+        tamano (id, tamano), 
+        estado,
+        descripcion,
+        foto_perfil,
+        sexo,
+        direccion_perdida
+    `).eq("id_dueno", dueno_index);
+
+    if (error) {
+        console.error("Error al cargar las mascotas:", error);
+        return;
+    }
+
+    const container = document.getElementById("mascotas-container");
+    container.innerHTML = "";
+
+    mascotas.sort((a, b) => a.id - b.id);
+
+    const table = document.createElement("table");
+    table.className = "table table-striped mascota-table";
+
+    for (const mascota of mascotas) {
+        const imagenUrl = await obtenerUrlImagen(mascota.foto_perfil);
+
+        const row = document.createElement("tr");
+
+        const cardCell = document.createElement("td");
+        cardCell.className = "mascota-image-cell";
+
+        const card = document.createElement("div");
+        card.className = "mascota-card fondo-card-mis card mt-4";
+
+        const cardInner = document.createElement("div");
+        cardInner.className = "d-flex flex-column flex-lg-row";
+
+        const imageColumn = document.createElement("div");
+        imageColumn.className = "mascota-image-column col-12 col-lg-4";
+
+        const imageContainer = document.createElement("div");
+        imageContainer.innerHTML = imagenUrl
+            ? `<img src="${imagenUrl}" class="mascota-image" alt="Imagen de ${mascota.nombre}">`
+            : `<img src="../images/logo_gris.png" class="mascota-image" alt="Logo Gris" style="opacity: 0.5;">`;
+
+        imageColumn.appendChild(imageContainer);
+
+        const nombreMascota = document.createElement("div");
+        nombreMascota.className = "mascota-nombre";
+        nombreMascota.textContent = mascota.nombre;
+        imageColumn.appendChild(nombreMascota);
+
+        const dataColumn = document.createElement("div");
+        dataColumn.className = "mascota-data-column col-12 col-lg-8";
+
+        dataColumn.innerHTML = `
+            <div class="form-group">
+                <label for="especie-${mascota.id}">Especie:</label>
+                <input type="text" id="especie-${mascota.id}" class="form-control" value="${mascota.especie ? mascota.especie.nombre : ""}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="edad-${mascota.id}">Edad:</label>
+                <input type="text" id="edad-${mascota.id}" class="form-control" value="${mascota.edad} años" readonly>
+            </div>
+            <div class="form-group">
+                <label for="raza-${mascota.id}">Raza:</label>
+                <input type="text" id="raza-${mascota.id}" class="form-control" value="${mascota.raza ? mascota.raza.raza : ""}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="tamano-${mascota.id}">Tamaño:</label>
+                <input type="text" id="tamano-${mascota.id}" class="form-control" value="${mascota.tamano ? mascota.tamano.tamano : ""}" readonly>
+            </div>
+        `;
+
+        const colorsContainer = document.createElement("div");
+        colorsContainer.className = "form-group";
+
+        const colorsLabel = document.createElement("label");
+        colorsLabel.textContent = "Colores:";
+        colorsLabel.className = "aligned-label";
+        colorsContainer.appendChild(colorsLabel);
+
+        const colorsCircles = document.createElement("div");
+        colorsCircles.style.display = "inline-flex";
+        colorsCircles.style.gap = "10px";
+        colorsCircles.style.marginLeft = "10px";
+
+        [mascota.color1, mascota.color2, mascota.color3].forEach((colorObj) => {
+            if (colorObj) {
+                const circle = document.createElement("div");
+                circle.className = "color-circle";
+                circle.style.backgroundColor = colorObj.codigo;
+                circle.style.width = "20px";
+                circle.style.height = "20px";
+                circle.style.borderRadius = "50%";
+                circle.style.border = "1px solid #000";
+                circle.title = colorObj.color;
+                colorsCircles.appendChild(circle);
+            }
+        });
+
+        colorsContainer.appendChild(colorsCircles);
+        dataColumn.appendChild(colorsContainer);
+
+        const descriptionContainer = document.createElement("div");
+        descriptionContainer.className = "form-group";
+
+        const descriptionLabel = document.createElement("label");
+        descriptionLabel.setAttribute("for", `descripcion-${mascota.id}`);
+        descriptionLabel.textContent = "Descripción:";
+        descriptionContainer.appendChild(descriptionLabel);
+
+        const descriptionTextarea = document.createElement("textarea");
+        descriptionTextarea.id = `descripcion-${mascota.id}`;
+        descriptionTextarea.className = "form-control";
+        descriptionTextarea.rows = 3;
+        descriptionTextarea.readOnly = true;
+        descriptionTextarea.textContent = mascota.descripcion;
+        descriptionContainer.appendChild(descriptionTextarea);
+
+        dataColumn.appendChild(descriptionContainer);
+
+        const estadoContainer = document.createElement("div");
+        estadoContainer.className = "form-group d-flex align-items-center"; 
+
+        const estadoLabel = document.createElement("label");
+        estadoLabel.setAttribute("for", `estado-${mascota.id}`);
+        estadoLabel.textContent = "Estado:";
+        estadoContainer.appendChild(estadoLabel);
+
+        const estadoSelect = document.createElement("select");
+        estadoSelect.id = `estado-${mascota.id}`;
+        estadoSelect.className = "form-control";
+        estadoSelect.innerHTML = `
+            <option value="0" ${mascota.estado === 0 ? 'selected' : ''}>No perdido</option>
+            <option value="1" ${mascota.estado === 1 ? 'selected' : ''}>Perdido</option>
+            <option value="2" ${mascota.estado === 2 ? 'selected' : ''}>Fallecido</option>
+        `;
+        estadoSelect.style.marginRight = "10px";
+
+        const btnActualizar = document.createElement("button");
+        btnActualizar.className = "btn btn-success btn-sm ml-2";
+        btnActualizar.innerHTML = `<i class="fas fa-save"></i>`;
+        btnActualizar.addEventListener("click", () => {
+            const estadoSeleccionado = estadoSelect.value;
+            const direccion = document.getElementById(`ubicacion-${mascota.id}`).value;
+            actualizarMascota(mascota.id, estadoSeleccionado, direccion);
+        });
+
+
+        estadoContainer.appendChild(estadoSelect);
+        estadoContainer.appendChild(btnActualizar);
+        dataColumn.appendChild(estadoContainer);
+
+
+        // Este código separa el input y el botón
+        const ubicacionContainer = document.createElement("div");
+        ubicacionContainer.id = `ubicacion-container-${mascota.id}`;
+        ubicacionContainer.className = "form-group";
+
+        // Label para la ubicación
+        const ubicacionLabel = document.createElement("label");
+        ubicacionLabel.setAttribute("for", `ubicacion-${mascota.id}`);
+        ubicacionLabel.textContent = "Última Ubicación:";
+
+        // Input para la ubicación
+        const ubicacionInput = document.createElement("input");
+        ubicacionInput.type = "text";
+        ubicacionInput.id = `ubicacion-${mascota.id}`;
+        ubicacionInput.className = "form-control";
+        ubicacionInput.value = mascota.direccion_perdida || "";
+
+        // Contenedor para el botón de generar cartel
+        const btnGenerarCartelContainer = document.createElement("div");
+        btnGenerarCartelContainer.id = `btncartel-container-${mascota.id}`;
+
+        // Botón para generar cartel
+        const btnGenerarCartel = document.createElement("button");
+        btnGenerarCartel.className = "btn btn-primary btn-sm mt-2 pl";
+        btnGenerarCartel.textContent = "Generar Cartel";
+        btnGenerarCartel.style.marginLeft = "auto";
+
+        // Añadir evento para generar cartel
+        btnGenerarCartel.addEventListener("click", () => {
+            generarCartel(dueno_index, mascota.id);
+        });
+
+
+
+
+
+        ubicacionContainer.appendChild(ubicacionLabel);
+        ubicacionContainer.appendChild(ubicacionInput); 
+        dataColumn.appendChild(ubicacionContainer);
+
+        btnGenerarCartelContainer.appendChild(btnGenerarCartel);
+        dataColumn.appendChild(btnGenerarCartelContainer);
+
+
+        // Lógica de visibilidad según el estado de la mascota
+        if (mascota.estado === 1) {
+            ubicacionContainer.style.display = "flex";
+            btnGenerarCartelContainer.style.display = "flex";
+        } else {
+            ubicacionContainer.style.display = "none";
+            btnGenerarCartelContainer.style.display = "none";
+        }
+
+        // Evento para cambiar visibilidad al cambiar el estado
+        estadoSelect.addEventListener("change", () => {
+            if (estadoSelect.value === "1") {
+                ubicacionContainer.style.display = "flex";
+                btnGenerarCartelContainer.style.display = "flex";
+                btnGenerarCartel.style.marginTop = "10px";
+            } else {
+                ubicacionContainer.style.display = "none";
+                btnGenerarCartelContainer.style.display = "none";
+            }
+        });
+
+
+
+        
+
+        cardInner.appendChild(imageColumn);
+        cardInner.appendChild(dataColumn);
+
+        card.appendChild(cardInner);
+        cardCell.appendChild(card);
+
+        row.appendChild(cardCell);
+
+        table.appendChild(row);
+    }
+
+    container.appendChild(table);
 }
+
+
 
 async function actualizarMascota(id, estado, direccion) {
     const updateData = { estado };
@@ -738,7 +999,7 @@ async function actualizarMascota(id, estado, direccion) {
 
 async function generarCartel(idDueno, idMascota) {
     try {
-        // Realizamos una consulta unida para traer los datos del dueño y la mascota
+
         const { data, error } = await supabases
             .from('mascota')
             .select(`
@@ -772,9 +1033,9 @@ async function generarCartel(idDueno, idMascota) {
             const mascota = data[0];
 
             // Generamos la URL con los parámetros
-            const url = new URL('cartel_mascota.html', window.location.href); 
+            const url = new URL('cartel_mascota.html', window.location.href);
             const params = new URLSearchParams();
-            
+
             params.append('id', mascota.id);
             params.append('nombre', mascota.nombre);
             params.append('especie', mascota.especie ? mascota.especie.nombre : '');
@@ -794,7 +1055,7 @@ async function generarCartel(idDueno, idMascota) {
 
             // Se agregan los parámetros a la URL
             url.search = params.toString();
-            
+
             // Abrimos la página en una nueva pestaña con los parámetros
             window.open(url, '_blank');
         } else {
@@ -948,7 +1209,7 @@ async function buscarCoincidencias(mascota, tabla, estado) {
     const { data: mascotas, error } = await supabases.from(tabla)
         .select("*")
         .eq("estado", estado);
-console.log(mascotas);
+    console.log(mascotas);
     if (error) {
         console.error("Error al buscar mascotas perdidas:", error);
         return [];
@@ -1056,7 +1317,6 @@ function ocultarFormulario() {
         botonAgregar.style.display = "block";
     }
 }
-
 async function cargarDatosMascotaYDueno(idDueno, idMascota) {
     try {
         // Realizamos una consulta unida para traer los datos del dueño y la mascota
@@ -1100,8 +1360,6 @@ async function cargarDatosMascotaYDueno(idDueno, idMascota) {
 }
 
 // REGISTRO USUARIOS
-
-
 async function registrarUsuario() {
     const nombre = document.getElementById("signupNombre").value.trim();
     const fechaNacimiento = document.getElementById("signupFechaNacimiento").value;
@@ -1166,7 +1424,7 @@ async function registrarUsuario() {
         mostrarMensajeError("Ocurrió un error inesperado.", "signupEmailModal");
     }
 }
-// Función para mostrar un mensaje de error debajo de un campo específico
+
 function mostrarMensajeError(mensaje, inputId) {
     const inputElement = document.getElementById(inputId);
     if (!inputElement) return;
@@ -1189,12 +1447,12 @@ function mostrarMensajeError(mensaje, inputId) {
 window.registrarUsuario = registrarUsuario;
 
 async function iniciarSesion(event) {
-    event.preventDefault(); // Previene el comportamiento predeterminado del botón
+    event.preventDefault();
 
     const emailInput = document.getElementById("loginEmailModal");
     const passwordInput = document.getElementById("loginPasswordModal");
 
-    // Verifica que los elementos existan
+
     if (!emailInput || !passwordInput) {
         console.error("No se encontraron los elementos necesarios para iniciar sesión.");
         return;
@@ -1204,7 +1462,7 @@ async function iniciarSesion(event) {
     const password = passwordInput.value.trim();
     const loginForm = document.getElementById("loginFormModal");
 
-    // Eliminar mensajes de error previos
+
     const errorMessage = loginForm.querySelector(".error-message");
     if (errorMessage) errorMessage.remove();
 
@@ -1229,44 +1487,51 @@ async function iniciarSesion(event) {
         if (!usuario || usuario.length === 0) {
             mostrarMensajeError(passwordInput, "Credenciales inválidas. Inténtalo de nuevo.");
             return;
-        }        
+        }
 
 
         sessionStorage.setItem("usuario", JSON.stringify(usuario[0]));
 
-       const botonperfil = document.getElementById("miPerfil");
-botonperfil.style.display = "inline-block";
+        const botonperfil = document.getElementById("miPerfil");
+        botonperfil.style.display = "inline-block";
+        const botonperfilO = document.getElementById("miPerfilr");
+        botonperfilO.style.display = "inline-block";
 
-        actualizarNavbarConUsuario(usuario[0]);
+        actualizarNavbarConUsuario();
         closeLoginModal();
-        //alert("Inicio de sesión exitoso.");
+        // window.location.href = "../templates/mis_mascotas.html";
+
     } catch (error) {
         console.error("Error al iniciar sesión:", error);
         mostrarMensajeError(loginForm, "Ocurrió un error al iniciar sesión. Intenta más tarde.");
     }
 }
 
-
 function cerrarSesion() {
     sessionStorage.removeItem("usuario");
 
 
-
     const signOutButton = document.getElementById("signOutButton");
+    const signOutButtonO = document.getElementById("signOutButtonO");
     const botonperfil = document.getElementById("miPerfil");
-    if (signOutButton) {
-        signOutButton.remove();
-       // botonperfil.remove();
-       botonperfil.style.display = "none";
-    }
+    const botonperfilOffcanvas = document.getElementById("miPerfilr");
 
-    const navbarContainer = document.getElementById("navbarSupportedContent");
-    if (navbarContainer) {
-        const signInButton = document.createElement("button");
-        signInButton.className = "btn  btn-outline-success";
-        signInButton.id = "signInButton";
-        signInButton.textContent = "Ingresar";
-        signInButton.addEventListener("click", openLoginModal);
-        navbarContainer.appendChild(signInButton);
+    if (signOutButton) signOutButton.remove();
+    if (signOutButtonO) signOutButtonO.remove();
+    if (botonperfil) botonperfil.style.display = "none";
+    if (botonperfilOffcanvas) botonperfilOffcanvas.style.display = "none";
+
+
+    const signInButton = document.getElementById("signInButton");
+    const signInButtonOffcanvas = document.getElementById("signInButtonOffcanvas");
+
+
+    if (signInButton) {
+        signInButton.style.display = "inline-block";
+
     }
+    if (signInButtonOffcanvas) {
+        signInButtonOffcanvas.style.display = "inline-block";
+    }
+    window.location.href = "../templates/index.html";
 }

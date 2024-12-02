@@ -47,20 +47,13 @@ function createNavbar() {
                 <a class="nav-link" href="../templates/mascota_encontrada.html">Mascotas encontradas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../templates/mis_mascotas.html" id="miPerfil" style="display:none;">Mis mascotas</a>
+                <a class="nav-link" href="../templates/mis_mascotas.html" id="miPerfilOffcanvas" style="display:none;">Mis mascotas</a> <!-- Cambié el ID aquí -->
             </li>
         </ul>
         <button class="btn btn-outline-success" id="signInButtonOffcanvas">Ingresar</button>
     </div>
 </div>
 
-
-
-
-
-<!-- Bootstrap JS y dependencias -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
 `;
 
@@ -72,114 +65,98 @@ function createNavbar() {
     }
 
     // Manejar el clic en el botón "Ingresar"
-    document.getElementById('signInButton').addEventListener('click', () => {
-        // Contraer el menú si está abierto (para el menú normal)
-        const navbarCollapse = document.getElementById('navbarSupportedContent');
-        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse); // Obtener la instancia de Bootstrap Collapse
-        if (bsCollapse) {
-            bsCollapse.hide(); // Contraer el menú
-        }
-    
-        // Esperar a que el menú termine de contraerse antes de abrir el modal
-        setTimeout(openLoginModal, 300);
-    });
-    
-    document.getElementById('signInButtonOffcanvas').addEventListener('click', () => {
-        // Contraer el menú offcanvas si está abierto
-        const offcanvasElement = document.getElementById('offcanvasExample');
-        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement); // Obtener la instancia de Bootstrap Offcanvas
-        if (offcanvasInstance) {
-            offcanvasInstance.hide(); // Contraer el offcanvas
-        }
-    
-        // Esperar a que el offcanvas termine de cerrarse antes de abrir el modal
-        setTimeout(openLoginModal, 300);
-    });
-    
+document.getElementById('signInButton').addEventListener('click', () => {
+    // Contraer el menú si está abierto (para el menú normal)
+    const navbarCollapse = document.getElementById('navbarSupportedContent');
+    const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse); // Obtener la instancia de Bootstrap Collapse
+    if (bsCollapse) {
+        bsCollapse.hide(); // Contraer el menú
+    }
+
+    // Esperar a que el menú termine de contraerse antes de abrir el modal
+    setTimeout(openLoginModal, 300);
+});
+
+document.getElementById('signInButtonOffcanvas').addEventListener('click', () => {
+    // Contraer el menú offcanvas si está abierto
+    const offcanvasElement = document.getElementById('offcanvasExample');
+    const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement); // Obtener la instancia de Bootstrap Offcanvas
+    if (offcanvasInstance) {
+        offcanvasInstance.hide(); // Contraer el offcanvas
+    }
+
+    // Esperar a que el offcanvas termine de cerrarse antes de abrir el modal
+    setTimeout(openLoginModal, 300);
+});
+
 
 
 }
 
-const loginHTML = `
-<!-- Modal de Login -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+ const loginHTML =  `
+<div id="loginModal" class="modal">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="loginFormModal">
-          <div class="mb-3">
-            <input required type="email" class="form-control" id="loginEmailModal" placeholder="E-mail">
-          </div>
-          <div class="mb-3">
-            <input required type="password" class="form-control" id="loginPasswordModal" placeholder="Password">
-          </div>
-          <button type="button" class="btn btn-primary w-100" onclick="iniciarSesion()">Ingresar</button>
-        </form>
-        <div class="mt-3 text-center">
-          <span>¿No tienes cuenta? <a href="#" data-bs-target="#registerModal" data-bs-toggle="modal" data-bs-dismiss="modal">Regístrate aquí</a></span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+        <span class="close" onclick="closeLoginModal()">&times;</span>
+        <div class="login-container" id="loginForm">
+            <div class="login-heading">Iniciar Sesion</div>
+            <form id="loginFormModal" class="login-form">
+                <input required class="login-input" type="email" name="email" id="loginEmailModal" placeholder="E-mail" />
+                <input required class="login-input" type="password" name="password" id="loginPasswordModal" placeholder="Password" />
+                <!--<span class="forgot-password"><a href="#">Forgot Password?</a></span>-->
+                <button class="login-button" type="button" onclick="iniciarSesion(event)">Ingresar</button>
+            </form>
 
-<!-- Modal de Registro -->
-<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="registerModalLabel">Registrarse</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="signupFormModal">
-          <div class="row g-2">
-            <div class="col-md-6">
-              <input required type="text" class="form-control" id="signupNombre" placeholder="Nombre">
-            </div>
-            <div class="col-md-6">
-              <input required type="date" class="form-control" id="signupFechaNacimiento">
-            </div>
-          </div>
-          <div class="row g-2 mt-2">
-            <div class="col-md-6">
-              <input required type="text" class="form-control" id="signupDireccion" placeholder="Dirección">
-            </div>
-            <div class="col-md-6">
-              <input required type="email" class="form-control" id="signupEmailModal" placeholder="E-mail">
-            </div>
-          </div>
-          <div class="row g-2 mt-2">
-            <div class="col-md-6">
-              <input required type="tel" class="form-control" id="signupTelefono1" placeholder="Teléfono 1">
-            </div>
-            <div class="col-md-6">
-              <input type="tel" class="form-control" id="signupTelefono2" placeholder="Teléfono 2">
-            </div>
-          </div>
-          <div class="row g-2 mt-2">
-            <div class="col-md-6">
-              <input required type="password" class="form-control" id="signupPasswordModal" placeholder="Contraseña">
-            </div>
-            <div class="col-md-6">
-              <input required type="password" class="form-control" id="signupPassword2" placeholder="Repite tu Contraseña">
-            </div>
-          </div>
-          <button type="button" class="btn btn-success w-100 mt-3" onclick="registrarUsuario()">Registrarse</button>
-        </form>
-        <div class="mt-3 text-center">
-          <span>¿Ya tienes cuenta? <a href="#" data-bs-target="#loginModal" data-bs-toggle="modal" data-bs-dismiss="modal">Inicia sesión aquí</a></span>
+            <span class="agreement">¿No tienes cuenta?</span>
+            <span class="agreement"> <a href="#" onclick="showSignUp()">Regístrate aquí</a></span>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
 
+        <div class="registrarModal" id="signupForm" style="display: none;">
+        <div class="login-heading">Registrarse</div>
+        <form action="" id="signupFormModal" class="login-form"">
+        
+        <div class="row">
+        <div class="col-md-6">
+                   <input required class="registrarse-input" type="text" id="signupNombre" placeholder="Nombre">
+                   </div>
+                   <div class="col-md-6">
+            <input required class="registrarse-input" type="date" id="signupFechaNacimiento" placeholder="Fecha de Nacimiento">
+        </div>
+        </div>
+
+        <div class="row">
+        <div class="col-md-6">
+                  <input required class="registrarse-input" type="text" id="signupDireccion" placeholder="Dirección">
+                   </div>
+                   <div class="col-md-6">
+            <input required class="registrarse-input" type="email" id="signupEmailModal" placeholder="E-mail">
+        </div>
+        </div>
+
+       <div class="row">
+        <div class="col-md-6">
+                <input required class="registrarse-input" type="tel" id="signupTelefono" placeholder="Teléfono 1">
+                   </div>
+                   <div class="col-md-6">
+             <input required class="registrarse-input" type="tel" id="signupTelefono2" placeholder="Teléfono 2">
+        </div>
+        </div>
+
+        <div class="row">
+        <div class="col-md-6">
+              <input required class="registrarse-input" type="password" id="signupPasswordModal" placeholder="Contraseña">
+                   </div>
+                   <div class="col-md-6">
+              <input required class="registrarse-input" type="password" id="signupPassword2" placeholder="Repite tu Contraseña">
+        </div>
+        </div>
+          
+            <input class="login-button" type="button" value="Registrarse" onclick="registrarUsuario()">
+        </form>
+        <span class="agreement">¿Ya tienes cuenta? <a href="#" onclick="showSignIn()">Inicia sesión aquí</a></span>
+    </div>
+    </div>
+</div>
+ `;
 
 
 function showSignUp() {
@@ -220,15 +197,14 @@ function actualizarNavbarConUsuario(usuario) {
         return;
     }
 
-    // Verificar si ya existe un botón "Sign Out" para evitar duplicados
     let signOutButton = document.getElementById("signOutButton");
     if (!signOutButton) {
         // Crear el botón "Sign Out"
         signOutButton = document.createElement("button");
-        signOutButton.className = "btn btn-outline-danger"; // Clase de estilo
+        signOutButton.className = "btn btn-outline-danger"; 
         signOutButton.id = "signOutButton";
-        signOutButton.textContent = `Salir`; // Mostrar el nombre del usuario
-        signOutButton.addEventListener("click", cerrarSesion); // Evento para cerrar sesión
+        signOutButton.textContent = `Salir`; 
+        signOutButton.addEventListener("click", cerrarSesion); 
 
         navbarContainer.appendChild(signOutButton);
     }
@@ -236,16 +212,16 @@ function actualizarNavbarConUsuario(usuario) {
 
 
 function verificarSesion() {
-    const usuario = JSON.parse(sessionStorage.getItem("usuario")); // Busca el usuario en sessionStorage
+    const usuario = JSON.parse(sessionStorage.getItem("usuario"));
     if (usuario) {
         console.log("Usuario logueado:", usuario);
-        actualizarNavbarConUsuario(usuario); // Actualiza el navbar si el usuario está logueado
+        actualizarNavbarConUsuario(usuario); 
     } else {
        //console.log("No hay usuario logueado.");
-        // Si no hay usuario, asegúrate de que solo el botón "Sign In" está presente
+       
         const signOutButton = document.getElementById("signOutButton");
         if (signOutButton) {
-            signOutButton.remove(); // Elimina el botón Sign Out si no hay usuario
+            signOutButton.remove(); 
         }
         const signInButton = document.getElementById("signInButton");
         if (!signInButton) {
@@ -261,25 +237,32 @@ function verificarSesion() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
-    // 1. Crear el navbar primero
+    // Crear el navbar primero
     createNavbar();
-    const botonperfil = document.getElementById("miPerfil");
-    // 2. Verificar si hay usuario en la sesión
-    //verificarSesion();
 
+    const botonperfil = document.getElementById("miPerfil");
     const usuario = JSON.parse(sessionStorage.getItem("usuario"));
+
     if (usuario) {
-        //console.log("Usuario logueado:", usuario);
         actualizarNavbarConUsuario(usuario); // Muestra el botón Sign Out
-        
-        botonperfil.style.display = "inline-block";
+        botonperfil.style.display = "inline-block"; // Muestra el enlace "Mis mascotas" en el menú principal
+
+        // Mostrar el enlace "Mis mascotas" en el offcanvas (responsivo)
+        const botonPerfilOffcanvas = document.getElementById("miPerfilOffcanvas");
+        if (botonPerfilOffcanvas) {
+            botonPerfilOffcanvas.style.display = "inline-block"; // Muestra el enlace en el offcanvas
+        }
     } else {
-        botonperfil.style.display = "none";
-        //console.log("No hay usuario logueado.");
+        botonperfil.style.display = "none"; // Oculta el enlace en el menú principal
+        const botonPerfilOffcanvas = document.getElementById("miPerfilOffcanvas");
+        if (botonPerfilOffcanvas) {
+            botonPerfilOffcanvas.style.display = "none"; // Oculta el enlace en el offcanvas
+        }
+
+        // Eliminar el botón Sign Out si no hay usuario
         const signOutButton = document.getElementById("signOutButton");
         if (signOutButton) {
-            signOutButton.remove(); // Elimina el botón Sign Out si no hay usuario
+            signOutButton.remove();
         }
     }
 });
