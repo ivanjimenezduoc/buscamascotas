@@ -32,28 +32,30 @@ function createNavbar() {
 <!-- Offcanvas Menu -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menú</h5>
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">BuscaMascotas</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
-        <ul class="navbar-nav">
+    <div class="offcanvas-body" id="cuerpo-offcanvas">
+        <ul class="navbar-nav"> 
             <li class="nav-item">
-                <a class="nav-link" href="../templates/index.html">Inicio</a>
+                <a class=" btn btn-outline-success w-100 mb-2 btn-tamano-personalizado" href="../templates/index.html">Inicio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../templates/mascota_perdidas.html">Mascotas perdidas</a>
+                <a class="btn btn-outline-success w-100 mb-2 btn-tamano-personalizado" href="../templates/mascota_perdidas.html">Mascotas perdidas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../templates/mascota_encontrada.html">Mascotas encontradas</a>
+                <a class=" btn btn-outline-success w-100 mb-2 btn-tamano-personalizado" href="../templates/mascota_encontrada.html">Mascotas encontradas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../templates/mis_mascotas.html" id="miPerfil" style="display:none;">Mis mascotas</a>
+                <a class=" btn btn-outline-success w-100 mb-2 btn-tamano-personalizado" href="../templates/mis_mascotas.html" id="miPerfilr" style="display:none;">Mis mascotas</a>
             </li>
         </ul>
-        <button class="btn btn-outline-success" id="signInButtonOffcanvas">Ingresar</button>
+        <button class="btn btn-outline-success w-100 mb-2 btn-tamano-personalizado" id="signInButtonOffcanvas">Ingresar</button>
+    </div>
+    <div class="fondo-imagen">
+        <img src="../images/logo_verde.png" alt="Logo Verde">
     </div>
 </div>
-
 
 
 
@@ -69,36 +71,32 @@ function createNavbar() {
         document.body.insertAdjacentHTML('beforeend', loginHTML);
     }
 
-    // Manejar el clic en el botón "Ingresar"
-document.getElementById('signInButton').addEventListener('click', () => {
-    // Contraer el menú si está abierto (para el menú normal)
-    const navbarCollapse = document.getElementById('navbarSupportedContent');
-    const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse); // Obtener la instancia de Bootstrap Collapse
-    if (bsCollapse) {
-        bsCollapse.hide(); // Contraer el menú
-    }
+   
+    document.getElementById('signInButton').addEventListener('click', () => {
+     
+        const navbarCollapse = document.getElementById('navbarSupportedContent');
+        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse); 
+        if (bsCollapse) {
+            bsCollapse.hide();
+        }
+        setTimeout(openLoginModal, 300);
+    });
 
-    // Esperar a que el menú termine de contraerse antes de abrir el modal
-    setTimeout(openLoginModal, 300);
-});
-
-document.getElementById('signInButtonOffcanvas').addEventListener('click', () => {
-    // Contraer el menú offcanvas si está abierto
-    const offcanvasElement = document.getElementById('offcanvasExample');
-    const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement); // Obtener la instancia de Bootstrap Offcanvas
-    if (offcanvasInstance) {
-        offcanvasInstance.hide(); // Contraer el offcanvas
-    }
-
-    // Esperar a que el offcanvas termine de cerrarse antes de abrir el modal
-    setTimeout(openLoginModal, 300);
-});
+    document.getElementById('signInButtonOffcanvas').addEventListener('click', () => {
+       
+        const offcanvasElement = document.getElementById('offcanvasExample');
+        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement); 
+        if (offcanvasInstance) {
+            offcanvasInstance.hide(); 
+        }     
+        setTimeout(openLoginModal, 300);
+    });
 
 
 
 }
 
- const loginHTML =  `
+const loginHTML = `
 <div id="loginModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeLoginModal()">&times;</span>
@@ -142,7 +140,7 @@ document.getElementById('signInButtonOffcanvas').addEventListener('click', () =>
                 <input required class="registrarse-input" type="tel" id="signupTelefono" placeholder="Teléfono 1">
                    </div>
                    <div class="col-md-6">
-             <input required class="registrarse-input" type="tel" id="signupTelefono" placeholder="Teléfono 2">
+             <input required class="registrarse-input" type="tel" id="signupTelefono2" placeholder="Teléfono 2">
         </div>
         </div>
 
@@ -176,57 +174,75 @@ function showSignIn() {
 
 function openLoginModal() {
     const modal = document.getElementById('loginModal');
-    modal.style.display = 'flex'; // Muestra el modal
-    document.body.classList.add('modal-open'); // Bloquea la interacción debajo
-    setTimeout(() => modal.classList.add('show'), 10); // Añade la animación
+    modal.style.display = 'flex';
+    document.body.classList.add('modal-open');
+    setTimeout(() => modal.classList.add('show'), 10);
 }
 
 function closeLoginModal() {
     const modal = document.getElementById('loginModal');
-    modal.classList.remove('show'); // Inicia la animación de salida
+    modal.classList.remove('show');
     setTimeout(() => {
-        modal.style.display = 'none'; // Oculta completamente después de la animación
-        document.body.classList.remove('modal-open'); // Permite interacción debajo
-    }, 300); // Tiempo para que termine la animación
+        modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+    }, 300);
 }
 
 function actualizarNavbarConUsuario(usuario) {
     const signInButton = document.getElementById("signInButton");
+    const signInButtonO = document.getElementById("signInButtonOffcanvas");
+
     if (signInButton) {
-        signInButton.remove(); // Elimina el botón "Sign In" si existe
+        signInButton.style.display='none';
+        signInButtonO.style.display='none'
     }
 
     const navbarContainer = document.getElementById("navbarSupportedContent");
+    const offcanvasmenu = document.getElementById("cuerpo-offcanvas");
     if (!navbarContainer) {
         console.error("No se encontró el contenedor del navbar.");
         return;
     }
-
+    //-----------------------------------------------------------------------------------------------------------------------------
     let signOutButton = document.getElementById("signOutButton");
+
+    let signOutButtonO = document.getElementById("signOutButtonO");
     if (!signOutButton) {
-        // Crear el botón "Sign Out"
+
         signOutButton = document.createElement("button");
-        signOutButton.className = "btn btn-outline-danger"; 
+        signOutButton.className = "btn btn-outline-danger";
         signOutButton.id = "signOutButton";
-        signOutButton.textContent = `Salir`; 
-        signOutButton.addEventListener("click", cerrarSesion); 
+        signOutButton.textContent = `Salir`;
+        signOutButton.addEventListener("click", cerrarSesion);
 
         navbarContainer.appendChild(signOutButton);
     }
+
+    if (!signOutButtonO) {
+
+        signOutButtonO = document.createElement("button");
+        signOutButtonO.className = "btn btn-outline-danger";
+        signOutButtonO.id = "signOutButtonO";
+        signOutButtonO.textContent = `Salir`;
+        signOutButtonO.addEventListener("click", cerrarSesion);
+
+        offcanvasmenu.appendChild(signOutButtonO);
+    }
+
 }
 
 
 function verificarSesion() {
     const usuario = JSON.parse(sessionStorage.getItem("usuario"));
     if (usuario) {
-        console.log("Usuario logueado:", usuario);
-        actualizarNavbarConUsuario(usuario); 
+
+        actualizarNavbarConUsuario();
     } else {
-       //console.log("No hay usuario logueado.");
-       
+
+
         const signOutButton = document.getElementById("signOutButton");
         if (signOutButton) {
-            signOutButton.remove(); 
+            signOutButton.remove();
         }
         const signInButton = document.getElementById("signInButton");
         if (!signInButton) {
@@ -243,24 +259,26 @@ function verificarSesion() {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // 1. Crear el navbar primero
     createNavbar();
     const botonperfil = document.getElementById("miPerfil");
-    // 2. Verificar si hay usuario en la sesión
-    //verificarSesion();
-
+    const botonperfilr = document.getElementById("miPerfilr");
     const usuario = JSON.parse(sessionStorage.getItem("usuario"));
     if (usuario) {
-        //console.log("Usuario logueado:", usuario);
-        actualizarNavbarConUsuario(usuario); // Muestra el botón Sign Out
-        
         botonperfil.style.display = "inline-block";
+        botonperfilr.style.display = "inline-block"
+        actualizarNavbarConUsuario();
+
+
     } else {
         botonperfil.style.display = "none";
-        //console.log("No hay usuario logueado.");
+        botonperfilr.style.display = "none";
+
         const signOutButton = document.getElementById("signOutButton");
+        const signOutButtonO = document.getElementById("signOutButtonO");
         if (signOutButton) {
-            signOutButton.remove(); // Elimina el botón Sign Out si no hay usuario
+            signOutButton.remove();
+            signOutButtonO.remove()
         }
     }
 });
+

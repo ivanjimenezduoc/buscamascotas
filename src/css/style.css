@@ -59,7 +59,7 @@ body {
 }
 
 .header_section {
-  background-color:  #cbff87;
+  background-color:  #eaf3de;
   padding-top: 15px;
   position: relative;
   z-index: 1030;
@@ -193,8 +193,8 @@ body {
 }
 
 .brand-name {
-  font-size: 1.25rem; /* Ajusta el tamaño del texto según el diseño */
-  color: #333; /* Cambia el color según el diseño */
+  font-size: 1.25rem;
+  color: #333; 
 }
 
 /* estilo de modal*/
@@ -202,40 +202,40 @@ body {
 
 .modal-dialog {
   width: 90% !important;
-  /* Aumenta el ancho del modal al 90% */
+ 
   max-width: 1000px !important;
-  /* Ancho máximo del modal */
+ 
   margin: auto !important;
-  /* Centra el modal */
+ 
 }
 
 
 .modal-content {
   width: 100%;
-  /* Asegura que el contenido ocupe todo el ancho del modal */
+ 
   border-radius: 8px;
   overflow: hidden;
 }
 
 
-/* Reduce la distancia vertical entre los controles */
+
 .modal-body .form-group {
   margin-bottom: 10px;
-  /* Disminuye el margen inferior entre los controles */
+ 
 }
 
-/* Ajusta la distancia entre el label y el control */
+
 .modal-body .form-group label {
   margin-bottom: 2px;
-  /* Reduce el espacio entre label y campo de entrada */
+
   font-size: 0.95rem;
-  /* Opcional: reduce ligeramente el tamaño del label */
+
 }
 
-/* Reduce el padding dentro de los campos de entrada */
+
 .modal-body .form-control {
   padding: 6px 10px;
-  /* Ajusta el padding interno de los campos de entrada */
+
 }
 
 
@@ -253,28 +253,25 @@ body {
   filter: brightness(80%);
 }
 
-/* Estilos específicos para el modal */
+
 #modalMascotaEncontrada .modal-backdrop {
-  z-index: 1040 !important; /* Fondo del modal (backdrop) */
+  z-index: 1040 !important; 
 }
 
 #modalMascotaEncontrada .modal {
-  z-index: 1050 !important; /* El modal mismo debe estar encima del backdrop */
+  z-index: 1050 !important; 
 }
 
-/* Estilos para el encabezado del modal */
+
 #modalMascotaEncontrada .modal-header {
-  z-index: 1060 !important; /* Para asegurarnos que el encabezado esté por encima */
+  z-index: 1060 !important; 
 }
-
-
-/* Estilo exclusivo para la tabla de mascotas */
 .mascota-table {
   width: 100%;
-  border-collapse: collapse; /* Mantiene las celdas sin bordes duplicados */
+  border-collapse: collapse;
   margin-top: 20px;
   background-color: transparent;
-  border: none; /* Elimina el borde de la tabla */
+  border: none; 
 }
 
 .mascota-table td {
@@ -282,16 +279,16 @@ body {
   vertical-align: top;
 }
 
-/* Celda de la imagen (ahora dentro de una card) */
+
 .mascota-image-cell {
   text-align: center;
-  width: 300px; /* Aumentamos el ancho de la celda */
+  width: 300px;
 }
 
 
 .mascota-p-image-cell {
   text-align: center;
-  width: 150px; /* Aumentamos el ancho de la celda */
+  width: 150px;
 }
 
 
@@ -299,21 +296,18 @@ body {
 .mascota-table td {
   padding: 10px;
   vertical-align: top;
-  border: none; /* Elimina el borde de las celdas */
+  border: none;
 }
 
-/* Celda de la imagen (ahora dentro de una card) */
 
-/* Card de mascota */
-/* Card de mascota */
 .mascota-card {
-  display: flex; /* Usamos flex para las dos columnas */
-  border-radius: 10px; /* Esquinas redondeadas de la card */
-  overflow: hidden; /* Aseguramos que las esquinas redondeadas sean efectivas */
+  display: flex;
+  border-radius: 10px; 
+  overflow: hidden; 
   
-  background-size: cover; /* Asegura que la imagen cubra el contenedor */
-  background-position: center; /* Centra la imagen */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  background-size: cover; 
+  background-position: center; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
   padding: 10px;
 }
 
@@ -339,9 +333,9 @@ body {
 
 /* Imagen redonda */
 .mascota-image {
-  width: 300px; /* Ancho de la columna */
-  height: 300px; /* Alto proporcional */
-  border-radius: 50%; /* Redondear la imagen */
+  width: 200px; /* Ancho de la columna */
+  height: 200px; /* Alto proporcional */
+  border-radius: 25%; /* Redondear la imagen */
   object-fit: cover; /* Ajusta la imagen al contenedor */
   margin-bottom: 15px;
 }
@@ -604,7 +598,7 @@ body {
   justify-content: center;
   align-items: center;
   position: fixed;
-  top: 50%; /* Ajuste inicial */
+  top: 50%;
   left: 0;
   width: 100%;
   height: 100%;
@@ -630,7 +624,7 @@ body {
 
 @media (max-width: 768px) {
   #registrarModal {
-    top: 20%; /* 100px más abajo en modo responsivo */
+    top: 20%;
   }
 }
 
@@ -716,27 +710,81 @@ body.modal-open #navbar-container {
 
 .error-message {
   color: red;
-  font-size: 0.8rem; /* Más pequeño */
-  margin-top: 5px; /* Espacio pequeño entre el input y el mensaje */
-  text-align: left; /* Alineado con el input */
+  font-size: 0.8rem; 
+  margin-top: 5px; 
+  text-align: left;
 }
 
 
-/* Personalización del ancho del offcanvas en modo responsivo */
+
 @media (max-width: 991.98px) {
   .offcanvas-start {
-      width: 250px; /* Ancho ajustado del offcanvas */
+      width: 250px; 
   }
 }
 
-/* Asegúrate de que el offcanvas se muestre correctamente */
 .offcanvas {
-  background-color: #f8f9fa; /* Puedes cambiar el color de fondo si lo necesitas */
+  background-color: #d3e9aa; 
+  display: flex;
+  flex-direction: column;
+  height: 100%; 
 }
 
-/* Puedes agregar esta regla CSS personalizada para ajustar el ancho */
+.menu-contenido {
+  flex-grow: 1; 
+}
+
+.fondo-imagen {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center; 
+  padding-bottom: 50px;
+}
+.fondo-imagen img {
+  width: 100px; 
+  height: auto; 
+  opacity: 0.5;
+}
+
 .offcanvas, .offcanvas-lg, .offcanvas-md, .offcanvas-sm, .offcanvas-xl, .offcanvas-xxl {
-  --bs-offcanvas-width: 200px; /* Ajusta este valor según tus necesidades */
+  --bs-offcanvas-width: 210px;
+  
+}
+
+.btn-tamano-personalizado {
+  font-size: 15px;
+}
+
+.offcanvas .btn-outline-success {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.offcanvas .btn-outline-success.w-100 {
+  font-weight: bold;
+  padding: 10px 0;
 }
 
 
+.offcanvas .btn-outline-success:active {
+  background-color: #003100;
+  color: rgb(255, 255, 255); 
+}
+
+.mascota-nombre {
+  color: rgb(0, 85, 14);
+  font-weight: bold;
+  font-size: 30px;
+}
+
+
+/* detalles mascota --------------------*/
+
+#modalMascotaDetalles .modal-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0 auto;
+}
