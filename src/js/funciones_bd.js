@@ -371,10 +371,10 @@ async function mostrarModalDetalles(mascota) {
     }
 
 
-    /*const modal = new bootstrap.Modal(document.getElementById('modalMascotaDetalles'), {
+    const modal = new bootstrap.Modal(document.getElementById('modalMascotaDetalles'), {
         backdrop: 'static', // Para evitar que se cierre haciendo clic fuera del modal
         keyboard: false     // Para evitar que se cierre con la tecla ESC
-    });*/
+    });
 
     // Abrir el modal
     modal.show();
@@ -880,11 +880,15 @@ async function cargarMisMascotas(dueno_index) {
         const btnActualizar = document.createElement("button");
         btnActualizar.className = "btn btn-success btn-sm ml-2";
         btnActualizar.innerHTML = `<i class="fas fa-save"></i>`;
+        btnActualizar.style.marginRight = "10px";
+    
         btnActualizar.addEventListener("click", () => {
             const estadoSeleccionado = estadoSelect.value;
             const direccion = document.getElementById(`ubicacion-${mascota.id}`).value;
             actualizarMascota(mascota.id, estadoSeleccionado, direccion);
+        
         });
+
 
 
         estadoContainer.appendChild(estadoSelect);

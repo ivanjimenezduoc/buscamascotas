@@ -772,21 +772,19 @@ body.modal-open #navbar-container {
   color: rgb(255, 255, 255); 
 }
 
-#mascota-nombre {
+.mascota-nombre {
   color: rgb(0, 85, 14);
   font-weight: bold;
   font-size: 30px;
 }
-#ubicacion-container {
+
+
+/* detalles mascota --------------------*/
+
+#modalMascotaDetalles .modal-dialog {
   display: flex;
-  flex-direction: column;
-}
-
-#ubicacion-container label,
-#ubicacion-container input {
-  width: 100%;  /* Hacer que el label y el input ocupen todo el ancho */
-}
-
-#ubicacion-container button {
-  margin-top: 10px;  /* Separar el botón del input */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0 auto;
 }
