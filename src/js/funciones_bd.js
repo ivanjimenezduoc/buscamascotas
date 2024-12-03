@@ -121,7 +121,6 @@ async function guardarMascotaEncontrada() {
         modal.show();
     }
 }
-
 // Función para limpiar los campos del formulario
 function limpiarFormulario() {
     // Limpiar todos los selectores
@@ -496,238 +495,6 @@ async function guardarMiMascota(x) {
         }
     }
 }
-/* //FUNCIONA
-async function cargarMisMascotas(dueno_index) {
-    console.log("Cargando mascotas para el dueño con id " + dueno_index + "...");
-
-    const { data: mascotas, error } = await supabases.from('mascota').select(`
-        id,
-        nombre,
-        raza (id, raza), 
-        edad,
-        color1 (id, codigo, color), 
-        color2 (id, codigo, color), 
-        color3 (id, codigo, color),  
-        especie (id, nombre),                 
-        tamano (id, tamano), 
-        estado,
-        descripcion,
-        foto_perfil,
-        sexo,
-        direccion_perdida
-    `).eq("id_dueno", dueno_index);
-
-    if (error) {
-        console.error("Error al cargar las mascotas:", error);
-        return;
-    }
-
-    const container = document.getElementById("mascotas-container");
-    container.innerHTML = "";
-
-    mascotas.sort((a, b) => a.id - b.id);
-
-    const table = document.createElement("table");
-    table.className = "table table-striped mascota-table";
-
-    for (const mascota of mascotas) {
-        const imagenUrl = await obtenerUrlImagen(mascota.foto_perfil);
-
-        const row = document.createElement("tr");
-
-        const cardCell = document.createElement("td");
-        cardCell.className = "mascota-image-cell";
-
-        const card = document.createElement("div");
-        card.className = "mascota-card fondo-card-mis card mt-4";
-
-        const cardInner = document.createElement("div");
-        cardInner.className = "d-flex flex-column flex-lg-row";
-
-        const imageColumn = document.createElement("div");
-        imageColumn.className = "mascota-image-column col-12 col-lg-4";
-
-        const imageContainer = document.createElement("div");
-        imageContainer.innerHTML = imagenUrl
-            ? `<img src="${imagenUrl}" class="mascota-image" alt="Imagen de ${mascota.nombre}">`
-            : `<img src="../images/logo_gris.png" class="mascota-image" alt="Logo Gris" style="opacity: 0.5;">`;
-
-        imageColumn.appendChild(imageContainer);
-
-        const nombreMascota = document.createElement("div");
-        nombreMascota.className = "mascota-nombre";
-        nombreMascota.textContent = mascota.nombre;
-        imageColumn.appendChild(nombreMascota);
-
-        const dataColumn = document.createElement("div");
-        dataColumn.className = "mascota-data-column col-12 col-lg-8";
-
-        dataColumn.innerHTML = `
-            <div class="form-group">
-                <label for="especie-${mascota.id}">Especie:</label>
-                <input type="text" id="especie-${mascota.id}" class="form-control" value="${mascota.especie ? mascota.especie.nombre : ""}" readonly>
-            </div>
-            <div class="form-group">
-                <label for="edad-${mascota.id}">Edad:</label>
-                <input type="text" id="edad-${mascota.id}" class="form-control" value="${mascota.edad} años" readonly>
-            </div>
-            <div class="form-group">
-                <label for="raza-${mascota.id}">Raza:</label>
-                <input type="text" id="raza-${mascota.id}" class="form-control" value="${mascota.raza ? mascota.raza.raza : ""}" readonly>
-            </div>
-            <div class="form-group">
-                <label for="tamano-${mascota.id}">Tamaño:</label>
-                <input type="text" id="tamano-${mascota.id}" class="form-control" value="${mascota.tamano ? mascota.tamano.tamano : ""}" readonly>
-            </div>
-        `;
-
-        const colorsContainer = document.createElement("div");
-        colorsContainer.className = "form-group";
-
-        const colorsLabel = document.createElement("label");
-        colorsLabel.textContent = "Colores:";
-        colorsLabel.className = "aligned-label";
-        colorsContainer.appendChild(colorsLabel);
-
-        const colorsCircles = document.createElement("div");
-        colorsCircles.style.display = "inline-flex";
-        colorsCircles.style.gap = "10px";
-        colorsCircles.style.marginLeft = "10px";
-
-        [mascota.color1, mascota.color2, mascota.color3].forEach((colorObj) => {
-            if (colorObj) {
-                const circle = document.createElement("div");
-                circle.className = "color-circle";
-                circle.style.backgroundColor = colorObj.codigo;
-                circle.style.width = "20px";
-                circle.style.height = "20px";
-                circle.style.borderRadius = "50%";
-                circle.style.border = "1px solid #000";
-                circle.title = colorObj.color;
-                colorsCircles.appendChild(circle);
-            }
-        });
-
-        colorsContainer.appendChild(colorsCircles);
-        dataColumn.appendChild(colorsContainer);
-
-        const descriptionContainer = document.createElement("div");
-        descriptionContainer.className = "form-group";
-
-        const descriptionLabel = document.createElement("label");
-        descriptionLabel.setAttribute("for", `descripcion-${mascota.id}`);
-        descriptionLabel.textContent = "Descripción:";
-        descriptionContainer.appendChild(descriptionLabel);
-
-        const descriptionTextarea = document.createElement("textarea");
-        descriptionTextarea.id = `descripcion-${mascota.id}`;
-        descriptionTextarea.className = "form-control";
-        descriptionTextarea.rows = 3;
-        descriptionTextarea.readOnly = true;
-        descriptionTextarea.textContent = mascota.descripcion;
-        descriptionContainer.appendChild(descriptionTextarea);
-
-        dataColumn.appendChild(descriptionContainer);
-
-        // Estado de la mascota (Label y Combobox)
-        const estadoContainer = document.createElement("div");
-        estadoContainer.className = "form-group d-flex align-items-center"; // Alineamos los elementos
-
-        const estadoLabel = document.createElement("label");
-        estadoLabel.setAttribute("for", `estado-${mascota.id}`);
-        estadoLabel.textContent = "Estado:";
-        estadoContainer.appendChild(estadoLabel);
-
-        const estadoSelect = document.createElement("select");
-        estadoSelect.id = `estado-${mascota.id}`;
-        estadoSelect.className = "form-control";
-        estadoSelect.innerHTML = `
-            <option value="0" ${mascota.estado === 0 ? 'selected' : ''}>No perdido</option>
-            <option value="1" ${mascota.estado === 1 ? 'selected' : ''}>Perdido</option>
-            <option value="2" ${mascota.estado === 2 ? 'selected' : ''}>Fallecido</option>
-        `;
-
-        // Botón Guardar al lado del combobox
-        const btnActualizar = document.createElement("button");
-        btnActualizar.className = "btn btn-success btn-sm ml-2";
-        btnActualizar.innerHTML = `<i class="fas fa-save"></i>`;
-        btnActualizar.addEventListener("click", () => {
-            const estadoSeleccionado = estadoSelect.value;
-            const direccion = document.getElementById(`ubicacion-${mascota.id}`).value;
-            actualizarMascota(mascota.id, estadoSeleccionado, direccion);
-        });
-
-        // Insertar el botón junto al combobox
-        estadoContainer.appendChild(estadoSelect);
-        estadoContainer.appendChild(btnActualizar);
-        dataColumn.appendChild(estadoContainer);
-
-        // Ubicación (Solo visible cuando el estado es "Perdido")
-        const ubicacionContainer = document.createElement("div");
-        ubicacionContainer.id = `ubicacion-container-${mascota.id}`;
-        ubicacionContainer.className = "form-group"; // Aseguramos que el contenedor tenga la misma clase
-
-        const ubicacionLabel = document.createElement("label");
-        ubicacionLabel.setAttribute("for", `ubicacion-${mascota.id}`);
-        ubicacionLabel.textContent = "Última Ubicación:";
-        ubicacionContainer.appendChild(ubicacionLabel);
-
-        const ubicacionInput = document.createElement("input");
-        ubicacionInput.type = "text";
-        ubicacionInput.id = `ubicacion-${mascota.id}`;
-        ubicacionInput.className = "form-control";
-        ubicacionInput.value = mascota.direccion_perdida || "";
-        ubicacionContainer.appendChild(ubicacionInput);
-
-        // Botón "Generar cartel" debajo de la ubicación
-        const btnGenerarCartel = document.createElement("button");
-        btnGenerarCartel.className = "btn btn-primary btn-sm mt-2 pl";
-        btnGenerarCartel.textContent = "Generar Cartel";
-
-        // Llamar a cargarDatosMascotaYDueno al hacer clic en el botón
-        btnGenerarCartel.addEventListener("click", () => {
-            // Llamamos a cargar los datos de la mascota y dueño
-            generarCartel(dueno_index, mascota.id);
-        });
-
-        // Agregar el botón debajo de la ubicación
-        ubicacionContainer.appendChild(btnGenerarCartel);
-
-        // Mostrar u ocultar los campos según el estado inicial
-        if (mascota.estado === 1) {
-            ubicacionContainer.style.display = "flex";  // Mostrar ubicación
-            btnGenerarCartel.style.display = "flex";   // Mostrar botón
-        } else {
-            ubicacionContainer.style.display = "none";  // Ocultar ubicación
-            btnGenerarCartel.style.display = "none";    // Ocultar botón
-        }
-
-        estadoSelect.addEventListener("change", () => {
-            if (estadoSelect.value === "1") {
-                ubicacionContainer.style.display = "flex";  // Mostrar ubicación
-                btnGenerarCartel.style.display = "flex";   // Mostrar botón
-                btnGenerarCartel.style.marginTop = "10px"; // Separar el botón de la ubicación
-            } else {
-                ubicacionContainer.style.display = "none";  // Ocultar ubicación
-                btnGenerarCartel.style.display = "none";    // Ocultar botón
-            }
-        });
-
-        dataColumn.appendChild(ubicacionContainer);
-
-        cardInner.appendChild(imageColumn);
-        cardInner.appendChild(dataColumn);
-
-        card.appendChild(cardInner);
-        cardCell.appendChild(card);
-
-        row.appendChild(cardCell);
-
-        table.appendChild(row);
-    }
-
-    container.appendChild(table);
-}*/
 
 async function cargarMisMascotas(dueno_index) {
     console.log("Cargando mascotas para el dueño con id " + dueno_index + "...");
@@ -981,16 +748,54 @@ async function cargarMisMascotas(dueno_index) {
     container.appendChild(table);
 }
 
-
-
 async function actualizarMascota(id, estado, direccion) {
+ 
+    console.log("actualizar mascota")
+    const { data: mascota, error: errorMascota } = await supabases
+        .from('mascota')
+        .select("*")
+        .eq("id", id)
+        .single(); // Usamos .single() porque asumimos que solo habrá una mascota con este ID
+
+    if (errorMascota) {
+        console.error("Error al obtener la mascota:", errorMascota);
+        return;
+    }
+
+    // Preparamos la información de la mascota que se va a usar para buscar coincidencias
+    const mascotaGuardada = {
+        especie: mascota.especie,
+        raza: mascota.raza,
+        color1: mascota.color1,
+        color2: mascota.color2,
+        color3: mascota.color3,
+        tamano: mascota.tamano
+    };
+
+    // Solo buscamos coincidencias si el estado es "Perdido" (estado === 1)
+    if (estado === "1") {
+        const coincidencias = await buscarCoincidencias(mascotaGuardada, "mascota_encontrada", 0); // estado 0: No Perdido
+
+        if (coincidencias.length > 0) {
+            const mensaje = `Se encontraron ${coincidencias.length} mascota(s) que coinciden con los datos ingresados. ¿Quieres verlas?`;
+            document.getElementById('mensajeCoincidencias').innerText = mensaje;
+            const modal = new bootstrap.Modal(document.getElementById('modalCoincidencias'));
+            modal.show();
+
+            // Aquí puedes retornar para evitar la actualización si deseas que se vea primero las coincidencias
+            return;
+        }
+    }
+
+    // Si no hay coincidencias o si no estamos en estado "Perdido", continuamos con la actualización
     const updateData = { estado };
 
-    // Si la dirección de la ubicación está presente y la mascota está perdida
+    // Si la dirección de la ubicación está presente y la mascota está perdida, la agregamos
     if (estado === "1" && direccion) {
         updateData.direccion_perdida = direccion;
     }
 
+    // Realizamos la actualización de la mascota en la base de datos
     const { data, error } = await supabases
         .from('mascota')
         .update(updateData)
@@ -1000,8 +805,12 @@ async function actualizarMascota(id, estado, direccion) {
         console.error("Error al actualizar mascota:", error);
     } else {
         console.log("Mascota actualizada:");
+        // Llamar a la función de cargar las mascotas si lo necesitas después de actualizar
+        cargarMisMascotas(mascota.id_dueno);
     }
 }
+
+
 
 async function generarCartel(idDueno, idMascota) {
     try {
