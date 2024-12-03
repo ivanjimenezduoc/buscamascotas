@@ -117,7 +117,8 @@ async function guardarMascotaEncontrada() {
     if (coincidencias.length > 0) {
         const mensaje = `Se encontraron ${coincidencias.length} mascota(s) en la sección de mascotas perdidas que corresponden con los datos ingresados. ¿Quieres ir a verlas?`;
         document.getElementById('mensajeCoincidencias').innerText = mensaje;
-        $('#modalCoincidencias').modal('show');
+        const modal = new bootstrap.Modal(document.getElementById('modalCoincidencias'));
+        modal.show();
     }
 }
 
@@ -126,7 +127,7 @@ function limpiarFormulario() {
     // Limpiar todos los selectores
     document.getElementById("especie").value = "";
     document.getElementById("raza").value = "";
-    document.getElementById("sexo").value = ""; as
+    document.getElementById("sexo").value = ""; 
     document.getElementById("tamano").value = "";
     document.getElementById("color1").value = "";
     document.getElementById("color2").value = "";
@@ -489,7 +490,8 @@ async function guardarMiMascota(x) {
             if (coincidencias.length > 0) {
                 const mensaje = `Se encontraron ${coincidencias.length} mascota(s) en la sección de mascotas encontradas que corresponden con los datos ingresados. ¿Quieres ir a verlas?`;
                 document.getElementById('mensajeCoincidencias').innerText = mensaje;
-                $('#modalCoincidencias').modal('show');
+                const modal = new bootstrap.Modal(document.getElementById('modalCoincidencias'));
+                modal.show();
             }
         }
     }
@@ -1210,6 +1212,7 @@ async function cargarMascotasPerdidas() {
 // BUSQUEDA DE COINCIDENCIAS
 
 async function buscarCoincidencias(mascota, tabla, estado) {
+    console.log("buscando coincidencia")
     const { data: mascotas, error } = await supabases.from(tabla)
         .select("*")
         .eq("estado", estado);
@@ -1455,7 +1458,7 @@ async function iniciarSesion(event) {
 
     const emailInput = document.getElementById("loginEmailModal");
     const passwordInput = document.getElementById("loginPasswordModal");
-
+    const errorMessage = document.getElementById("errorMessage"); // Contenedor de mensajes de error
 
     if (!emailInput || !passwordInput) {
         console.error("No se encontraron los elementos necesarios para iniciar sesión.");
@@ -1464,14 +1467,14 @@ async function iniciarSesion(event) {
 
     const correo = emailInput.value.trim();
     const password = passwordInput.value.trim();
-    const loginForm = document.getElementById("loginFormModal");
 
-
-    const errorMessage = loginForm.querySelector(".error-message");
-    if (errorMessage) errorMessage.remove();
+    // Limpia cualquier mensaje de error previo
+    errorMessage.style.display = "none";
+    errorMessage.textContent = "";
 
     if (!correo || !password) {
-        mostrarMensajeError(loginForm, "Por favor, completa ambos campos.");
+        errorMessage.textContent = "Por favor, completa ambos campos.";
+        errorMessage.style.display = "block";
         return;
     }
 
@@ -1484,16 +1487,18 @@ async function iniciarSesion(event) {
 
         if (error) {
             console.error("Error al buscar usuario:", error);
-            mostrarMensajeError(loginForm, "Ocurrió un error al iniciar sesión. Intenta más tarde.");
+            errorMessage.textContent = "Ocurrió un error al iniciar sesión. Intenta más tarde.";
+            errorMessage.style.display = "block";
             return;
         }
 
         if (!usuario || usuario.length === 0) {
-            mostrarMensajeError(passwordInput, "Credenciales inválidas. Inténtalo de nuevo.");
+            errorMessage.textContent = "Usuario o contraseña incorrectos";
+            errorMessage.style.display = "block";
             return;
         }
 
-
+        // Sesión iniciada correctamente
         sessionStorage.setItem("usuario", JSON.stringify(usuario[0]));
 
         const botonperfil = document.getElementById("miPerfil");
@@ -1503,13 +1508,13 @@ async function iniciarSesion(event) {
 
         actualizarNavbarConUsuario();
         closeLoginModal();
-        // window.location.href = "../templates/mis_mascotas.html";
-
     } catch (error) {
         console.error("Error al iniciar sesión:", error);
-        mostrarMensajeError(loginForm, "Ocurrió un error al iniciar sesión. Intenta más tarde.");
+        errorMessage.textContent = "Ocurrió un error al iniciar sesión. Intenta más tarde.";
+        errorMessage.style.display = "block";
     }
 }
+
 
 function cerrarSesion() {
     sessionStorage.removeItem("usuario");

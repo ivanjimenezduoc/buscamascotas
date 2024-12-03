@@ -104,7 +104,8 @@ const loginHTML = `
             <div class="login-heading">Iniciar Sesion</div>
             <form id="loginFormModal" class="login-form">
                 <input required class="login-input" type="email" name="email" id="loginEmailModal" placeholder="E-mail" />
-                <input required class="login-input" type="password" name="password" id="loginPasswordModal" placeholder="Password" />
+                <input required class="login-input" type="password" name="password" id="loginPasswordModal" placeholder="Contraseña" />
+                <div id="errorMessage" style="color: red; font-size: 0.9em; display: none; text-align: center;"></div>
                 <!--<span class="forgot-password"><a href="#">Forgot Password?</a></span>-->
                 <button class="login-button" type="button" onclick="iniciarSesion(event)">Ingresar</button>
             </form>
@@ -160,6 +161,8 @@ const loginHTML = `
     </div>
 </div>
  `;
+
+
 
 
 function showSignUp() {
@@ -280,5 +283,11 @@ document.addEventListener("DOMContentLoaded", () => {
             signOutButtonO.remove()
         }
     }
+    document.getElementById('loginFormModal').addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Evita el comportamiento predeterminado del formulario
+            iniciarSesion(event);  // Llama a la función para iniciar sesión
+        }
+    });
 });
 
