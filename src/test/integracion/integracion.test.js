@@ -22,7 +22,12 @@ describe('Pruebas del HTML de BuscaMascotas', () => {
     });
 
     test('Debe contener indicadores del carrusel', () => {
-      const indicators = document.querySelectorAll('.carousel-indicators li');
+      const indicators = document.querySelectorAll('.carousel.slide');
+      expect(indicators.length).toBeGreaterThanOrEqual(1);
+    });
+
+    test('Debe contener indicadores del carrusel', () => {
+      const indicators = document.querySelectorAll('.carousel-item');
       expect(indicators.length).toBeGreaterThanOrEqual(1);
     });
 

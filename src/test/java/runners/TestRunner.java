@@ -2,11 +2,13 @@ package runners;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
+import steps.ScenarioContext;
+
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
+
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
@@ -16,10 +18,15 @@ import org.junit.Test;
 )
 public class TestRunner {
     private WebDriver driver;
+    private static ScenarioContext scenarioContext;
 
     @Before
     public void setUp() {
         driver = WebDriverConfig.getDriver();
+        scenarioContext = new ScenarioContext();
+    }
+    public static ScenarioContext getScenarioContext() {
+        return scenarioContext;
     }
 
     @After
