@@ -24,8 +24,8 @@ Feature: Segundo suit de Pruebas - Validaciones Perfil y Mascota
   Scenario: Me logeo y valido mis datos ingresados
     Given que el usuario abre el navegador
     When doy click al boton ingresar
-    And ingreso mi correo "Correo_PruebaQA_235@gmail.com" para logearme
-    And ingreso mi contraseña "PruebaQA_369" y me logeo
+    And ingreso mi correo "user_qa@gmail.com" para logearme
+    And ingreso mi contraseña "pass_qa" y me logeo
     And valido que me muestre seccion Mis Mascotas y doy click
     And valido que muestre seccion Mi Perfil
     And valido que el nombre sea el correcto
@@ -38,8 +38,8 @@ Feature: Segundo suit de Pruebas - Validaciones Perfil y Mascota
   Scenario: Valido formulario para registrar Mascota
     Given que el usuario abre el navegador
     When doy click al boton ingresar
-    And ingreso mi correo "Correo_PruebaQA_235@gmail.com" para logearme
-    And ingreso mi contraseña "PruebaQA_369" y me logeo
+    And ingreso mi correo "user_qa@gmail.com" para logearme
+    And ingreso mi contraseña "pass_qa" y me logeo
     And valido que me muestre seccion Mis Mascotas y doy click
     And doy click en Agregar Mascota
     And valido que exista el campo Nombre en el formulario

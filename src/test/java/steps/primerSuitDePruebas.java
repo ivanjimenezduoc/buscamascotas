@@ -477,13 +477,14 @@ public class primerSuitDePruebas {
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
         WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='navbarSupportedContent']/ul/li[2]")));
         assertTrue(elemento.isDisplayed());
-        elemento.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", elemento);
+        
     }
 
     @And("valido que exista el registro de mi mascota")
     public void validoQueExistaElRegistroDeMiMascota() throws InterruptedException{
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
-        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@value='"+(String)scenarioContext.get("nomMascota")+"']")));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'"+(String)scenarioContext.get("nomMascota")+"')]")));
         assertTrue(elemento.isDisplayed());
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
