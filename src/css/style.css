@@ -48,6 +48,8 @@ body {
   width: 50px;
   height: 50px;
    background-color:  #cbff87;
+   border-radius: 50px; 
+   
 }
 
 .sub_page .hero_area {
@@ -787,4 +789,33 @@ body.modal-open #navbar-container {
   align-items: center;
   min-height: 100vh;
   margin: 0 auto;
+}
+
+#modalMascotaDetalles .modal-content {
+  background-color: #d4edda;
+}
+
+
+#modalMascotaDetalles .modal-body .mb-3 {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  row-gap: 0.5rem;
+}
+
+#modalMascotaDetalles .modal-body strong {
+  flex: 0 0 auto;
+  margin-right: 10px;
+  color: #495057;
+}
+
+#modalMascotaDetalles .modal-body p {
+  flex: 1 1 auto;
+  margin: 0;
+  color: #000000;
+  align-self: flex-start;
+}
+
+#modalMascotaDetalles #modal-imagen {
+  border-radius: 10px;
 }
