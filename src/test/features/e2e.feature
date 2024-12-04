@@ -9,7 +9,7 @@ Feature: Test E2E
     And ingreso el valor "Nombre_PruebaQA_" en el campo Nombre
     And ingreso el valor "03/04/1900" en el campo Fecha de Nacimiento
     And ingreso el valor "Direccion de prueba" en el campo Dirección
-    And ingreso el valor "Correo_PruebaQA_" en el campo E-mail
+    And ingreso el valor "Correo_E2E_PruebaQA_" en el campo E-mail
     And ingreso el valor "+56999999999" en el campo Teléfono 1
     And ingreso el valor "+56988888888" en el campo Teléfono 2
     And ingreso el valor "PruebaQA_" en el campo Contraseña
@@ -26,15 +26,15 @@ Feature: Test E2E
     Then valido que el telefono sea el correcto
     ##Flujo crear mascota
     And doy click en Agregar Mascota
-    And ingreso "PruebaQA_Cachupin" en el campo "nombre"
+    And ingreso "QA_Cachupin" en el campo "nombre"
     And ingreso "2" en el campo "edad"
-    And ingreso "Perro" en el campo "especie"
-    And ingreso "Hembra" en el campo "sexo"
+    And ingreso "Otro" en el campo "especie"
+    And ingreso "Macho" en el campo "sexo"
     And ingreso "Grande" en el campo "tamano"
-    And ingreso "Golden" en el campo "raza"
-    And ingreso "Blanco" en el campo "color1"
-    And ingreso "Blanco" en el campo "color2"
-    And ingreso "Blanco" en el campo "color3"
+    And ingreso "Geco" en el campo "raza"
+    And ingreso "verde" en el campo "color1"
+    And ingreso "verde" en el campo "color2"
+    And ingreso "verde" en el campo "color3"
     And ingreso "No Perdido" en el campo "estado"
     And ingreso "Prueba QA Registrando Mascota" en el campo "descripcion"
     And subo la imagen "PruebaQa.png" al formulario
@@ -84,13 +84,13 @@ Feature: Test E2E
     And doy click en Agregar Mascota
     And ingreso "PruebaQA_E2E" en el campo "nombre"
     And ingreso "2" en el campo "edad"
-    And ingreso "otro" en el campo "especie"
-    And ingreso "Macho" en el campo "sexo"
-    And ingreso "pequeño" en el campo "tamano"
-    And ingreso "Cotorra" en el campo "raza"
-    And ingreso "roja" en el campo "color1"
-    And ingreso "gris" en el campo "color2"
-    And ingreso "blanco" en el campo "color3"
+    And ingreso "Otro" en el campo "especie"
+    And ingreso "Hembra" en el campo "sexo"
+    And ingreso "mediana" en el campo "tamano"
+    And ingreso "rata" en el campo "raza"
+    And ingreso "cafe" en el campo "color1"
+    And ingreso "cafe" en el campo "color2"
+    And ingreso "cafe" en el campo "color3"
     And ingreso "No Perdido" en el campo "estado"
     And ingreso "Prueba QA Registrando Mascota" en el campo "descripcion"
     And subo la imagen "PruebaQa.png" al formulario
@@ -108,12 +108,12 @@ Feature: Test E2E
     And voy al modulo de reportas una mascota encontrada
     And doy click en agregar mascota perdida
     And ingreso el dato "otro" en el campo "especie"
-    And ingreso el dato "Cotorra" en el campo "raza"
-    And ingreso el dato "Macho" en el campo "sexo"
-    And ingreso el dato "pequeño" en el campo "tamano"
-    And ingreso el dato "rojo" en el campo "color1"
-    And ingreso el dato "gris" en el campo "color2"
-    And ingreso el dato "blanco" en el campo "color3"
+    And ingreso el dato "rata" en el campo "raza"
+    And ingreso el dato "hembra" en el campo "sexo"
+    And ingreso el dato "mediana" en el campo "tamano"
+    And ingreso el dato "cafe" en el campo "color1"
+    And ingreso el dato "cafe" en el campo "color2"
+    And ingreso el dato "cafe" en el campo "color3"
     And ingreso el dato "Prueba Automatizada QA" en el campo "descripcion"
     And ingreso el dato "Templo de maipu" en el campo "ubicacion"
     And subo la imagen "PruebaQa.png" al formulario
