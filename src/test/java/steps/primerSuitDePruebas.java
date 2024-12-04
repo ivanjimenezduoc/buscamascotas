@@ -529,13 +529,7 @@ public class primerSuitDePruebas {
         assertTrue(elemento3.isEnabled());
         WebElement elemento4 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@id='tamano-undefined'])[1]")));
         assertTrue(elemento4.isEnabled());
-        // Hacer scroll hacia abajo en la página
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        //js.executeScript("window.scrollBy(0,1000)"); // Scroll 1000 píxeles hacia abajo
-        //Thread.sleep(3000);
-        // Hacer scroll hasta el final de la página
-        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-        Thread.sleep(3000);
+
     }
 
     @Then("valido mensaje {string} de que existan mascotas similares")
