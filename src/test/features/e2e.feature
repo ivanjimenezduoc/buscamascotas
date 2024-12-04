@@ -126,8 +126,3 @@ Feature: Test E2E
     And guardo los datos modificados
     Then valido mensaje "Se encontraron coincidencias" de que existan mascotas similares
     And cierro el navegador
-    
-
-
-
-
