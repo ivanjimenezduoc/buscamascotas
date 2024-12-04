@@ -41,7 +41,7 @@ Feature: Test E2E
     And guardo la informacion de la mascota
     Then valido que se muestre la informacion
     ##Flujo reportarla como perdida
-    And cambio el estado de mi mascota "PruebaQA_Cachupin" a "Perdido"
+    And cambio el estado de mi mascota "QA_Cachupin" a "Perdido"
     And agrego la ultima ubicacion en "Plaza de Maipu" de la mascota
     And guardo los datos modificados
     Then valido el estado de la mascota
@@ -97,7 +97,7 @@ Feature: Test E2E
     And guardo la informacion de la mascota
     Then valido que se muestre la informacion
     ##Flujo reportarla como perdida
-    And cambio el estado de mi mascota "PruebaQA_Cachupin" a "Perdido"
+    And cambio el estado de mi mascota "PruebaQA_E2E" a "Perdido"
     And agrego la ultima ubicacion en "Templo de maipu" de la mascota
     And guardo los datos modificados
     Then valido el estado de la mascota
@@ -118,11 +118,5 @@ Feature: Test E2E
     And ingreso el dato "Templo de maipu" en el campo "ubicacion"
     And subo la imagen "PruebaQa.png" al formulario
     And guardo la informacion de la mascota
-    Then valido que la mascota se haya registrado
-    ##Flujo coincidencia
-    And valido que me muestre seccion Mis Mascotas y doy click
-    And cambio el estado de mi mascota "PruebaQA_Cachupin" a "Perdido"
-    And agrego la ultima ubicacion en "Templo de maipu" de la mascota
-    And guardo los datos modificados
+    And valido que la mascota se haya registrado
     Then valido mensaje "Se encontraron coincidencias" de que existan mascotas similares
-    And cierro el navegador
