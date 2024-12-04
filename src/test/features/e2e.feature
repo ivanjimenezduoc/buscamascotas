@@ -120,3 +120,4 @@ Feature: Test E2E
     And guardo la informacion de la mascota
     And valido que la mascota se haya registrado
     Then valido mensaje "Se encontraron coincidencias" de que existan mascotas similares
+    And cierro el navegador

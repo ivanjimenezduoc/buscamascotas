@@ -7,9 +7,10 @@ Feature: Tercer suit de pruebas - Validaciones Mascotas Perdidas y e2e
     And ingreso mi correo "fab.ramirez@duocuc.cl" para logearme
     And ingreso mi contraseña "12312" y me logeo
     And valido que me muestre seccion Mis Mascotas y doy click
-    And cambio el estado de mi mascota "PruebaQA_Cachupin" a "Perdido"
+    And cambio el estado de mi mascota "PruebaQA_Cachupin2" a "Perdido"
     And agrego la ultima ubicacion en "Plaza de Maipu" de la mascota
     And guardo los datos modificados
+    Then valido mensaje "Se encontraron coincidencias" de que existan mascotas similares
     And cambio a la ventana de mascotas perdidas
     Then valido que exista el registro de mi mascota
     And cierro el navegador
@@ -21,7 +22,7 @@ Feature: Tercer suit de pruebas - Validaciones Mascotas Perdidas y e2e
     And ingreso mi correo "fab.ramirez@duocuc.cl" para logearme
     And ingreso mi contraseña "12312" y me logeo
     And valido que me muestre seccion Mis Mascotas y doy click
-    And cambio el estado de mi mascota "PruebaQA_Cachupin" a "Perdido"
+    And cambio el estado de mi mascota "PruebaQA_Cachupin2" a "Perdido"
     And agrego la ultima ubicacion en "Plaza de Maipu" de la mascota
     And guardo los datos modificados
     Then valido mensaje "Se encontraron coincidencias" de que existan mascotas similares
@@ -34,9 +35,10 @@ Feature: Tercer suit de pruebas - Validaciones Mascotas Perdidas y e2e
     And ingreso mi correo "fab.ramirez@duocuc.cl" para logearme
     And ingreso mi contraseña "12312" y me logeo
     And valido que me muestre seccion Mis Mascotas y doy click
-    And cambio el estado de mi mascota "PruebaQA_Cachupin" a "Perdido"
+    And cambio el estado de mi mascota "PruebaQA_Cachupin2" a "Perdido"
     And agrego la ultima ubicacion en "Plaza de Maipu" de la mascota
     And guardo los datos modificados
+    Then valido mensaje "Se encontraron coincidencias" de que existan mascotas similares
     And cambio a la ventana de mascotas perdidas
     Then valido que exista el registro de mi mascota
     And cierro el navegador
