@@ -447,7 +447,6 @@ public class primerSuitDePruebas {
         WebElement elemento3 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='mascotas-container']/table/tr[1]/td/div/div/div[2]/div[7]/button")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", elemento3);
         Thread.sleep(1500);
-
     }
 
     @And("valido el estado de la mascota")
@@ -456,16 +455,15 @@ public class primerSuitDePruebas {
         WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='miPerfil']")));
         assertTrue(elemento.isDisplayed());
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", elemento);
-        assertEquals((String) scenarioContext.get("estado"),(String) scenarioContext.get("estado")); //aaaaa
-    }  //aaaaa
+        assertEquals((String) scenarioContext.get("estado"),(String) scenarioContext.get("estado"));
+    }
 
     @And("doy click a generar el cartel")
     public void doyClickAGenerarElCartel(){
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
         WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//button[contains(text(),'Generar Cartel')])[1]")));
         assertTrue(elemento.isDisplayed());
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", elemento);
-        
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", elemento);  
     }
 
     @And("valido que se genere el cartel de perdido")
@@ -508,7 +506,6 @@ public class primerSuitDePruebas {
         WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='contenido']/div/div[2]/button")));
         assertTrue(elemento.isEnabled());
         elemento.click();
-        
     }
 
     @And("ingreso el dato {string} en el campo {string}")
@@ -526,16 +523,12 @@ public class primerSuitDePruebas {
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
         WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@id='especie-undefined'])[1]")));
         assertTrue(elemento.isEnabled());
-
         WebElement elemento2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@id='raza-undefined'])[1]")));
         assertTrue(elemento2.isEnabled());
-
         WebElement elemento3 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@id='sexo-undefined'])[1]")));
         assertTrue(elemento3.isEnabled());
-
         WebElement elemento4 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@id='tamano-undefined'])[1]")));
         assertTrue(elemento4.isEnabled());
-
         // Hacer scroll hacia abajo en la página
         JavascriptExecutor js = (JavascriptExecutor) driver;
         //js.executeScript("window.scrollBy(0,1000)"); // Scroll 1000 píxeles hacia abajo
