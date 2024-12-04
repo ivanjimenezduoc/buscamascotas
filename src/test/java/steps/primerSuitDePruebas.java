@@ -22,8 +22,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class primerSuitDePruebas {
-    private WebDriver driver;
+    
     private ScenarioContext scenarioContext;
+    private WebDriver driver;
+    private WebDriverWait wait;
 
     public primerSuitDePruebas(ScenarioContext scenarioContext) {
         this.scenarioContext = scenarioContext;
@@ -219,7 +221,7 @@ public class primerSuitDePruebas {
     @And("ingreso el valor {string} en el campo Contraseña")
     public void ingresoElValorEnElCampoFechaDeContrasena(String valor){
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
-        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='Contraseña']")));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='signupPasswordModal']")));
         assertTrue(elemento.isDisplayed());
         Random random = new Random();
         int numeroAleatorio = random.nextInt(1000); 
@@ -233,7 +235,7 @@ public class primerSuitDePruebas {
     @And("ingreso el valor en el campo Repite tu Contraseña")
     public void ingresoElValorEnElCampoFechaDeRepetirContrasena(){
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
-        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='Repite tu Contraseña']")));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='signupPassword2']")));
         assertTrue(elemento.isDisplayed());
         System.out.println((String) scenarioContext.get("pass"));
         elemento.sendKeys((String)scenarioContext.get("pass"));
@@ -266,10 +268,10 @@ public class primerSuitDePruebas {
     @And("ingreso mi contraseña y me logeo")
     public void ingresoMiContrasenaYMeLogeo(){
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
-        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//input[@placeholder='Password'])[1]")));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='loginPasswordModal']")));
         assertTrue(elemento.isDisplayed());
         elemento.sendKeys((String)scenarioContext.get("pass"));
-        WebElement button = driver.findElement(By.xpath("(//*[contains(text(),'Ingresar')])[3]"));
+        WebElement button = driver.findElement(By.xpath("//*[@id='loginFormModal']/button"));
         button.click();
     }
 
@@ -281,7 +283,11 @@ public class primerSuitDePruebas {
     }
 
     @Then("valido que me muestre seccion Mis Mascotas y doy click")
-    public void validoQueMeMuestreSeccionMisMascotasYDoyClick(){
+    public void validoQueMeMuestreSeccionMisMascotasYDoyClick() throws InterruptedException{
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        // Hacer scroll hasta el inicio de la página
+        js.executeScript("window.scrollTo(0, 0)");
+        Thread.sleep(1500);
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
         WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(),'Mis mascotas')])[1]")));
         assertTrue(elemento.isDisplayed());
@@ -309,10 +315,10 @@ public class primerSuitDePruebas {
     @And("ingreso mi contraseña {string} y me logeo")
     public void ingresoMiContrasenaAYMeLogeo(String contrasena){
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
-        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//input[@placeholder='Password'])[1]")));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='loginPasswordModal']")));
         assertTrue(elemento.isDisplayed());
         elemento.sendKeys(contrasena);
-        WebElement button = driver.findElement(By.xpath("(//*[contains(text(),'Ingresar')])[3]"));
+        WebElement button = driver.findElement(By.xpath("//*[@id='loginFormModal']/button"));
         button.click();
     }
 
@@ -414,5 +420,136 @@ public class primerSuitDePruebas {
         assertTrue(elemento.isDisplayed());
     }
 
-    
+    @And("cambio el estado de mi mascota {string} a {string}")
+    public void cambioElEstadoDeMiMascota(String nomMascota, String estado){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//label[contains(text(),'Estado')])[2]/following-sibling::select")));
+        assertTrue(elemento.isDisplayed());
+        scenarioContext.set("nomMascota",nomMascota);
+        elemento.sendKeys(estado);
+        scenarioContext.set("estado", estado);
+
+
+    }
+
+    @And("agrego la ultima ubicacion en {string} de la mascota")
+    public void agregoLaUltimaUbicacionEnDeLaMascota(String ubi){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement elemento2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//label[contains(text(),'Última Ubicación')])[1]/following-sibling::input")));
+        assertTrue(elemento2.isDisplayed());
+        elemento2.clear();
+        elemento2.sendKeys(ubi);
+    }
+
+    @And("guardo los datos modificados")
+    public void guardoLosDatosModificados() throws InterruptedException{
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement elemento3 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='mascotas-container']/table/tr[1]/td/div/div/div[2]/div[7]/button")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", elemento3);
+
+    }
+
+    @And("valido el estado de la mascota")
+    public void validoElEstadoDeLaMascota(){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='miPerfil']")));
+        assertTrue(elemento.isDisplayed());
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", elemento);
+        assertEquals((String) scenarioContext.get("estado"),(String) scenarioContext.get("estado")); //aaaaa
+    }  //aaaaa
+
+    @And("doy click a generar el cartel")
+    public void doyClickAGenerarElCartel(){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//button[contains(text(),'Generar Cartel')])[1]")));
+        assertTrue(elemento.isDisplayed());
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", elemento);
+        
+    }
+
+    @And("valido que se genere el cartel de perdido")
+    public void validoQueSeGenereElCartelDePerdido() throws InterruptedException{
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        Thread.sleep(3000);
+    }
+
+    @And("cambio a la ventana de mascotas perdidas")
+    public void cambioALaVentanaDeMascotasPerdidas(){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='navbarSupportedContent']/ul/li[2]")));
+        assertTrue(elemento.isDisplayed());
+        elemento.click();
+    }
+
+    @And("valido que exista el registro de mi mascota")
+    public void validoQueExistaElRegistroDeMiMascota() throws InterruptedException{
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@value='"+(String)scenarioContext.get("nomMascota")+"']")));
+        assertTrue(elemento.isDisplayed());
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        Thread.sleep(1000);
+    }
+
+    @And("voy al modulo de reportas una mascota encontrada")
+    public void voyAlModuloDeReportasUnaMascotaEncontrada(){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='navbarSupportedContent']/ul/li[3]/a")));
+        assertTrue(elemento.isDisplayed());
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", elemento);
+        WebElement elemento2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='mapPrincipal']/div/div[3]/div[1]/div[2]")));
+        assertTrue(elemento2.isDisplayed());
+    }
+
+    @And("doy click en agregar mascota perdida")
+    public void doyClickEnAgregarMascotaPerdida(){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='contenido']/div/div[2]/button")));
+        assertTrue(elemento.isEnabled());
+        elemento.click();
+        
+    }
+
+    @And("ingreso el dato {string} en el campo {string}")
+    public void ingresoElDatoEnElCampo(String dato, String campo) throws InterruptedException{
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='"+campo+"']")));
+        assertTrue(elemento.isEnabled());
+        scenarioContext.set(""+campo+"",dato);
+        elemento.sendKeys(dato);
+        Thread.sleep(500);
+    }
+
+    @Then("valido que la mascota se haya registrado")
+    public void validoQueLaMascotaSeHayaRegistrado() throws InterruptedException{
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@id='especie-undefined'])[1]")));
+        assertTrue(elemento.isEnabled());
+
+        WebElement elemento2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@id='raza-undefined'])[1]")));
+        assertTrue(elemento2.isEnabled());
+
+        WebElement elemento3 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@id='sexo-undefined'])[1]")));
+        assertTrue(elemento3.isEnabled());
+
+        WebElement elemento4 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@id='tamano-undefined'])[1]")));
+        assertTrue(elemento4.isEnabled());
+
+        // Hacer scroll hacia abajo en la página
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        //js.executeScript("window.scrollBy(0,1000)"); // Scroll 1000 píxeles hacia abajo
+        //Thread.sleep(3000);
+        // Hacer scroll hasta el final de la página
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        Thread.sleep(3000);
+    }
+
+    @Then("valido mensaje {string} de que existan mascotas similares")
+    public void validoMensajeDeQueExistanMascotasSimilares(String mensaje){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement elemento = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '"+mensaje+"')]")));
+        assertTrue(elemento.isEnabled());
+        assertEquals(mensaje,elemento.getText());
+    }
+
 }
