@@ -446,6 +446,7 @@ public class primerSuitDePruebas {
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
         WebElement elemento3 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='mascotas-container']/table/tr[1]/td/div/div/div[2]/div[7]/button")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", elemento3);
+        Thread.sleep(1500);
 
     }
 
