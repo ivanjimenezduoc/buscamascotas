@@ -44,6 +44,20 @@
     <artifactId>scala-library</artifactId>
     <version>2.13.0</version>
   </dependency>
+
+  <dependency>
+    <groupId>org.scala-lang</groupId>
+    <artifactId>scala-library</artifactId>
+    <version>2.13.0</version>
+  </dependency>
+  <dependency>
+    <groupId>io.cucumber</groupId>
+    <artifactId>cucumber-picocontainer</artifactId>
+    <version>7.14.0</version> <!-- Ajusta la versión si es necesario -->
+    <scope>test</scope>
+  </dependency>
+
+
 </dependencies>
 
 </project>
